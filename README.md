@@ -10,7 +10,16 @@
 **Time Window**: 21:15:00 - 21:27:00 UTC (**COMPLETE 12-minute event**)  
 **Data Source**: Hyperliquid S3 (blockchain-verified ADL events)
 
-### Key Findings
+### 🔥 Total Market Impact: **~$3.6 BILLION+**
+
+| Metric | Value |
+|--------|-------|
+| **Total Impact (Liquidations + ADL)** | **~$3.6 Billion+** |
+| **Liquidations (BTC + SOL)** | $2.41 Billion |
+| **ADL Net Volume (All 162 Tickers)** | $2.10 Billion |
+| **Total Forced Closures** | ~45,000+ events |
+
+### ADL Analysis (This Dataset)
 
 | Metric | Value |
 |--------|-------|
@@ -59,11 +68,32 @@
 
 ---
 
+---
+
+## 💥 Total Market Impact: Liquidations + ADL
+
+**NEW!** Combined analysis of liquidations and ADL events:
+
+| Metric | Value |
+|--------|-------|
+| **Total Impact (Liquidations + ADL)** | **~$3.6 Billion+** |
+| **Liquidations (BTC + SOL, 7-min)** | $2.41 Billion |
+| **ADL (All 162 Tickers, 12-min)** | $2.10 Billion |
+| **Total Events** | ~45,000+ forced closures |
+| **Duration** | 12 minutes |
+
+**📖 Read the full analysis**: [TOTAL_IMPACT_ANALYSIS.md](TOTAL_IMPACT_ANALYSIS.md)
+
+**Key Finding**: One of the largest forced closure events in crypto history - $3.6B+ in liquidations and ADL across 162 markets in just 12 minutes.
+
+---
+
 ## 📁 Files in This Folder
 
 | File | Description | Size |
 |------|-------------|------|
-| **README_UPDATED.md** | This file - Full 12-minute overview |
+| **README.md** | This file - Full 12-minute overview |
+| **TOTAL_IMPACT_ANALYSIS.md** | **NEW!** Combined liquidation + ADL impact |
 | **ADL_NET_VOLUME_FULL_12MIN.md** | Detailed analysis report (all 162 tickers) |
 | **adl_net_volume_full_12min.csv** | Raw data (CSV) - complete dataset |
 | **adl_fills_full_12min_raw.csv** | Individual ADL fills (34,983 events) |
