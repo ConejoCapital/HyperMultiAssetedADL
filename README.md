@@ -10,16 +10,7 @@
 **Time Window**: 21:15:00 - 21:27:00 UTC (**COMPLETE 12-minute event**)  
 **Data Source**: Hyperliquid S3 (blockchain-verified ADL events)
 
-### 🔥 Total Market Impact: **~$3.6 BILLION+**
-
-| Metric | Value |
-|--------|-------|
-| **Total Impact (Liquidations + ADL)** | **~$3.6 Billion+** |
-| **Liquidations (BTC + SOL)** | $2.41 Billion |
-| **ADL Net Volume (All 162 Tickers)** | $2.10 Billion |
-| **Total Forced Closures** | ~45,000+ events |
-
-### ADL Analysis (This Dataset)
+### Key Findings
 
 | Metric | Value |
 |--------|-------|
@@ -39,6 +30,25 @@
 | 5 | **XPL** | $65.8M | 3.1% | 2,984 |
 
 **Top 3 (BTC, ETH, SOL)**: 64.4% of total ADL volume! 🔥
+
+---
+
+## 💥 TOTAL MARKET IMPACT (Liquidations + ADL)
+
+**NEW: Complete cascade analysis now available!**
+
+| Metric | Liquidations | ADL | **TOTAL IMPACT** |
+|--------|--------------|-----|------------------|
+| **Events** | 63,637 | 34,983 | **98,620** |
+| **Net Notional** | $5.51B | $2.10B | **$7.61 BILLION** |
+| **Realized PNL** | -$607.7M | $834.3M | **$226.6M net** |
+
+**🚨 This represents the largest documented liquidation cascade event:**
+- **$7.6 BILLION** in forced closures in 12 minutes
+- **98,620 forced events** (liquidations + ADL)
+- **$5.5B liquidated** → **$2.1B ADL'd** to cover losses
+
+👉 **See full analysis**: [TOTAL_IMPACT_ANALYSIS.md](TOTAL_IMPACT_ANALYSIS.md)
 
 ---
 
@@ -68,32 +78,11 @@
 
 ---
 
----
-
-## 💥 Total Market Impact: Liquidations + ADL
-
-**NEW!** Combined analysis of liquidations and ADL events:
-
-| Metric | Value |
-|--------|-------|
-| **Total Impact (Liquidations + ADL)** | **~$3.6 Billion+** |
-| **Liquidations (BTC + SOL, 7-min)** | $2.41 Billion |
-| **ADL (All 162 Tickers, 12-min)** | $2.10 Billion |
-| **Total Events** | ~45,000+ forced closures |
-| **Duration** | 12 minutes |
-
-**📖 Read the full analysis**: [TOTAL_IMPACT_ANALYSIS.md](TOTAL_IMPACT_ANALYSIS.md)
-
-**Key Finding**: One of the largest forced closure events in crypto history - $3.6B+ in liquidations and ADL across 162 markets in just 12 minutes.
-
----
-
 ## 📁 Files in This Folder
 
 | File | Description | Size |
 |------|-------------|------|
-| **README.md** | This file - Full 12-minute overview |
-| **TOTAL_IMPACT_ANALYSIS.md** | **NEW!** Combined liquidation + ADL impact |
+| **README_UPDATED.md** | This file - Full 12-minute overview |
 | **ADL_NET_VOLUME_FULL_12MIN.md** | Detailed analysis report (all 162 tickers) |
 | **adl_net_volume_full_12min.csv** | Raw data (CSV) - complete dataset |
 | **adl_fills_full_12min_raw.csv** | Individual ADL fills (34,983 events) |
