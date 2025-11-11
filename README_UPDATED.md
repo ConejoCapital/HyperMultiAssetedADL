@@ -33,65 +33,6 @@
 
 ---
 
-## 💥 TOTAL MARKET IMPACT (Liquidations + ADL)
-
-**NEW: Complete cascade analysis now available!**
-
-| Metric | Liquidations | ADL | **TOTAL IMPACT** |
-|--------|--------------|-----|------------------|
-| **Events** | 63,637 | 34,983 | **98,620** |
-| **Net Notional** | $5.51B | $2.10B | **$7.61 BILLION** |
-| **Realized PNL** | -$607.7M | $834.3M | **$226.6M net** |
-
-**🚨 This represents the largest documented liquidation cascade event:**
-- **$7.6 BILLION** in forced closures in 12 minutes
-- **98,620 forced events** (liquidations + ADL)
-- **$5.5B liquidated** → **$2.1B ADL'd** to cover losses
-
-👉 **See full analysis**: [TOTAL_IMPACT_ANALYSIS.md](TOTAL_IMPACT_ANALYSIS.md)
-
----
-
-## 🔬 NEW: ADL Mechanism Research - How It Really Works
-
-**📄 See: [ADL_MECHANISM_RESEARCH.md](ADL_MECHANISM_RESEARCH.md)**
-
-We analyzed the **largest single ADL event** ($174.18M ETH) to understand **how ADL is triggered** using empirical blockchain data:
-
-### Key Discovery: ADL is a Direct Counterparty to Liquidations
-
-**The $174M ETH ADL had 265 corresponding liquidations at the EXACT same timestamp:**
-
-| Event Type | Amount | User | What Happened |
-|------------|--------|------|---------------|
-| **Liquidations** | $204.67M | `0xb0a5...540` | 265 ETH longs liquidated (losing money) |
-| **ADL** | $174.18M | `0x2ea1...3f4` | 1 ETH short ADL'd (winning forced to close) |
-
-**Timeline:**
-1. ETH price crashed → User's 265 long positions hit liquidation price
-2. $204.67M in liquidations triggered → Exchange needs sellers
-3. Profitable short holder ADL'd for $174.18M → Provides liquidity
-4. Insurance/HLP fund covers remaining $30M gap
-
-### What This Means
-
-✅ **ADL is NOT random** - It's triggered by liquidation events  
-✅ **ADL provides counterparty liquidity** - When liquidations happen, ADL supplies the opposite side  
-✅ **Same-millisecond execution** - Liquidation → ADL happens instantly  
-✅ **Profitable traders pay the price** - Winners get force-closed to save losers from socialized losses
-
-### Why This Matters for Research
-
-This is the **first empirical documentation** of ADL-liquidation coupling:
-- ✅ Proves ADL is triggered BY liquidations (not independent)
-- ✅ Shows exact timing relationship (same millisecond)
-- ✅ Quantifies the counterparty relationship ($174M ADL ↔ $205M liquidations)
-- ✅ Explains why insurance funds don't cover 100% (ADL does most of the work)
-
-**Full analysis with transaction hashes, addresses, and blockchain verification**: [ADL_MECHANISM_RESEARCH.md](ADL_MECHANISM_RESEARCH.md)
-
----
-
 ## 🔥 Major Insights
 
 ### Market Concentration
@@ -122,8 +63,7 @@ This is the **first empirical documentation** of ADL-liquidation coupling:
 
 | File | Description | Size |
 |------|-------------|------|
-| **README.md** | This file - Full 12-minute overview |
-| **ADL_MECHANISM_RESEARCH.md** | 🔬 **NEW!** Empirical analysis of ADL trigger mechanism | 12 KB |
+| **README_UPDATED.md** | This file - Full 12-minute overview |
 | **ADL_NET_VOLUME_FULL_12MIN.md** | Detailed analysis report (all 162 tickers) |
 | **adl_net_volume_full_12min.csv** | Raw data (CSV) - complete dataset |
 | **adl_fills_full_12min_raw.csv** | Individual ADL fills (34,983 events) |
@@ -301,7 +241,6 @@ Total: $2.10B across 162 tickers, 34,983 events.
 ## 📧 Questions?
 
 For questions about:
-- **How ADL works**: See `ADL_MECHANISM_RESEARCH.md` 🔬 **NEW!**
 - **This analysis**: See `ADL_NET_VOLUME_FULL_12MIN.md`
 - **Methodology**: See `extract_full_12min_adl.py`
 - **Individual fills**: See `adl_fills_full_12min_raw.csv`
