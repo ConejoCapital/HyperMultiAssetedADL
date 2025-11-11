@@ -66,6 +66,42 @@ We analyzed the **largest single ADL event** ($174.18M ETH) to understand **how 
 
 **MAJOR FINDING:** Liquidations happen in waves BEFORE ADL kicks in!
 
+### 3. BATCH PROCESSING DISCOVERY 💥
+
+**📄 See: [BATCH_PROCESSING_DISCOVERY.md](BATCH_PROCESSING_DISCOVERY.md)**
+
+**CRITICAL FINDING:** Liquidations and ADL execute in SEPARATE, SEQUENTIAL BATCHES!
+
+Even when they share the same millisecond timestamp, liquidations and ADL are **processed sequentially, not concurrently**:
+
+| Finding | Evidence |
+|---------|----------|
+| **Same timestamp** | Both recorded at `21:16:04.831874` |
+| **Different batches** | 11,279 liquidations → THEN 11,279 ADLs |
+| **Zero interleaving** | 0% mixing across 100 analyzed timestamps |
+| **Universal pattern** | 100% of events show liquidation → ADL order |
+
+**The Architecture:**
+```
+Block at timestamp T:
+├─ Phase 1: Process ALL liquidations (liquidation engine)
+├─ Phase 2: Calculate total losses & ADL requirements
+├─ Phase 3: Select profitable positions for ADL
+└─ Phase 4: Process ALL ADLs (ADL engine)
+
+All events stamped with timestamp T, but SEQUENCED internally!
+```
+
+**Why This Matters:**
+- ✅ Reveals internal processing order (liquidation engine → ADL engine)
+- ✅ Proves sequential dependency (ADL calculated AFTER liquidations)
+- ✅ Explains visual patterns (chunks on visualization are REAL batches)
+- ✅ No concurrent liquidation+ADL (clear execution phases)
+
+**Technical Detail:** At the largest burst, 22,558 events occurred at the exact same millisecond, but analysis of event ordering shows perfect batch separation: events 710-11,988 were all liquidations, events 11,989-23,267 were all ADLs. Average batch run length: 11,279 events (no interleaving detected).
+
+---
+
 | Metric | Value | Insight |
 |--------|-------|---------|
 | **First liquidation** | 0.0 seconds | Cascade starts |
@@ -154,7 +190,8 @@ This is the **first empirical documentation** of ADL-liquidation coupling:
 | File | Description | Size |
 |------|-------------|------|
 | **README.md** | This file - Full 12-minute overview |
-| **CASCADE_TIMING_ANALYSIS.md** | 🔥 **NEW!** Liquidation→ADL timing patterns & delay analysis | 15 KB |
+| **BATCH_PROCESSING_DISCOVERY.md** | 💥 **NEW!** Sequential batch processing architecture | 18 KB |
+| **CASCADE_TIMING_ANALYSIS.md** | 🔥 Liquidation→ADL timing patterns & delay analysis | 15 KB |
 | **ADL_MECHANISM_RESEARCH.md** | 🔬 Empirical analysis of ADL trigger mechanism | 12 KB |
 | **ADL_NET_VOLUME_FULL_12MIN.md** | Detailed analysis report (all 162 tickers) |
 | **TOTAL_IMPACT_ANALYSIS.md** | Complete $7.6B liquidation + ADL cascade |
@@ -335,7 +372,8 @@ Total: $2.10B across 162 tickers, 34,983 events.
 ## 📧 Questions?
 
 For questions about:
-- **When does ADL activate?**: See `CASCADE_TIMING_ANALYSIS.md` 🔥 **NEW!**
+- **Why separate chunks?**: See `BATCH_PROCESSING_DISCOVERY.md` 💥 **NEW!**
+- **When does ADL activate?**: See `CASCADE_TIMING_ANALYSIS.md` 🔥
 - **How ADL works**: See `ADL_MECHANISM_RESEARCH.md` 🔬
 - **This analysis**: See `ADL_NET_VOLUME_FULL_12MIN.md`
 - **Methodology**: See `extract_full_12min_adl.py`
