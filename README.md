@@ -54,9 +54,40 @@
 
 ## 🔬 NEW: ADL Mechanism Research - How It Really Works
 
+### 1. Individual Event Analysis
+
 **📄 See: [ADL_MECHANISM_RESEARCH.md](ADL_MECHANISM_RESEARCH.md)**
 
 We analyzed the **largest single ADL event** ($174.18M ETH) to understand **how ADL is triggered** using empirical blockchain data:
+
+### 2. CASCADE TIMING DISCOVERY 🔥
+
+**📄 See: [CASCADE_TIMING_ANALYSIS.md](CASCADE_TIMING_ANALYSIS.md)**
+
+**MAJOR FINDING:** Liquidations happen in waves BEFORE ADL kicks in!
+
+| Metric | Value | Insight |
+|--------|-------|---------|
+| **First liquidation** | 0.0 seconds | Cascade starts |
+| **First ADL** | 61.7 seconds later | **61-second delay!** |
+| **Liquidations before ADL** | **710 events** | System tries normal methods first |
+| **Correlation** | 0.946 | Liquidations predict ADL |
+| **Biggest burst** | 22,558 events/second | 11,279 liqs + 11,279 ADLs |
+
+**The Pattern:**
+```
+0-60s:    710 liquidations, 0 ADL        ← ADL hasn't kicked in yet
+61s:      11,279 liquidations + 11,279 ADL  ← MASSIVE burst when threshold hit
+61-180s:  Alternating waves              ← Liquidations → ADL → Liquidations → ADL
+```
+
+**Why This Matters:**
+- ✅ ADL is NOT instantaneous - there's a ~61 second delay
+- ✅ ADL activates in BURSTS (threshold-based, not continuous)
+- ✅ Liquidations accumulate → Threshold reached → ADL fires
+- ✅ Explains the "chunks" pattern visible on [HyperFireworks visualization](https://hyperfireworks.vercel.app/)
+
+---
 
 ### Key Discovery: ADL is a Direct Counterparty to Liquidations
 
@@ -123,10 +154,13 @@ This is the **first empirical documentation** of ADL-liquidation coupling:
 | File | Description | Size |
 |------|-------------|------|
 | **README.md** | This file - Full 12-minute overview |
-| **ADL_MECHANISM_RESEARCH.md** | 🔬 **NEW!** Empirical analysis of ADL trigger mechanism | 12 KB |
+| **CASCADE_TIMING_ANALYSIS.md** | 🔥 **NEW!** Liquidation→ADL timing patterns & delay analysis | 15 KB |
+| **ADL_MECHANISM_RESEARCH.md** | 🔬 Empirical analysis of ADL trigger mechanism | 12 KB |
 | **ADL_NET_VOLUME_FULL_12MIN.md** | Detailed analysis report (all 162 tickers) |
+| **TOTAL_IMPACT_ANALYSIS.md** | Complete $7.6B liquidation + ADL cascade |
 | **adl_net_volume_full_12min.csv** | Raw data (CSV) - complete dataset |
 | **adl_fills_full_12min_raw.csv** | Individual ADL fills (34,983 events) |
+| **liquidations_full_12min.csv** | Individual liquidation events (63,637 events) |
 | **extract_full_12min_adl.py** | Python script used for analysis |
 | *Previous files from 2-minute sample* | For comparison |
 
@@ -301,7 +335,8 @@ Total: $2.10B across 162 tickers, 34,983 events.
 ## 📧 Questions?
 
 For questions about:
-- **How ADL works**: See `ADL_MECHANISM_RESEARCH.md` 🔬 **NEW!**
+- **When does ADL activate?**: See `CASCADE_TIMING_ANALYSIS.md` 🔥 **NEW!**
+- **How ADL works**: See `ADL_MECHANISM_RESEARCH.md` 🔬
 - **This analysis**: See `ADL_NET_VOLUME_FULL_12MIN.md`
 - **Methodology**: See `extract_full_12min_adl.py`
 - **Individual fills**: See `adl_fills_full_12min_raw.csv`
