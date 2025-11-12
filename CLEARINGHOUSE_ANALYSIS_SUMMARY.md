@@ -5,6 +5,8 @@
 **Data Source**: Hyperliquid Clearinghouse Snapshot + Complete Event History  
 **Status**: ✅ **COMPLETE**
 
+> **Historical Snapshot Report (Phase 2)**: This document summarizes the pre-reconstruction snapshot analysis (31,444 events ≈90% coverage). For the canonical 34,983-event real-time dataset, see `README.md`, `FINDINGS_VERIFICATION_REPORT.md`, and `REAL_TIME_RECONSTRUCTION_SUMMARY.md`.
+
 ---
 
 ## 🎯 Executive Summary
@@ -373,6 +375,8 @@ For questions about:
 **Data Quality**: ⭐⭐⭐⭐⭐  
 **Confidence**: **DEFINITIVE**  
 **Status**: ✅ **COMPLETE**
+
+> **Historical Snapshot Report (Phase 2)**: This document summarizes the pre-reconstruction snapshot analysis (31,444 events ≈90% coverage). For the canonical 34,983-event real-time dataset, see `README.md`, `FINDINGS_VERIFICATION_REPORT.md`, and `REAL_TIME_RECONSTRUCTION_SUMMARY.md`.
 
 ---
 
