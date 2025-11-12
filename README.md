@@ -33,6 +33,48 @@
 
 ---
 
+## 🎯 BREAKTHROUGH DISCOVERY: ADL Targets PROFIT, Not Leverage!
+
+**📄 See: [ADL_PRIORITIZATION_VERIFIED.md](ADL_PRIORITIZATION_VERIFIED.md)**
+
+**MYTH:** "ADL targets the highest leverage positions"  
+**REALITY:** ✅ **DEBUNKED - ADL targets the MOST PROFITABLE positions**
+
+### The Evidence (31,444 ADL Events Analyzed)
+
+| Metric | Value |
+|--------|-------|
+| **Profitable positions ADL'd** | **98.3%** (30,924 / 31,444) |
+| **Average unrealized PNL** | **+82.43%** |
+| **Median unrealized PNL** | **+52.20%** |
+| **Average leverage** | **1.16x** (LOW!) |
+| **Median leverage** | **0.24x** (VERY LOW!) |
+
+### Top 10 ADL'd Positions (By Size)
+
+| Coin | Notional | PNL% | Leverage |
+|------|----------|------|----------|
+| BTC | $193.4M | **+12.73%** | 6.3x |
+| **ETH** | **$174.2M** | **+21.84%** | 5.6x |
+| BTC | $76.4M | **+12.60%** | 6.3x |
+| BTC | $70.6M | **+13.82%** | 5.5x |
+| SOL | $46.7M | **+16.07%** | 3.2x |
+
+**Every single one was PROFITABLE.** This is not a coincidence.
+
+### What This Means
+
+❌ **LOW LEVERAGE ≠ SAFE FROM ADL**  
+✅ **HIGH PROFIT = ADL TARGET**
+
+**If you're sitting on a huge unrealized gain during a liquidation cascade, you're getting ADL'd—regardless of leverage.**
+
+**Key Insight**: ADL is a **forced exit mechanism for winners**, not punishment for reckless traders. The protocol uses your profits to cover liquidated losses.
+
+**Full Analysis**: [ADL_PRIORITIZATION_VERIFIED.md](ADL_PRIORITIZATION_VERIFIED.md)
+
+---
+
 ## 🚨 CRITICAL FINDING: Per-Asset Isolation - Zero ADL Contagion
 
 **📄 See: [PER_ASSET_ISOLATION.md](PER_ASSET_ISOLATION.md)**
