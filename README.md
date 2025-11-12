@@ -67,7 +67,7 @@
 - **Step-by-step acquisition** (how to download and decompress)
 - **Complete processing pipeline** (from raw data to insights)
 - **Data reconciliation** (how we merged multiple data sources)
-- **Reproducibility guide** (reproduce all 31,444 ADL event analyses)
+- **Reproducibility guide** (reproduce all 34,983 ADL event analyses)
 - **Common pitfalls & solutions** (save hours of debugging)
 
 **Perfect for**:
@@ -573,14 +573,14 @@ print(f"BTC: ${btc['net_notional_usd']:,.0f} across {btc['num_adl_events']} even
 2. **Which assets are most affected?** → BTC, ETH, SOL dominate
 3. **How concentrated is ADL?** → Top 3 = 64.4% of volume
 4. **What's the trader impact?** → $834M in forced PNL closures
-5. **How fast does it happen?** → 49 ADLs per second at peak
+5. **How fast does it happen?** → 2,915 ADLs per second at peak
 
 **Account-Level (NEW - With Clearinghouse Data)**:
-6. **What leverage do ADL'd positions have?** → Average 1.16x (LOW!)
-7. **How profitable are ADL'd positions?** → 98.3% profitable, avg +82% PNL
+6. **What leverage do ADL'd positions have?** → Median 0.15x (95th pct 3.22x, 99th pct 13.65x)
+7. **How profitable are ADL'd positions?** → 94.5% profitable, avg +80.6% PNL
 8. **Does ADL target high leverage?** → NO - targets high PROFIT
-9. **What are entry prices?** → Calculated for 31,444 positions from fills
-10. **Which accounts have highest risk?** → Tracked across 437,356 accounts
+9. **What are entry prices?** → Calculated for 34,983 positions (100% coverage)
+10. **Which accounts have highest risk?** → Tracked across 437,723 accounts
 
 ### Citation
 
@@ -595,11 +595,11 @@ Total: $2.10B across 162 tickers, 34,983 events.
 
 **Clearinghouse Analysis** (NEW):
 ```
-ADL Prioritization Analysis (2025). "Complete Clearinghouse Analysis:
-October 10, 2025 Market Event with Account-Level Data."
-Data: Hyperliquid clearinghouse snapshot (Block 758750000) + 2.7M fills.
-Coverage: 31,444 ADL events with leverage, entry prices, and unrealized PNL.
-Key Finding: ADL targets PROFIT (98.3% profitable), not leverage (avg 1.16x).
+ADL Prioritization Analysis (2025). "Real-Time Account Reconstruction:
+October 10, 2025 Market Event (12-minute cascade)."
+Data: Hyperliquid clearinghouse snapshot (Block 758750000) + full event stream (3,239,706 events).
+Coverage: 34,983 ADL events with real-time leverage, entry prices, and equity.
+Key Finding: ADL targets PROFIT (94.5% profitable), not leverage (median 0.15x).
 ```
 
 ---
@@ -680,78 +680,42 @@ open adl_detailed_analysis_REALTIME.csv
 ```python
 import pandas as pd
 
-# Load REAL-TIME data
+# Load canonical real-time data
 df = pd.read_csv('adl_detailed_analysis_REALTIME.csv')
 
-# Example: Find all long positions that were ADL'd
-longs = df[df['position_size'] > 0]
-print(f"Long positions ADL'd: {len(longs):,}")
-
-# Example: Find positions with negative PNL
-losers = df[df['pnl_percent'] < 0]
-print(f"Unprofitable ADL'd: {len(losers):,} ({len(losers)/len(df)*100:.1f}%)")
-
-# Example: Calculate leverage distribution (REAL-TIME)
-print(f"Average leverage: {df['leverage_realtime'].mean():.2f}x")
-print(f"Median leverage: {df['leverage_realtime'].median():.2f}x")
-
-# Example: Find accounts in negative equity
-negative_equity = df[df['is_negative_equity'] == True]
-print(f"Negative equity accounts: {len(negative_equity):,}")
-print(f"Total underwater: ${negative_equity['total_equity'].sum():,.2f}")
-
-# Example: Insurance fund impact
-print(f"Total insurance coverage needed: ${df[df['is_negative_equity']]['total_equity'].sum():,.2f}")
+# Quick sanity checks (should match README claims)
+print('Events:', len(df))
+print('Median leverage:', df['leverage_realtime'].median())
+print('95th percentile leverage:', df['leverage_realtime'].quantile(0.95))
+print('Profitable positions:', (df['pnl_percent'] > 0).sum())
+print('Negative equity accounts:', df['is_negative_equity'].sum())
+print('Total negative equity:', df.loc[df['is_negative_equity'], 'total_equity'].sum())
 ```
+
+> 🧪 Run `python3 verify_all_findings.py` for the full automated test suite.
 
 ### 📋 Complete Column Reference
 
-**adl_detailed_analysis.csv** contains these columns:
+**adl_detailed_analysis_REALTIME.csv** columns:
+1. `user` – User address (string)
+2. `coin` – Asset ticker (string)
+3. `time` – Timestamp in milliseconds (int)
+4. `adl_price` – ADL execution price (float)
+5. `adl_size` – Size ADL'd (float, negative = short)
+6. `adl_notional` – Notional value (float, always positive)
+7. `closed_pnl` – Realized PNL from blockchain (float)
+8. `position_size` – Position size before ADL (float)
+9. `entry_price` – Weighted-average entry price (float)
+10. `account_value_realtime` – Account value reconstructed at ADL moment (float)
+11. `total_unrealized_pnl` – Unrealized PNL across all positions at ADL time (float)
+12. `total_equity` – Cash + total unrealized PNL (float)
+13. `is_negative_equity` – TRUE if `total_equity` < 0 (bool)
+14. `leverage_realtime` – Position notional / real-time account value (float)
+15. `position_unrealized_pnl` – Unrealized PNL for this position (float)
+16. `pnl_percent` – Percentage PNL (float)
+17. `liquidated_user` – Counterparty address if available (string)
 
-1. `user` - User address (string)
-2. `coin` - Asset ticker (string)
-3. `time` - Timestamp in milliseconds (int)
-4. `adl_price` - ADL execution price (float)
-5. `adl_size` - Size ADL'd (float, can be negative for shorts)
-6. `adl_notional` - Notional value (float, always positive)
-7. `closed_pnl` - Realized PNL from blockchain (float)
-8. `position_size` - Position size before ADL (float, positive=long, negative=short)
-9. `entry_price` - Calculated entry price (float, NULL for 10% of positions)
-10. `account_value` - Account value at snapshot 70 min before (float)
-11. `leverage` - Position leverage ratio (float)
-12. `unrealized_pnl` - Unrealized PNL at ADL time (float)
-13. `pnl_percent` - PNL as percentage (float)
-14. `liquidated_user` - Counterparty address if available (string, can be NULL)
-
-### 🎯 Example Queries
-
-**Q: What was the average leverage of ADL'd positions?**
-```python
-df['leverage'].mean()  # Result: 1.16x (LOW!)
-```
-
-**Q: How many positions were profitable?**
-```python
-(df['pnl_percent'] > 0).sum()  # Result: 30,924 (98.3%)
-```
-
-**Q: What was the largest ADL by notional?**
-```python
-df.nlargest(1, 'adl_notional')[['coin', 'adl_notional', 'pnl_percent', 'leverage']]
-# Result: BTC, $193.4M, +12.73%, 6.3x
-```
-
-**Q: Show me all short positions (negative size) that were ADL'd**
-```python
-shorts = df[df['position_size'] < 0]
-print(f"Short positions ADL'd: {len(shorts):,}")
-```
-
-**Q: Which users got ADL'd multiple times?**
-```python
-df.groupby('user').size().sort_values(ascending=False).head(10)
-```
-
+---
 ---
 
 ## 📧 Questions?
@@ -771,20 +735,27 @@ df.groupby('user').size().sort_values(ascending=False).head(10)
 
 ### 📊 For Data
 - **Net volume analysis**: See `ADL_NET_VOLUME_FULL_12MIN.md`
-- **Processing scripts**: See `extract_full_12min_adl.py`, `full_analysis.py`
-- **Individual fills**: See `adl_fills_full_12min_raw.csv`
+- **Processing scripts**: `extract_full_12min_adl.py`, `full_analysis_realtime.py`, `verify_all_findings.py`
+- **Individual fills**: `adl_fills_full_12min_raw.csv` (blockchain ADL events)
 
-### 📁 Clearinghouse Data Files
+### 📁 Clearinghouse Data Files (this repository)
 
-**Complete Analysis** (with leverage, entry prices, PNL):
-- `~/Desktop/ADL Clearinghouse Data/adl_detailed_analysis.csv` - 31,444 ADL events with full details
-- `~/Desktop/ADL Clearinghouse Data/adl_by_user.csv` - 18,041 user-level aggregations
-- `~/Desktop/ADL Clearinghouse Data/adl_by_coin.csv` - 153 asset-level aggregations
-- `~/Desktop/ADL Clearinghouse Data/CLEARINGHOUSE_ANALYSIS_SUMMARY.md` - Full methodology
+**Canonical Outputs (Real-Time):**
+- `adl_detailed_analysis_REALTIME.csv` – 34,983 ADL events with real-time metrics (canonical dataset)
+- `adl_by_user_REALTIME.csv` – 19,337 user-level aggregations
+- `adl_by_coin_REALTIME.csv` – 162 asset-level aggregations
+- `realtime_analysis_summary.json` – Summary statistics
+- `FINDINGS_VERIFICATION_REPORT.md` – Comprehensive verification results
+- `LEVERAGE_CORRECTION.md` – Explanation of leverage statistics
 
-**Analysis Scripts**:
-- `~/Desktop/ADL Clearinghouse Data/full_analysis.py` - Complete processing pipeline
-- `~/Desktop/ADL Clearinghouse Data/analyze_clearinghouse.py` - Data loading
+**Supporting Raw Data:**
+- `adl_fills_full_12min_raw.csv` – Raw ADL fills (blockchain)
+- `liquidations_full_12min.csv` – Raw liquidation fills (for isolation tests)
+
+**Analysis Scripts:**
+- `full_analysis_realtime.py` – Real-time reconstruction pipeline
+- `analyze_clearinghouse.py` – Clearinghouse data loader
+- `verify_all_findings.py` – Automated verification suite
 
 ---
 
@@ -813,11 +784,11 @@ df.groupby('user').size().sort_values(ascending=False).head(10)
 - ✅ Reproducible code provided
 
 **Account-Level Data** (NEW - Clearinghouse):
-- ✅ **437,356 accounts** with complete values
-- ✅ **221,422 positions** tracked
-- ✅ **2.7M fills** processed for entry prices
-- ✅ **31,444 ADL events** with leverage & PNL
-- ✅ **First analysis** with complete protocol state
+- ✅ **437,723 accounts** reconstructed in real-time
+- ✅ **3,239,706 events** processed chronologically (fills, funding, deposits)
+- ✅ **34,983 ADL events** with real-time leverage, PNL, entry price
+- ✅ **1,275 negative-equity accounts** (insurance impact quantified)
+- ✅ **First analysis** with complete protocol state and real-time account values
 
 ### Academic Quality
 - ✅ Blockchain-verified (no heuristics)
@@ -831,6 +802,6 @@ df.groupby('user').size().sort_values(ascending=False).head(10)
 **Analysis Date**: November 7, 2025 (Event Data) | November 12, 2025 (Clearinghouse Data)  
 **Data Quality**: ⭐⭐⭐⭐⭐ (Blockchain-verified, complete dataset + clearinghouse state)  
 **Time Coverage**: FULL 12-minute event (21:15-21:27 UTC)  
-**Scope**: All 162 affected tickers + 437,356 accounts  
+**Scope**: All 162 affected tickers + 437,723 accounts  
 **Status**: ✅ **COMPLETE - Event + Account-Level Data - Ready for research and publication**
 

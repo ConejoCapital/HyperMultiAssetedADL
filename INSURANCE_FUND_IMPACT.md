@@ -8,12 +8,12 @@
 
 | Metric | Value |
 |--------|-------|
-| **Accounts in negative equity** | **886** |
-| **Total negative equity** | **-$128,608,070.32** |
-| **Insurance fund coverage required** | **$128.6M** |
-| **% of ADL'd accounts underwater** | **2.71%** |
-| **Largest underwater account** | -$7.4M |
-| **Average underwater account** | -$145,219 |
+| **Accounts in negative equity** | **1,275** |
+| **Total negative equity** | **-$125,981,794.94** |
+| **Insurance fund coverage required** | **$126.0M** |
+| **% of ADL'd accounts underwater** | **3.64%** |
+| **Largest underwater account** | -$21.95M |
+| **Average underwater account** | -$98,809 |
 
 ---
 
@@ -25,12 +25,12 @@ This analysis is the first to reconstruct account states in **real-time** during
 
 **Input Data:**
 - **Clearinghouse snapshot** (Block 758750000, 20:04:54 UTC)
-  - 437,356 accounts with account values
+  - 437,723 accounts with account values
   - $5.1B total account value
   - 70 minutes before cascade
   
-- **Event stream** (20:04:54 - 21:20:00 UTC)
-  - 2,611,504 events processed
+- **Event stream** (20:04:54 - 21:27:00 UTC)
+  - 3,239,706 events processed
   - Fills (with `closedPnl`)
   - Funding events
   - Deposits/Withdrawals
@@ -39,7 +39,7 @@ This analysis is the first to reconstruct account states in **real-time** during
 
 ### Real-Time Reconstruction Process
 
-For each of 437,356 accounts, we reconstructed account state chronologically:
+For each of 437,723 accounts, we reconstructed account state chronologically:
 
 ```python
 # Start with snapshot
@@ -94,14 +94,14 @@ This enables:
 
 | Equity Range | # Accounts | Total Negative Equity |
 |--------------|------------|----------------------|
-| $0 to -$10k | 234 | -$1.2M |
-| -$10k to -$50k | 312 | -$9.8M |
-| -$50k to -$100k | 156 | -$11.4M |
-| -$100k to -$500k | 142 | -$38.7M |
-| -$500k to -$1M | 28 | -$19.8M |
-| < -$1M | 14 | -$47.7M |
+| $0 to -$10k | 939 | -$1.42M |
+| -$10k to -$50k | 169 | -$3.91M |
+| -$50k to -$100k | 57 | -$4.60M |
+| -$100k to -$500k | 87 | -$27.03M |
+| -$500k to -$1M | 5 | -$3.62M |
+| < -$1M | 18 | -$85.39M |
 
-**Top 14 accounts** (< -$1M each) account for **37% of total insurance impact**.
+**18 accounts** with losses greater than $1M each account for **68% of total insurance impact**.
 
 ### Timeline of Negative Equity Emergence
 
@@ -109,10 +109,17 @@ Negative equity accounts emerged in waves as the cascade progressed:
 
 | Time Range | New Underwater Accounts | Cumulative |
 |------------|-------------------------|------------|
-| 21:15:00 - 21:16:00 | 142 | 142 |
-| 21:16:01 - 21:17:00 | 387 | 529 |
-| 21:17:01 - 21:18:00 | 224 | 753 |
-| 21:18:01 - 21:20:00 | 133 | 886 |
+| 21:16:00 - 21:17:00 | 248 | 248 |
+| 21:17:01 - 21:18:00 | 242 | 490 |
+| 21:18:01 - 21:19:00 | 279 | 769 |
+| 21:19:01 - 21:20:00 | 399 | 1,168 |
+| 21:20:01 - 21:21:00 | 40 | 1,208 |
+| 21:21:01 - 21:22:00 | 29 | 1,237 |
+| 21:22:01 - 21:23:00 | 20 | 1,257 |
+| 21:23:01 - 21:24:00 | 1 | 1,258 |
+| 21:24:01 - 21:25:00 | 1 | 1,259 |
+| 21:25:01 - 21:26:00 | 15 | 1,274 |
+| 21:26:01 - 21:27:00 | 1 | 1,275 |
 
 **Peak underwater rate**: 21:16:00 - 21:17:00 (387 accounts went negative in 60 seconds)
 
@@ -122,7 +129,7 @@ Negative equity accounts emerged in waves as the cascade progressed:
 
 ### 1. ADL Prioritizes Profit, Not Risk
 
-Even with 886 accounts underwater, ADL targeted **profitable positions** (96.7% of ADL'd positions were profitable).
+Even with 1,275 accounts underwater, ADL targeted **profitable positions** (94.5% of ADL'd positions were profitable).
 
 **Why?**
 - Insurance fund covers losses from underwater accounts
@@ -145,9 +152,9 @@ Profitable positions force-closed
 Proceeds restore insurance fund
 ```
 
-**This cascade required $128.6M in insurance fund coverage.**
+**This cascade required $126.0M in insurance fund coverage.**
 
-If insurance fund balance was < $128.6M → loss socialization to all traders would occur.
+If insurance fund balance was < $126.0M → loss socialization to all traders would occur.
 
 ### 3. Leverage vs Underwater Status
 
@@ -204,7 +211,7 @@ print(f"Total insurance impact: ${underwater['total_equity'].sum():,.2f}")
 ```
 
 **Key Files:**
-- `adl_detailed_analysis_REALTIME.csv` - 32,673 ADL events with real-time metrics
+- `adl_detailed_analysis_REALTIME.csv` - 34,983 ADL events with real-time metrics
 - `full_analysis_realtime.py` - Complete reconstruction methodology
 - `realtime_analysis_summary.json` - Summary statistics
 
@@ -274,8 +281,8 @@ for event in chronological_events:
 ### First-Ever Achievements
 
 1. **Real-time account reconstruction** during a DeFi cascade
-2. **Insurance fund impact quantification** ($128.6M)
-3. **Negative equity detection** at exact ADL moment (886 accounts)
+2. **Insurance fund impact quantification** ($126.0M)
+3. **Negative equity detection** at exact ADL moment (1,275 accounts)
 4. **Risk pool analysis** showing 2.71% underwater rate
 
 ### Future Research Directions
@@ -295,7 +302,7 @@ Insurance Fund Impact Analysis (2025). "Real-Time Account Reconstruction:
 Quantifying Negative Equity in the October 10, 2025 Hyperliquid Cascade."
 Data: Clearinghouse snapshot (Block 758750000) + 2.6M chronological events.
 Method: Real-time account value reconstruction through event replay.
-Key Finding: 886 accounts underwater, $128.6M insurance fund coverage required.
+Key Finding: 1,275 accounts underwater, $126.0M insurance fund coverage required.
 ```
 
 ---

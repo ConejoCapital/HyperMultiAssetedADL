@@ -46,20 +46,20 @@
 - ✅ Event timing? → 61-second delay before ADL, burst patterns
 - ✅ Batch processing? → Liquidations then ADL, sequentially
 
-**Phase 2** (+ Clearinghouse Data Snapshot):
-- ✅ What leverage were ADL'd positions? → Average 1.16x (LOW!)
-- ✅ How profitable? → 98.3% were profitable (avg +82% PNL)
-- ✅ Entry prices? → Calculated for 31,444 events
-- ✅ ADL prioritization? → **Targets PROFIT, not leverage**
-- ⚠️ Negative equity? → Snapshot available (70 min stale)
+**Phase 2** (+ Clearinghouse Data Snapshot - Historical Approximation):
+- ✅ What leverage were ADL'd positions? → Snapshot-only estimate (avg 1.16x, 31,444 events ≈90% coverage)
+- ✅ How profitable? → 98.3% profitable (avg +82% PNL) using snapshot values
+- ✅ Entry prices? → Calculated for 31,444 events (positions visible in snapshot)
+- ✅ ADL prioritization? → **Pointed to profit targeting** (led to Phase 3)
+- ⚠️ Limitations: Snapshot 70 min stale, no negative equity, no real-time account values
 
-**Phase 3** (+ Real-Time Reconstruction):
-- ✅ Real-time leverage? → Average 1.54x at exact ADL moment
-- ✅ Real-time PNL? → 96.7% profitable (avg +77.99% PNL)
-- ✅ Negative equity? → **886 accounts (-$128.6M insurance impact)**
-- ✅ Account values? → **437,356 accounts reconstructed in real-time**
+**Phase 3** (+ Real-Time Reconstruction - Canonical Dataset):
+- ✅ Real-time leverage? → Median 0.15x (95th pct 3.22x, 99th pct 13.65x)
+- ✅ Real-time PNL? → 94.5% profitable (avg +80.58% PNL)
+- ✅ Negative equity? → **1,275 accounts (-$126.0M insurance impact)**
+- ✅ Account values? → **437,723 accounts reconstructed in real-time**
 - ✅ Total equity? → Cash + unrealized PNL at exact ADL moment
-- ✅ Insurance fund impact? → **$128.6M coverage required**
+- ✅ Insurance fund impact? → **$126.0M coverage required**
 
 ---
 
@@ -131,7 +131,7 @@
 #### a) Account Values Snapshot
 **File**: `account_value_snapshot_758750000_1760126694218.json`  
 **Size**: 68 MB  
-**Records**: 437,356 accounts
+**Records**: 437,356 accounts (snapshot baseline → 437,723 unique accounts after reconstruction)
 
 **Structure**:
 ```json
@@ -586,24 +586,22 @@ for adl in adl_events:
 
 ### Analysis 6: Real-Time Account Reconstruction (Nov 12, 2025) 🔥 **BREAKTHROUGH**
 
-**Data**: Clearinghouse snapshot + 2.6M chronological events  
-**Coverage**: 32,673 ADL events with **real-time** account states  
-**Processing**: 437,356 accounts reconstructed event-by-event
+**Data**: Clearinghouse snapshot + full event stream (3,239,706 chronological events)  
+**Coverage**: 34,983 ADL events with **real-time** account states (100%)  
+**Processing**: 437,723 accounts reconstructed event-by-event
 
 **What We Found**:
-- **96.7% of ADL'd positions were profitable** (real-time)
-- Average PNL: +77.99% (real-time)
-- Average leverage: **1.54x** (real-time, increased from 1.16x)
-- **886 accounts in negative equity (-$128.6M)**
-- **Insurance fund impact quantified** for first time
+- **94.5% of ADL'd positions were profitable** (real-time)
+- Average PNL: +80.58% (real-time)
+- Median leverage: **0.15x** (95th pct 3.22x, 99th pct 13.65x)
+- **1,275 accounts in negative equity (-$126.0M)**
+- **Insurance fund impact quantified** for first time at full scale
 
 **Technical Achievement**:
-- Processed 2,611,504 events chronologically
-- Updated account values for every fill (closedPnl)
-- Integrated funding events (misc events)
-- Tracked deposits/withdrawals (ledger events)
-- Calculated unrealized PNL using real-time prices
-- Detected negative equity at exact ADL moment
+- Processed 3,239,706 events chronologically (fills, funding, deposits, withdrawals)
+- Updated account values after every event (closedPnl, funding, ledger deltas)
+- Calculated unrealized PNL using real-time prices per asset
+- Detected negative equity and insurance fund requirements at exact ADL moments
 
 **Documents**:
 - `INSURANCE_FUND_IMPACT.md`
@@ -611,10 +609,11 @@ for adl in adl_events:
 - `adl_detailed_analysis_REALTIME.csv` (results)
 
 **Output Files**:
-- `adl_detailed_analysis_REALTIME.csv` - 32,673 rows with real-time metrics
-- `adl_by_user_REALTIME.csv` - User-level aggregations
-- `adl_by_coin_REALTIME.csv` - Coin-level aggregations
+- `adl_detailed_analysis_REALTIME.csv` - 34,983 rows with real-time metrics (canonical dataset)
+- `adl_by_user_REALTIME.csv` - 19,337 user-level aggregations
+- `adl_by_coin_REALTIME.csv` - 162 asset-level aggregations
 - `realtime_analysis_summary.json` - Key statistics
+- `FINDINGS_VERIFICATION_REPORT.md` - Automated verification results
 
 ---
 
@@ -640,7 +639,7 @@ Question: How does Hyperliquid choose which profitable traders to ADL?
 Answer: Targets highest PNL%, NOT highest leverage
 
 Evidence (Real-Time Reconstruction):
-- 96.7% of ADL'd positions profitable (real-time)
+- 94.5% of ADL'd positions profitable (real-time)
 - Average PNL: +77.99% (real-time)
 - Average leverage: 1.54x (real-time - still very low!)
 - Top 10 ADL'd by size: ALL profitable (10-35% gains)
@@ -704,17 +703,17 @@ Implication: ADL is forced exit for winners to cover losers
 **6. Insurance Fund Impact (NEW!) 🔥**
 ```
 Question: How much insurance fund coverage was required?
-Answer: $128.6M to cover 886 underwater accounts
+Answer: $126.0M to cover 1,275 underwater accounts
 
 Evidence (Real-Time Reconstruction):
-- 886 accounts in negative equity (2.71% of ADL'd)
+- 1,275 accounts in negative equity (3.64% of ADL'd)
 - Total negative equity: -$128,608,070
 - Largest underwater: -$7.4M
 - Average underwater: -$145k
 - Peak underwater rate: 387 accounts/minute
 
 Implication: First-ever quantification of insurance fund impact in DeFi cascade
-Method: Processed 2.6M events to reconstruct account states in real-time
+Method: Processed 3.2M events to reconstruct account states in real-time
 ```
 
 ---

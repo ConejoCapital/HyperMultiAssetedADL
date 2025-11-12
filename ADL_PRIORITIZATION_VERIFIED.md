@@ -9,7 +9,7 @@
 
 ## 🎯 THE ANSWER: ADL TARGETS PROFIT, NOT LEVERAGE
 
-After analyzing **32,673 ADL events** with complete **real-time account reconstruction** (account values, positions, entry prices, unrealized PNL at exact ADL moment), we can now **definitively** state:
+After analyzing **34,983 ADL events** with complete **real-time account reconstruction** (account values, positions, entry prices, unrealized PNL at exact ADL moment), we can now **definitively** state:
 
 ### **ADL PRIORITIZES THE MOST PROFITABLE POSITIONS**
 
@@ -156,7 +156,7 @@ This ensures:
 2. **Complete Event History** (20:04:54 to 21:20:00 UTC)
    - 2,768,552 fill events processed
    - 63,609 liquidation fills
-   - 32,673 ADL fills
+   - 34,983 ADL fills
 
 3. **Calculated Fields**
    - Entry prices: Weighted average from fills before ADL
