@@ -9,7 +9,7 @@
 
 ## 🎯 THE ANSWER: ADL TARGETS PROFIT, NOT LEVERAGE
 
-After analyzing **32,673 ADL events** with complete **real-time account reconstruction** (account values, positions, entry prices, unrealized PNL at exact ADL moment), we can now **definitively** state:
+After analyzing **34,983 ADL events** with complete **real-time account reconstruction** (account values, positions, entry prices, unrealized PNL at exact ADL moment), we can now **definitively** state:
 
 ### **ADL PRIORITIZES THE MOST PROFITABLE POSITIONS**
 
@@ -156,7 +156,7 @@ This ensures:
 2. **Complete Event History** (20:04:54 to 21:20:00 UTC)
    - 2,768,552 fill events processed
    - 63,609 liquidation fills
-   - 32,673 ADL fills
+   - 34,983 ADL fills
 
 3. **Calculated Fields**
    - Entry prices: Weighted average from fills before ADL
@@ -191,26 +191,26 @@ For each ADL event:
 
 | PNL Range | Count | % of Total |
 |-----------|-------|------------|
-| **> 100%** | 7,241 | 23.0% |
-| **50-100%** | 11,892 | 37.8% |
-| **20-50%** | 7,614 | 24.2% |
-| **10-20%** | 2,652 | 8.4% |
-| **0-10%** | 1,525 | 4.9% |
-| **< 0%** (Unprofitable) | 520 | 1.7% |
+| **> 100%** | 9,749 | 27.9% |
+| **50-100%** | 7,784 | 22.3% |
+| **20-50%** | 10,726 | 30.7% |
+| **10-20%** | 3,648 | 10.4% |
+| **0-10%** | 1,157 | 3.3% |
+| **< 0%** (Unprofitable) | 1,919 | 5.5% |
 
-**Takeaway**: The distribution is **heavily skewed** toward high-profit positions.
+**Takeaway**: Profit distribution remains heavily skewed toward high-profit positions even with full 34,983-event coverage.
 
 ### Leverage Distribution of ADL'd Positions
 
 | Leverage Range | Count | % of Total |
 |----------------|-------|------------|
-| **0-1x** | 21,847 | 69.5% |
-| **1-3x** | 4,892 | 15.6% |
-| **3-5x** | 2,341 | 7.4% |
-| **5-10x** | 1,689 | 5.4% |
-| **> 10x** | 675 | 2.1% |
+| **0-1x** | 30,343 | 86.7% |
+| **1-3x** | 2,790 | 8.0% |
+| **3-5x** | 818 | 2.3% |
+| **5-10x** | 557 | 1.6% |
+| **> 10x** | 475 | 1.4% |
 
-**Takeaway**: Most ADL'd positions had **low leverage** (< 1x).
+**Takeaway**: Over 86% of ADL'd positions had leverage below 1x; even the 99th percentile was only 13.65x.
 
 ---
 
