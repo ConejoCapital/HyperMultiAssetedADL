@@ -536,6 +536,125 @@ Key Finding: ADL targets PROFIT (98.3% profitable), not leverage (avg 1.16x).
 
 ---
 
+## 📊 Position-Level Data: What's Available
+
+**For researchers analyzing individual positions**, here's what data we have:
+
+### ✅ Available in `adl_detailed_analysis.csv` (31,444 ADL'd positions)
+
+| What You Need | Column Name | Description |
+|---------------|-------------|-------------|
+| **Absolute PNL** | `unrealized_pnl` | Unrealized PNL at ADL time (calculated) |
+|  | `closed_pnl` | Realized PNL from blockchain |
+| **% PNL** | `pnl_percent` | Percentage PNL (unrealized_pnl / notional × 100) |
+| **Leverage ratio** | `leverage` | Position notional / account value |
+| **Side (long/short)** | `position_size` | Positive = LONG, Negative = SHORT |
+| **Whether ADL'd** | All rows | Every row is an ADL'd position ✅ |
+| **Entry price** | `entry_price` | Calculated from fills (90% coverage) |
+| **ADL price** | `adl_price` | Price at which ADL occurred |
+| **Account value** | `account_value` | From snapshot (70 min before ADL) |
+| **Position size** | `position_size` | Size of position before ADL |
+| **Notional value** | `adl_notional` | Position value (size × price) |
+| **Asset** | `coin` | Ticker (BTC, ETH, SOL, etc.) |
+| **Timestamp** | `time` | Milliseconds since epoch |
+| **User address** | `user` | Anonymized address |
+
+### ⚠️ Limitations
+
+| What You Need | Status | Explanation |
+|---------------|--------|-------------|
+| **Negative equity detection** | ⚠️ Partial | We have account_value at snapshot (70 min before), not at ADL moment |
+| **Real-time account value** | ❌ Not available | Would require tracking every fill/funding for each account |
+| **Account cash + total PNL < 0** | ⚠️ Can approximate | Use: `account_value` (snapshot) + `unrealized_pnl` (calculated) |
+
+### 📥 How to Access the Data
+
+**Option 1: Download from GitHub**
+```bash
+# Clone repository
+git clone https://github.com/ConejoCapital/HyperMultiAssetedADL.git
+cd HyperMultiAssetedADL
+
+# Open the main analysis file
+# Contains 31,444 rows (one per ADL'd position)
+open adl_detailed_analysis.csv
+```
+
+**Option 2: Load in Python**
+```python
+import pandas as pd
+
+# Load data
+df = pd.read_csv('adl_detailed_analysis.csv')
+
+# Example: Find all long positions that were ADL'd
+longs = df[df['position_size'] > 0]
+print(f"Long positions ADL'd: {len(longs):,}")
+
+# Example: Find positions with negative PNL
+losers = df[df['pnl_percent'] < 0]
+print(f"Unprofitable ADL'd: {len(losers):,} ({len(losers)/len(df)*100:.1f}%)")
+
+# Example: Calculate leverage distribution
+print(f"Average leverage: {df['leverage'].mean():.2f}x")
+print(f"Median leverage: {df['leverage'].median():.2f}x")
+
+# Example: Approximate negative equity (account value + unrealized PNL)
+df['approx_equity'] = df['account_value'] + df['unrealized_pnl']
+negative_equity = df[df['approx_equity'] < 0]
+print(f"Potential negative equity: {len(negative_equity):,}")
+```
+
+### 📋 Complete Column Reference
+
+**adl_detailed_analysis.csv** contains these columns:
+
+1. `user` - User address (string)
+2. `coin` - Asset ticker (string)
+3. `time` - Timestamp in milliseconds (int)
+4. `adl_price` - ADL execution price (float)
+5. `adl_size` - Size ADL'd (float, can be negative for shorts)
+6. `adl_notional` - Notional value (float, always positive)
+7. `closed_pnl` - Realized PNL from blockchain (float)
+8. `position_size` - Position size before ADL (float, positive=long, negative=short)
+9. `entry_price` - Calculated entry price (float, NULL for 10% of positions)
+10. `account_value` - Account value at snapshot 70 min before (float)
+11. `leverage` - Position leverage ratio (float)
+12. `unrealized_pnl` - Unrealized PNL at ADL time (float)
+13. `pnl_percent` - PNL as percentage (float)
+14. `liquidated_user` - Counterparty address if available (string, can be NULL)
+
+### 🎯 Example Queries
+
+**Q: What was the average leverage of ADL'd positions?**
+```python
+df['leverage'].mean()  # Result: 1.16x (LOW!)
+```
+
+**Q: How many positions were profitable?**
+```python
+(df['pnl_percent'] > 0).sum()  # Result: 30,924 (98.3%)
+```
+
+**Q: What was the largest ADL by notional?**
+```python
+df.nlargest(1, 'adl_notional')[['coin', 'adl_notional', 'pnl_percent', 'leverage']]
+# Result: BTC, $193.4M, +12.73%, 6.3x
+```
+
+**Q: Show me all short positions (negative size) that were ADL'd**
+```python
+shorts = df[df['position_size'] < 0]
+print(f"Short positions ADL'd: {len(shorts):,}")
+```
+
+**Q: Which users got ADL'd multiple times?**
+```python
+df.groupby('user').size().sort_values(ascending=False).head(10)
+```
+
+---
+
 ## 📧 Questions?
 
 ### 📖 For Researchers
