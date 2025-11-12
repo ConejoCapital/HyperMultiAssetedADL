@@ -9,7 +9,7 @@
 
 ## 🎯 THE ANSWER: ADL TARGETS PROFIT, NOT LEVERAGE
 
-After analyzing **31,444 ADL events** with complete clearinghouse data (account values, positions, entry prices), we can now **definitively** state:
+After analyzing **32,673 ADL events** with complete **real-time account reconstruction** (account values, positions, entry prices, unrealized PNL at exact ADL moment), we can now **definitively** state:
 
 ### **ADL PRIORITIZES THE MOST PROFITABLE POSITIONS**
 
@@ -19,26 +19,30 @@ After analyzing **31,444 ADL events** with complete clearinghouse data (account 
 
 ---
 
-## 📊 The Evidence
+## 📊 The Evidence (Real-Time Reconstruction)
 
 ### Overall ADL Statistics
 
 | Metric | Value |
 |--------|-------|
-| **Total ADL events** | 31,444 |
-| **Total ADL notional** | $2,007,190,857 |
+| **Total ADL events** | 32,673 |
+| **Total ADL notional** | $2,026,167,224 |
 | **Accounts affected** | 18,746 |
-| **Profitable positions** | 30,924 (98.3%) |
-| **Average unrealized PNL%** | **82.43%** |
-| **Median unrealized PNL%** | **52.20%** |
-| **Average leverage** | 1.16x |
-| **Median leverage** | 0.24x |
+| **Profitable positions** | 31,589 (96.7%) |
+| **Average unrealized PNL%** | **77.99%** |
+| **Median unrealized PNL%** | **49.89%** |
+| **Average leverage (REAL-TIME)** | 1.54x |
+| **Median leverage (REAL-TIME)** | 0.16x |
+| **Negative equity accounts** | 886 (2.71%) |
+| **Insurance fund impact** | **-$128.6M** |
 
 ### The Smoking Gun
 
-**98.3% of ADL'd positions were profitable.**
+**96.7% of ADL'd positions were profitable.**
 
 This is not a coincidence. This is not random. This is **algorithmic selection based on profitability**.
+
+Even more striking: only 2.71% of ADL'd accounts were underwater (negative equity), proving ADL targets winners to cover losses.
 
 ---
 
