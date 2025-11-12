@@ -559,13 +559,45 @@ Key Finding: ADL targets PROFIT (98.3% profitable), not leverage (avg 1.16x).
 | **Timestamp** | `time` | Milliseconds since epoch |
 | **User address** | `user` | Anonymized address |
 
-### ⚠️ Limitations
+### ⚠️ Current Limitations
 
 | What You Need | Status | Explanation |
 |---------------|--------|-------------|
-| **Negative equity detection** | ⚠️ Partial | We have account_value at snapshot (70 min before), not at ADL moment |
-| **Real-time account value** | ❌ Not available | Would require tracking every fill/funding for each account |
-| **Account cash + total PNL < 0** | ⚠️ Can approximate | Use: `account_value` (snapshot) + `unrealized_pnl` (calculated) |
+| **Real-time account value** | ❌ Not yet calculated | Current: snapshot values (70 min before ADL) |
+| **Negative equity detection** | ❌ Not yet available | Would need real-time account values |
+| **Account cash + total PNL < 0** | ⚠️ Can only approximate | Current: `account_value` (snapshot) + `unrealized_pnl` |
+
+### 🔧 Possible Enhancement
+
+**We have all the data needed to reconstruct real-time account values**, but haven't implemented it yet:
+
+**Available data**:
+- ✅ Snapshot at block 758750000 (20:04:54 UTC)
+- ✅ All fills with `closedPnl` (2.7M fills)
+- ✅ All misc events with funding (in `20_misc.json`, `21_misc.json`)
+- ✅ All ledger events with deposits/withdrawals
+
+**To get real-time account values**, we would need to:
+1. Start with snapshot account values
+2. Loop through all fills chronologically
+3. Update account value: `account_value += closedPnl` for each fill
+4. Process funding events from misc events
+5. Process deposit/withdrawal events from ledger updates
+6. Calculate unrealized PNL using last trade prices
+7. Get account value at exact ADL moment
+
+**Current implementation**:
+- Uses snapshot account values (not updated)
+- Leverage calculated as: `position_notional / snapshot_account_value`
+- This is an approximation ~70 minutes stale
+
+**Enhanced implementation would provide**:
+- ✅ Real-time account values at ADL moment
+- ✅ Accurate negative equity detection
+- ✅ Precise leverage ratios
+- ✅ Insurance fund impact quantification
+
+*Note: This enhancement is feasible with current data but requires significant computation (~2.7M events to process per account).*
 
 ### 📥 How to Access the Data
 
