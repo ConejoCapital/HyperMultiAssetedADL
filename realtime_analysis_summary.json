@@ -1,17 +1,17 @@
 {
   "analysis_type": "Real-Time Account Value Reconstruction",
   "snapshot_time": "2025-10-10T16:04:54.218000",
-  "analysis_end": "2025-10-10T17:20:00",
-  "events_processed": 2611504,
-  "adl_events_analyzed": 32673,
-  "accounts_tracked": 437655,
+  "analysis_end": "2025-10-10T17:27:00",
+  "events_processed": 3239706,
+  "adl_events_analyzed": 34983,
+  "accounts_tracked": 437723,
   "key_findings": {
-    "average_leverage_realtime": 1.5417053333080832,
-    "median_leverage_realtime": 0.16466918710366868,
-    "profitable_positions_pct": 96.68227588528755,
-    "average_pnl_percent": 77.99437855631038,
-    "negative_equity_count": 886,
-    "negative_equity_total": -128608070.32227823,
-    "total_adl_notional": 2026167224.301219
+    "average_leverage_realtime": 474.7580430374235,
+    "median_leverage_realtime": 0.14830323104805962,
+    "profitable_positions_pct": 94.51447846096676,
+    "average_pnl_percent": 80.58430055866836,
+    "negative_equity_count": 1275,
+    "negative_equity_total": -125981794.94370306,
+    "total_adl_notional": 2103111430.859329
   }
 }
