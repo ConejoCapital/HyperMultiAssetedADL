@@ -9,7 +9,7 @@
 **For researchers: Use ONLY the real-time reconstructed file:**
 
 ```
-📊 adl_detailed_analysis_REALTIME.csv
+adl_detailed_analysis_REALTIME.csv
 ```
 
 **This file contains**:
