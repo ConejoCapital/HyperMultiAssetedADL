@@ -33,6 +33,25 @@
 
 ---
 
+## 📖 COMPLETE METHODOLOGY: For Researchers
+
+**🆕 [COMPLETE_METHODOLOGY.md](COMPLETE_METHODOLOGY.md)** - Comprehensive guide to reproduce our entire analysis
+
+### What's Inside:
+- **All data sources** (S3 event data + clearinghouse snapshots)
+- **Step-by-step acquisition** (how to download and decompress)
+- **Complete processing pipeline** (from raw data to insights)
+- **Data reconciliation** (how we merged multiple data sources)
+- **Reproducibility guide** (reproduce all 31,444 ADL event analyses)
+- **Common pitfalls & solutions** (save hours of debugging)
+
+**Perfect for**:
+- Researchers wanting to reproduce our findings
+- Teams building on this analysis
+- Anyone needing to understand the complete data flow
+
+---
+
 ## 🔓 DATA BREAKTHROUGH: Clearinghouse Access Unlocked!
 
 **🆕 November 12, 2025 - We now have complete clearinghouse data!**
@@ -519,14 +538,22 @@ Key Finding: ADL targets PROFIT (98.3% profitable), not leverage (avg 1.16x).
 
 ## 📧 Questions?
 
-For questions about:
-- **ADL prioritization?**: See `ADL_PRIORITIZATION_VERIFIED.md` 🎯 **NEW!**
+### 📖 For Researchers
+- **How to reproduce this analysis?**: See **`COMPLETE_METHODOLOGY.md`** 📘 ← **START HERE**
+- **What data sources were used?**: See `COMPLETE_METHODOLOGY.md` (Section: Data Sources)
+- **How to obtain clearinghouse data?**: See `COMPLETE_METHODOLOGY.md` (Section: Data Acquisition)
+- **How to reconcile multiple data sources?**: See `COMPLETE_METHODOLOGY.md` (Section: Data Reconciliation)
+
+### 🔬 For Findings
+- **ADL prioritization?**: See `ADL_PRIORITIZATION_VERIFIED.md` 🎯 **MAJOR DISCOVERY**
 - **Per-asset isolation?**: See `PER_ASSET_ISOLATION.md` 🚨
 - **Why separate chunks?**: See `BATCH_PROCESSING_DISCOVERY.md` 💥
 - **When does ADL activate?**: See `CASCADE_TIMING_ANALYSIS.md` 🔥
 - **How ADL works**: See `ADL_MECHANISM_RESEARCH.md` 🔬
+
+### 📊 For Data
 - **Net volume analysis**: See `ADL_NET_VOLUME_FULL_12MIN.md`
-- **Methodology**: See `extract_full_12min_adl.py`
+- **Processing scripts**: See `extract_full_12min_adl.py`, `full_analysis.py`
 - **Individual fills**: See `adl_fills_full_12min_raw.csv`
 
 ### 📁 Clearinghouse Data Files
