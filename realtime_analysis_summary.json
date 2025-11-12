@@ -1,0 +1,17 @@
+{
+  "analysis_type": "Real-Time Account Value Reconstruction",
+  "snapshot_time": "2025-10-10T16:04:54.218000",
+  "analysis_end": "2025-10-10T17:20:00",
+  "events_processed": 2611504,
+  "adl_events_analyzed": 32673,
+  "accounts_tracked": 437655,
+  "key_findings": {
+    "average_leverage_realtime": 1.5417053333080832,
+    "median_leverage_realtime": 0.16466918710366868,
+    "profitable_positions_pct": 96.68227588528755,
+    "average_pnl_percent": 77.99437855631038,
+    "negative_equity_count": 886,
+    "negative_equity_total": -128608070.32227823,
+    "total_adl_notional": 2026167224.301219
+  }
+}
