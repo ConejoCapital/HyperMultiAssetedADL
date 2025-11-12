@@ -1,0 +1,23 @@
+{
+  "analysis_window": {
+    "start": "2025-10-10T16:04:54.218000",
+    "end": "2025-10-10T17:20:00"
+  },
+  "accounts": {
+    "total_in_snapshot": 437356,
+    "liquidated": 11883,
+    "adl_affected": 18746
+  },
+  "events": {
+    "total_fills": 2768552,
+    "liquidation_fills": 63609,
+    "adl_fills": 32673
+  },
+  "adl_totals": {
+    "total_notional": 2007190857.1395662,
+    "total_closed_pnl": 788134600.348479,
+    "avg_leverage": 1.1615818853443693,
+    "avg_pnl_percent": 82.42547434647547,
+    "profitable_count": 30924
+  }
+}

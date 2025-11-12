@@ -1,32 +1,18 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-*.egg-info/
-dist/
-build/
+# Large raw data files (too big for GitHub)
+*_fills.json
+*_misc.json
+account_value_snapshot_*.json
+perp_positions_by_market_*.json
+spot_balances_*.json
+clearinghouse_snapshot.json
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
+# Compressed data
+*.lz4
 
-# OS
-.DS_Store
-Thumbs.db
-
-# Logs
+# Large intermediates
 *.log
 
-# Large raw data (optional - uncomment if file too large)
-# adl_fills_full_12min_raw.csv
-
-# Keep main results
-!adl_net_volume_full_12min.csv
-!README.md
-!*.py
-!*.md
-
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
