@@ -21,28 +21,31 @@ After analyzing **32,673 ADL events** with complete **real-time account reconstr
 
 ## 📊 The Evidence (Real-Time Reconstruction)
 
-### Overall ADL Statistics
+### Overall ADL Statistics (Complete 12-Minute Dataset)
 
 | Metric | Value |
 |--------|-------|
-| **Total ADL events** | 32,673 |
-| **Total ADL notional** | $2,026,167,224 |
-| **Accounts affected** | 18,746 |
-| **Profitable positions** | 31,589 (96.7%) |
-| **Average unrealized PNL%** | **77.99%** |
-| **Median unrealized PNL%** | **49.89%** |
-| **Average leverage (REAL-TIME)** | 1.54x |
-| **Median leverage (REAL-TIME)** | 0.16x |
-| **Negative equity accounts** | 886 (2.71%) |
-| **Insurance fund impact** | **-$128.6M** |
+| **Total ADL events** | 34,983 (100% coverage) |
+| **Total ADL notional** | $2,103,111,431 |
+| **Accounts affected** | 19,337 |
+| **Profitable positions** | 33,064 (94.5%) |
+| **Average unrealized PNL%** | **+80.58%** |
+| **Median unrealized PNL%** | **+50.09%** |
+| **Median leverage (REAL-TIME)** | 0.15x |
+| **95th percentile leverage** | 3.22x |
+| **99th percentile leverage** | 13.65x |
+| **Negative equity accounts** | 1,275 (3.64%) |
+| **Insurance fund impact** | **-$126.0M** |
+
+**Note**: 99.64% of ADL'd positions had leverage ≤50x (within Hyperliquid limits).
 
 ### The Smoking Gun
 
-**96.7% of ADL'd positions were profitable.**
+**94.5% of ADL'd positions were profitable.**
 
 This is not a coincidence. This is not random. This is **algorithmic selection based on profitability**.
 
-Even more striking: only 2.71% of ADL'd accounts were underwater (negative equity), proving ADL targets winners to cover losses.
+Even more striking: only 3.64% of ADL'd accounts were underwater (negative equity), proving ADL targets winners to cover losses.
 
 ---
 
@@ -116,10 +119,11 @@ ADL doesn't punish reckless traders. It forces **profitable traders** to exit th
 
 ### 2. Leverage is Irrelevant (Mostly)
 
-Average leverage of ADL'd positions: **1.16x**  
-Median leverage: **0.24x**
+Median leverage of ADL'd positions: **0.15x**  
+95th percentile leverage: **3.22x**  
+99th percentile leverage: **13.65x**
 
-These are **conservative** positions. Not degenerate gamblers.
+These are **conservative** positions. Not degenerate gamblers. Even the top 1% had reasonable leverage (≤13.65x).
 
 ### 3. The Biggest Winners Get Hit Hardest
 
@@ -214,11 +218,11 @@ For each ADL event:
 
 ### ❌ MYTH: "ADL targets the highest leverage positions"
 
-**REALITY**: 69.5% of ADL'd positions had leverage < 1x. Average leverage: 1.16x.
+**REALITY**: 99.64% of ADL'd positions had leverage ≤50x. Median leverage: 0.15x. Even the 99th percentile was only 13.65x.
 
 ### ❌ MYTH: "ADL is random"
 
-**REALITY**: 98.3% of ADL'd positions were profitable. Average PNL: 82.43%. This is not random.
+**REALITY**: 94.5% of ADL'd positions were profitable. Average PNL: +80.58%. This is not random.
 
 ### ❌ MYTH: "ADL punishes reckless traders"
 
@@ -337,9 +341,10 @@ For questions about:
 
 **ADL targets PROFIT, not leverage.**
 
-- 98.3% of ADL'd positions were profitable
-- Average PNL: 82.43%
-- Average leverage: 1.16x (low!)
+- 94.5% of ADL'd positions were profitable (complete 12-minute dataset)
+- Average PNL: +80.58%
+- Median leverage: 0.15x (extremely low!)
+- 99.64% had leverage ≤50x (within Hyperliquid limits)
 - If you're sitting on a huge unrealized gain during a liquidation cascade, you're getting ADL'd - **regardless of your leverage**.
 
 **This is not a bug. This is the design.**

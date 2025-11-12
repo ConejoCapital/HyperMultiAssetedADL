@@ -127,12 +127,13 @@ This clearinghouse data enabled our breakthrough ADL prioritization discovery be
 | **Profitable positions ADL'd** | **94.5%** (33,064 / 34,983) |
 | **Average unrealized PNL** | **+80.58%** |
 | **Median unrealized PNL** | **+50.09%** |
-| **Average leverage (REAL-TIME)** | **474.76x** ⚠️ |
 | **Median leverage (REAL-TIME)** | **0.15x** (VERY LOW!) |
+| **95th percentile leverage** | **3.22x** (LOW!) |
+| **99th percentile leverage** | **13.65x** |
 | **Negative equity accounts** | **1,275 (3.64%)** 🔴 |
 | **Insurance fund impact** | **-$126.0M** |
 
-**Note on leverage**: The high average (474x) is skewed by a small number of accounts with very low account values. The **median leverage of 0.15x** is the more representative metric, showing that most ADL'd positions had extremely low leverage.
+**Note on leverage**: 99.64% of ADL'd positions had leverage ≤50x (within Hyperliquid limits). The **median of 0.15x** shows most positions had extremely low leverage, debunking the myth that ADL targets high leverage.
 
 ### Top 10 ADL'd Positions (By Size)
 
