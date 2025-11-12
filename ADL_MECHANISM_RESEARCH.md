@@ -129,24 +129,31 @@ All 265 occurred at timestamp: `2025-10-10 21:17:06.037894+00:00`
 ### Questions Worth Investigating:
 
 1. **ADL Prioritization**: How does Hyperliquid choose which profitable traders to ADL?
-   - Likely based on PNL and position size
-   - May prioritize most profitable positions first
-   - Research Hyperliquid docs or ask team
+   - ✅ **ANSWERED** (November 12, 2025 - with clearinghouse data)
+   - **ADL targets PROFIT, not leverage**
+   - 98.3% of ADL'd positions were profitable (avg +82% PNL)
+   - Average leverage was only 1.16x (LOW!)
+   - See `ADL_PRIORITIZATION_VERIFIED.md` for complete analysis
+   - **Key Finding**: Low leverage does NOT protect from ADL if position is highly profitable
 
 2. **Partial ADL**: Why was only 85% covered by this ADL?
    - Was the short position only $174M (smaller than liquidation need)?
    - Did other ADLs cover the remaining $30M?
    - What's the HLP fund's role in the remaining gap?
+   - ⚠️ Further investigation needed with insurance fund data
 
 3. **Cascade Effect**: How do liquidations trigger more liquidations?
+   - ✅ **ANALYZED** - See `CASCADE_TIMING_ANALYSIS.md`
    - This event shows $7.6B total impact (liquidations + ADL)
+   - 61-second delay before ADL activation
    - Multiple waves of liquidations over 12 minutes
-   - Each liquidation can cause price impact → more liquidations
+   - 0.946 correlation between liquidations and ADL
 
 4. **Insurance Fund**: What's its current size and how much did it lose?
    - Hyperliquid has an insurance fund
    - May have covered some of the $30M gap
-   - Check Hyperliquid documentation for fund size
+   - ⚠️ Requires additional clearinghouse state data
+   - Negative equity analysis pending
 
 ## Data Availability
 
@@ -157,6 +164,18 @@ All raw data and analysis code available at:
   - Processing scripts
   - Complete liquidation + ADL analysis
   - $7.61 billion total impact calculation
+
+**NEW - Clearinghouse Data** (November 12, 2025):
+- **Account snapshot**: 437,356 accounts with complete values ($5.1B total)
+- **Position snapshot**: 221,422 positions across 182 markets
+- **Complete fills**: 2.7M fills processed from snapshot to cascade end
+- **ADL analysis**: 31,444 ADL events with leverage, entry prices, and PNL
+- **Location**: `~/Desktop/ADL Clearinghouse Data/`
+- **Files**:
+  - `adl_detailed_analysis.csv` - Complete ADL events with account data
+  - `adl_by_user.csv` - User-level aggregations
+  - `adl_by_coin.csv` - Asset-level aggregations
+  - `CLEARINGHOUSE_ANALYSIS_SUMMARY.md` - Full methodology
 
 ## Conclusion
 
