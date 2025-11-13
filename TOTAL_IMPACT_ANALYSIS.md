@@ -17,7 +17,7 @@
 
 ### Key Findings
 
-**💰 Total Market Impact**: **$7,614,154,355.91 billion** in forced position closures
+**💰 Total Market Impact**: **$7.61B** in forced position closures
 
 **📊 Breakdown**:
 - **Liquidations**: 72.4% ($5,511,042,925)

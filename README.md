@@ -80,6 +80,23 @@ python3 analysis_scripts/<script_name>.py
 
 ---
 
+## Canonical Results Snapshot (Nov 13, 2025)
+
+| Study | Key Output |
+|-------|------------|
+| Per-Asset Isolation | 100 shared timestamps, **0** cross-asset cases, Jaccard overlap **96.74%** |
+| Cascade Timing | First ADL at **61.7s** after first liquidation; largest burst **11,279** liq + **11,279** ADL in second 61 |
+| Batch Processing | **224** timestamps total, first **61s** liquidation-only, all shared timestamps run `liquidation → ADL` sequentially |
+| Counterparty Mechanism | **100%** ADL events carry `liquidated_user`; highlighted **$174.18M ETH** ADL matched by **265** ETH liquidations |
+| ADL Prioritization (global) | **94.5%** profitable ADL targets, median leverage **0.15x**, p95 **3.22x**, p99 **13.65x** |
+| ADL Prioritization (local) | Spearman ρ (PNL vs notional **−0.2207**), (PNL vs leverage **−0.4781**); repeated winners table in JSON |
+| Insurance Fund Impact | **1,275** negative-equity accounts (**3.64%** of ADL), aggregate deficit **−$125,981,795** |
+| ADL Net Volume | Total ADL notional **$2,103,111,431**, 34,983 events across 162 tickers |
+| Total Impact | Liquidations **$5,511,042,925** + ADL **$2,103,111,431** = **$7,614,154,356** across 98,620 events |
+| Comprehensive Verification | `python3 verify_all_findings.py` passes all suites (prioritization, isolation, counterparty, timing, insurance, integrity) |
+
+---
+
 ## COMPLETE METHODOLOGY: For Researchers
 
 ** [COMPLETE_METHODOLOGY.md](COMPLETE_METHODOLOGY.md)** - Comprehensive guide to reproduce our entire analysis
