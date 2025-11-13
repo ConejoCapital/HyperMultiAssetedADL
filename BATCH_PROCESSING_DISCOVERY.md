@@ -1,10 +1,11 @@
 # Batch Processing Discovery - Liquidations and ADL Execute in Separate Batches
 
-**Discovery Date:** November 11, 2025  
+**Discovery Date:** November 13, 2025  
 **Realtime Verification:** November 13, 2025  
 **Event:** October 10, 2025 Liquidation Cascade (21:15-21:27 UTC)  
-**Discovery Source:** User observation on HyperFireworks visualization  
-**Data Source:** Blockchain-verified events from Hyperliquid S3
+**Data Source:** Canonical replay (`liquidations_full_12min.csv`, `adl_fills_full_12min_raw.csv`)
+
+> Associated script: `analysis_scripts/batch_processing_analysis.py`
 
 ---
 
@@ -21,7 +22,7 @@ User observation:
 
 ## 📊 The Evidence
 
-### Biggest Burst Analysis (Second 61)
+### Biggest Burst Analysis (Second 64)
 
 **Timestamp:** `2025-10-10 21:16:04.831874+00:00`  
 **Total Events:** 22,558 events  
@@ -242,7 +243,7 @@ The [HyperFireworks visualization](https://hyperfireworks.vercel.app/) is **more
 
 ### 3. Timing Analysis Enhancement
 
-Previous finding: "61-second delay before ADL"  
+Previous finding: "64-second delay before ADL"  
 **Enhanced understanding**: 
 - 61 seconds of liquidations-only PHASES
 - Then batched liquidation+ADL BURSTS
@@ -315,7 +316,7 @@ Important for risk models:
 ## 🔗 Connection to Prior Findings
 
 ### CASCADE_TIMING_ANALYSIS.md
-**Found**: 61-second delay, burst patterns, 0.946 correlation  
+**Found**: 64-second delay, burst patterns, 0.946 correlation  
 **Now adds**: Within each burst, liquidations → ADL sequential batching
 
 ### ADL_MECHANISM_RESEARCH.md
@@ -327,11 +328,11 @@ Important for risk models:
 ```
 Timeline View:
 0-60s:    Liquidations only (no ADL threshold reached)
-61s:      MASSIVE burst
+64s:      MASSIVE burst
           ├─ Phase 1: 11,279 liquidations processed
           └─ Phase 2: 11,279 ADLs processed
           All stamped: 21:16:04.831874
-61-180s:  Alternating waves of liquidation-only and mixed bursts
+64-180s:  Alternating waves of liquidation-only and mixed bursts
 
 Microscopic View (within burst):
 Timestamp: 21:16:04.831874

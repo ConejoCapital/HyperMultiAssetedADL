@@ -1,9 +1,11 @@
 # Per-Asset ADL Isolation - Zero Cross-Asset Contagion
 
-**Analysis Date:** November 11, 2025  
+**Analysis Date:** November 13, 2025  
 **Event:** October 10, 2025 Liquidation Cascade  
-**Data Source:** 34,983 ADL events, 100 timestamps analyzed  
+**Data Source:** 34,983 ADL events, 63,637 liquidations (canonical replay)  
 **Status:** 100% blockchain-verified, publication-ready
+
+> Associated script: `analysis_scripts/per_asset_isolation.py`
 
 ---
 
@@ -32,9 +34,10 @@
 
 | Metric | Result |
 |--------|--------|
-| **Timestamps analyzed** | 100 |
+| **Timestamps analyzed** | 100 (liquidations + ADL in same timestamp) |
 | **Cross-asset ADL cases** | **0** (zero) |
-| **Ticker overlap** | 96.36% |
+| **ADL tickers outside liquidation set** | **0** |
+| **Ticker overlap (Jaccard)** | 96.74% |
 | **Perfect 1:1 ratio matches** | 44/44 tickers at biggest burst |
 
 ### Biggest Burst Example (21:16:04.831874)
@@ -75,13 +78,13 @@ Cases where any ADL occurred without matching liquidation: 0
 
 **Results:**
 ```
-Average ticker overlap: 96.36%
+Average ticker overlap: 96.74%
 Standard deviation: Low (high consistency)
 Timestamps with perfect overlap: 99/100
 Timestamp with 43 liq-only tickers: 1/100 (partial ADL activation)
 ```
 
-**Interpretation:** When ADL activates for an asset, it ONLY activates for that specific asset. The 96.36% overlap (not 100%) is because some assets reached liquidation threshold but NOT ADL threshold.
+**Interpretation:** When ADL activates for an asset, it ONLY activates for that specific asset. The 96.74% overlap (not 100%) is because some assets reached liquidation threshold but NOT ADL threshold.
 
 ### Test 3: Exact Amount Matching
 
@@ -275,7 +278,7 @@ SOL liquidations surge → You're safe ✅
 
 1. **Per-asset ADL with perfect isolation** (0/100 cross-contamination)
 2. **1:1 exact matching per asset** (44/44 tickers at major burst)
-3. **96.36% ticker overlap** (when ADL fires, same tickers only)
+3. **96.74% ticker overlap** (when ADL fires, same tickers only)
 4. **Zero cross-asset contagion** in practice, not just theory
 
 ### Research Value:
@@ -395,7 +398,7 @@ ADL contagion:    NO ❌
 
 ✅ **"Analysis of 100 timestamps with 98,620 events reveals zero cases of cross-asset ADL contamination"**
 
-✅ **"Each asset operates with independent ADL engines, achieving 96.36% ticker isolation"**
+✅ **"Each asset operates with independent ADL engines, achieving 96.74% ticker isolation"**
 
 ✅ **"At the largest burst (22,558 events), all 44 tickers showed perfect 1:1 liquidation-to-ADL matching with zero cross-asset interference"**
 
@@ -425,7 +428,7 @@ ADL contagion:    NO ❌
 
 1. ✅ **ADL is 100% per-asset** (0/100 cross-asset cases)
 2. ✅ **Perfect 1:1 matching when triggered** (44/44 tickers)
-3. ✅ **96.36% ticker isolation** (high consistency)
+3. ✅ **96.74% ticker isolation** (high consistency)
 4. ✅ **Independent risk engines** (architectural inference)
 
 ### Key Distinction:

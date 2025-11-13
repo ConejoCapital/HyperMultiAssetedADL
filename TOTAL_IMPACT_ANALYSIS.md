@@ -1,8 +1,6 @@
-# Total Impact Analysis: Liquidations + ADL
+# Total Impact Analysis: Liquidations + ADL (October 10, 2025)
 
-**Event Date**: October 10, 2025  
-**Time Window**: 21:15:00 - 21:27:00 UTC (Complete 12-minute event)  
-**Data Source**: Hyperliquid S3 (blockchain-verified)
+> Associated script: `analysis_scripts/total_impact_analysis.py`
 
 ---
 

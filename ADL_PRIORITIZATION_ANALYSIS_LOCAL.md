@@ -1,4 +1,10 @@
 
+# Local ADL Prioritization Analysis - Canonical Dataset
+
+> Associated script: `analysis_scripts/adl_prioritization_local.py`
+
+---
+
 # ADL Prioritization Analysis (Canonical Dataset)
 
 **Analysis Date:** November 13, 2025  

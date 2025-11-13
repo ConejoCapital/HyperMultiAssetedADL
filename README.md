@@ -58,6 +58,28 @@ adl_detailed_analysis_REALTIME.csv
 
 ---
 
+## Analysis Scripts (Canonical Replay)
+
+| Study | Python Script |
+|-------|---------------|
+| `PER_ASSET_ISOLATION.md` | `analysis_scripts/per_asset_isolation.py` |
+| `CASCADE_TIMING_ANALYSIS.md` | `analysis_scripts/cascade_timing_analysis.py` |
+| `BATCH_PROCESSING_DISCOVERY.md` | `analysis_scripts/batch_processing_analysis.py` |
+| `ADL_MECHANISM_RESEARCH.md` | `analysis_scripts/adl_mechanism_analysis.py` |
+| `ADL_PRIORITIZATION_VERIFIED.md` | `analysis_scripts/adl_prioritization_analysis.py` |
+| `ADL_PRIORITIZATION_ANALYSIS_LOCAL.md` | `analysis_scripts/adl_prioritization_local.py` |
+| `INSURANCE_FUND_IMPACT.md` | `analysis_scripts/insurance_fund_impact.py` |
+| `ADL_NET_VOLUME_FULL_12MIN.md` | `analysis_scripts/adl_net_volume.py` |
+| `TOTAL_IMPACT_ANALYSIS.md` | `analysis_scripts/total_impact_analysis.py` |
+
+Each script loads the canonical CSVs in this repository and emits the metrics cited in the corresponding study (plus a JSON snapshot in `analysis_scripts/`). Run them from the repo root:
+
+```bash
+python3 analysis_scripts/<script_name>.py
+```
+
+---
+
 ## COMPLETE METHODOLOGY: For Researchers
 
 ** [COMPLETE_METHODOLOGY.md](COMPLETE_METHODOLOGY.md)** - Comprehensive guide to reproduce our entire analysis

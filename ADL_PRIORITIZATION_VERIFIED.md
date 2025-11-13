@@ -1,5 +1,7 @@
 # ADL Prioritization: DEFINITIVELY VERIFIED with Clearinghouse Data
 
+> Associated script: `analysis_scripts/adl_prioritization_analysis.py`
+
 **Date**: November 13, 2025  
 **Event**: October 10, 2025 Liquidation Cascade (21:15-21:27 UTC)  
 **Data Source**: Hyperliquid Clearinghouse Snapshot + Complete Event History  

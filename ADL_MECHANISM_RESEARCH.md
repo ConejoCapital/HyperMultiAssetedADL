@@ -1,5 +1,7 @@
 # ADL Mechanism Research - Empirical Evidence from October 10, 2025 Cascade
 
+> Associated script: `analysis_scripts/adl_mechanism_analysis.py`
+
 ## Summary
 
 Analysis of the $174.18M ETH Auto-Deleveraging (ADL) event using blockchain data from Hyperliquid's October 10, 2025 liquidation cascade.

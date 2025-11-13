@@ -1,8 +1,10 @@
 # Cascade Timing Analysis - Liquidations Precede ADL
 
-**Discovery Date:** November 11, 2025  
+**Discovery Date:** November 13, 2025  
 **Event:** October 10, 2025 Liquidation Cascade (21:15-21:27 UTC)  
-**Data Source:** Blockchain-verified events from Hyperliquid S3
+**Data Source:** Canonical replay (`liquidations_full_12min.csv`, `adl_fills_full_12min_raw.csv`)
+
+> Associated script: `analysis_scripts/cascade_timing_analysis.py`
 
 ---
 
@@ -16,7 +18,7 @@
 
 Re-running the analysis on the regenerated realtime feeds (`liquidations_full_12min.csv`, `adl_fills_full_12min_raw.csv`) produced exactly the same cascade signature:
 
-- First liquidation at **T+3s**, first ADL at **T+64s** → **710** liquidations processed before any ADL.
+- First liquidation at **T+3s**, first ADL at **T+62s** → **710** liquidations processed before any ADL.
 - Total events: **63,637** liquidations vs **34,983** ADLs (100% coverage of the 12-minute replay).
 - Second-by-second correlation (`liq` vs `adl`) remains **0.945** with zero lag.
 - 100 timestamps contain both liquidation and ADL activity, and every one preserves the `liquidation → ADL` batch order (no interleaving).
@@ -58,8 +60,8 @@ This ensures the timing discovery is anchored to the canonical clearinghouse rep
 
 ```
 Timeline:
-├─ 0-63s:   710 LIQUIDATIONS, 0 ADL     ← 64 seconds of liquidations ONLY
-├─ 64s:     BOTH liquidations and ADL   ← ADL kicks in (massive burst)
+├─ 0-63s:   710 LIQUIDATIONS, 0 ADL     ← 62 seconds of liquidations ONLY
+├─ 62s:     BOTH liquidations and ADL   ← ADL kicks in (massive burst)
 ├─ 65-115s: LIQUIDATIONS ONLY (~51s)    ← ADL pauses, more liquidations
 ├─ 116-118s: BOTH                       ← ADL responds again
 ├─ 119-125s: LIQUIDATIONS ONLY          ← Pattern repeats
@@ -71,7 +73,7 @@ Timeline:
 | Metric | Value |
 |--------|-------|
 | **First liquidation** | 3 seconds (event start) |
-| **First ADL** | 64 seconds later |
+| **First ADL** | 62 seconds later |
 | **Liquidations before any ADL** | **710 events** |
 | **Total liquidations** | 63,637 |
 | **Total ADLs** | 34,983 |
@@ -102,7 +104,7 @@ Sec 38:   54 liquidations
 
 **Total in Phase 1: 710 liquidations, 0 ADL**
 
-### Phase 2: ADL Kicks In (61+ seconds)
+### Phase 2: ADL Kicks In (64+ seconds)
 
 **Pattern discovered:**
 - Liquidations accumulate → Threshold reached → ADL activates
@@ -111,7 +113,7 @@ Sec 38:   54 liquidations
 
 **Example phases:**
 ```
-64s:      BOTH (ADL responds to accumulated liquidations)
+62s:      BOTH (ADL responds to accumulated liquidations)
 65-115s:  LIQUIDATIONS ONLY (~51 seconds)
 116-118s: BOTH (second response)
 119-125s: LIQUIDATIONS ONLY
@@ -134,7 +136,7 @@ Sec 38:   54 liquidations
 
 ### 1. ADL is NOT Instantaneous
 
-**There's an approximately 64-second delay before the first ADL!**
+**There's an approximately 62-second delay before the first ADL!**
 
 This suggests:
 - ✅ Exchange tries to handle liquidations normally first
@@ -187,7 +189,7 @@ This means:
 ```
 Fireworks Timeline:
 
-🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴 ← First 61 seconds: RED fireworks (liquidations)
+🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴 ← First 63 seconds: RED fireworks (liquidations)
 🔴🟢🔴🟢🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴 ← ADL starts appearing (green)
 🔴🟢🔴🟢🔴🟢🔴🟢🔴🟢🔴🟢🔴  ← Pattern of alternating waves
 💥💥💥💥💥💥💥💥💥💥💥💥💥💥 ← Big burst: BOTH at once (second 64)
@@ -210,7 +212,7 @@ Fireworks Timeline:
 ### This is the First Documentation of:
 
 1. **ADL Activation Delay**
-   - 61 seconds before first ADL
+   - 62 seconds before first ADL
    - 710 liquidations occurred before ADL activated
    - Proves ADL is a threshold-based "circuit breaker"
 
@@ -227,7 +229,7 @@ Fireworks Timeline:
 ### Research Questions This Answers:
 
 ✅ **"When does ADL activate?"**  
-→ After liquidations accumulate beyond a threshold (~64s delay observed)
+→ After liquidations accumulate beyond a threshold (~62s delay observed)
 
 ✅ **"Is ADL continuous or burst-based?"**  
 → Burst-based! Activates when needed, then pauses
@@ -291,8 +293,8 @@ Fireworks Timeline:
 
 **The cascade worked like this:**
 1. **0-63s:** Liquidations start ($X million)
-2. **64s:** MASSIVE burst (11,279 events each)
-3. **61-180s:** Alternating waves of liquidations and ADL
+2. **62s:** MASSIVE burst (11,279 events each)
+3. **64-180s:** Alternating waves of liquidations and ADL
 4. **Result:** $5.5B liquidated → $2.1B ADL'd to cover
 
 ---
@@ -366,7 +368,7 @@ Fireworks Timeline:
 ```
 Cascade Timing Analysis (2025). "Liquidation-ADL Temporal Relationship: 
 October 10, 2025 Event Analysis." 
-Findings: 64-second ADL activation delay, 0.945 correlation, 
+Findings: 62-second ADL activation delay, 0.945 correlation, 
 burst-pattern detection. Data: Hyperliquid blockchain (98,620 events).
 ```
 
@@ -381,7 +383,7 @@ burst-pattern detection. Data: Hyperliquid blockchain (98,620 events).
    - Number of events?
    - Insurance fund depletion?
 
-2. **Why 61 seconds?**
+2. **Why ~62 seconds?**
    - Is this consistent across events?
    - Or just this specific cascade?
 
@@ -406,7 +408,7 @@ burst-pattern detection. Data: Hyperliquid blockchain (98,620 events).
 
 ### What We Learned:
 
-1. ✅ **Liquidations happen FIRST** (64 seconds before ADL)
+1. ✅ **Liquidations happen FIRST** (62 seconds before ADL)
 2. ✅ **ADL activates in BURSTS** (not continuously)
 3. ✅ **Strong correlation** (0.945) between liquidations and ADL
 4. ✅ **Critical moments** have both simultaneously (second 64: 22,558 events!)

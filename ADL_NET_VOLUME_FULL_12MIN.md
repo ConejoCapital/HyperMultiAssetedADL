@@ -1,8 +1,6 @@
-# ADL Net Volume Analysis - FULL 12-MINUTE EVENT
+# ADL Net Volume - Full 12-Minute Canonical Dataset
 
-**Event Date**: October 10, 2025  
-**Time Window**: 21:15:00 - 21:27:00 UTC (COMPLETE 12-minute event)  
-**Data Source**: Hyperliquid S3 (node_fills_20251010_21.lz4)
+> Associated script: `analysis_scripts/adl_net_volume.py`
 
 ---
 

@@ -1,4 +1,8 @@
-# Insurance Fund Impact - October 10, 2025 Cascade
+# Insurance Fund Impact - Real-Time Negative Equity Replay
+
+> Associated script: `analysis_scripts/insurance_fund_impact.py`
+
+---
 
 ## 💰 Executive Summary
 

@@ -61,43 +61,41 @@ print(f"  ✅ VERIFIED: Median leverage {median_leverage:.2f}x (LOW)")
 
 print(f"\n  CONCLUSION: ADL targets PROFIT, not leverage ✅")
 
-# ============================================================================
+# =========================================================================
 # TEST 2: PER-ASSET ISOLATION (No cross-asset ADL)
-# ============================================================================
+# =========================================================================
 
 print("\n[3/7] TEST 2: Per-Asset Isolation")
 print("-" * 80)
 
 # Load raw data and check liquidations
-liquidations = pd.read_csv('liquidation_fills_full_12min_raw.csv') if pd.io.common.file_exists('liquidation_fills_full_12min_raw.csv') else None
+liquidations = pd.read_csv('liquidations_full_12min.csv')
+liquidations['time_ms'] = pd.to_datetime(liquidations['block_time'], utc=True).view('int64') // 10**6
 
-if liquidations is not None:
-    # Group by timestamp
-    adl_by_time = df.groupby('time')['coin'].apply(set).to_dict()
-    liq_by_time = liquidations.groupby('time')['coin'].apply(set).to_dict()
-    
-    # Find timestamps with both liquidations and ADL
-    common_times = set(adl_by_time.keys()) & set(liq_by_time.keys())
-    
-    cross_asset_cases = 0
-    total_timestamps = len(common_times)
-    
-    for time in common_times:
-        adl_coins = adl_by_time[time]
-        liq_coins = liq_by_time[time]
-        
-        # Check if there are ADL coins not in liquidation coins
-        if not adl_coins.issubset(liq_coins):
-            cross_asset_cases += 1
-    
-    print(f"  Timestamps analyzed: {total_timestamps:,}")
-    print(f"  Cross-asset ADL cases: {cross_asset_cases}")
-    print(f"  Cross-asset ADL rate: {cross_asset_cases / total_timestamps * 100:.2f}%")
-    
-    assert cross_asset_cases == 0, f"Found {cross_asset_cases} cross-asset ADL cases!"
-    print(f"  ✅ VERIFIED: Zero cross-asset ADL contagion")
-else:
-    print(f"  ⚠️  Skipping (no liquidation data available)")
+# Group by timestamp
+adl_by_time = df.groupby('time')['coin'].apply(set).to_dict()
+liq_by_time = liquidations.groupby('time_ms')['coin'].apply(set).to_dict()
+
+# Find timestamps with both liquidations and ADL
+common_times = set(adl_by_time.keys()) & set(liq_by_time.keys())
+
+cross_asset_cases = 0
+total_timestamps = len(common_times)
+
+for time in common_times:
+    adl_coins = adl_by_time[time]
+    liq_coins = liq_by_time[time]
+
+    # Check if there are ADL coins not in liquidation coins
+    if not adl_coins.issubset(liq_coins):
+        cross_asset_cases += 1
+
+print(f"  Timestamps analyzed: {total_timestamps:,}")
+print(f"  Cross-asset ADL cases: {cross_asset_cases}")
+print(f"  Cross-asset ADL rate: {cross_asset_cases / total_timestamps * 100:.2f}%")
+
+assert cross_asset_cases == 0, f"Found {cross_asset_cases} cross-asset ADL cases!"
+print(f"  ✅ VERIFIED: Zero cross-asset ADL contagion")
 
 print(f"\n  CONCLUSION: Per-asset isolation confirmed ✅")
 
@@ -129,7 +127,8 @@ print("\n[5/7] TEST 4: Cascade Timing")
 print("-" * 80)
 
 # Convert timestamps
-df['seconds_from_start'] = (df['time'] - df['time'].min()) / 1000
+start_ms = liquidations['time_ms'].min()
+df['seconds_from_start'] = (df['time'] - start_ms) / 1000
 
 # Find first ADL
 first_adl_time = df['seconds_from_start'].min()
