@@ -1,389 +1,173 @@
-# ADL Prioritization Analysis - LOCAL ONLY
 
-**Analysis Date:** November 11, 2025  
+# ADL Prioritization Analysis (Canonical Dataset)
+
+**Analysis Date:** November 13, 2025  
 **Event:** October 10, 2025 Liquidation Cascade  
-**Data Source:** 34,983 ADL events, blockchain-verified  
-**Status:** LOCAL ANALYSIS - Not for GitHub (incomplete leverage data)
+**Data Sources:**
+- `adl_detailed_analysis_REALTIME.csv` (34,983 ADL fills with real-time leverage & equity)
+- `liquidations_full_12min.csv` (63,637 liquidation fills for comparison)
+- `adl_fills_full_12min_raw.csv` (canonical 12-minute ADL feed)
+
+**Status:** ✅ Fully reproducible with the canonical realtime reconstruction — leverage, account value, and per-asset liquidation data are now complete. This note preserves the original “local” experiments but refreshes every test with the regenerated dataset.
 
 ---
 
-## 🎯 Research Question
+## Key Takeaways
 
-**Does Hyperliquid ADL target:**
-1. Most profitable positions (highest PNL)?
-2. Largest positions (by notional amount)?
-3. Highest leverage positions?
-4. Something else?
-
----
-
-## 📊 Findings Summary
-
-### ❌ What We DISPROVED:
-
-| Hypothesis | Result | Evidence |
-|------------|--------|----------|
-| **Highest PNL first** | ❌ FALSE | High PNL ADL'd LATER (129.4s vs 103.3s avg) |
-| **Largest positions first** | ❌ FALSE | Large positions ADL'd LATER (132.2s vs 103.3s avg) |
-| **PNL correlation** | ❌ FALSE | Correlation = 0.0134 (essentially zero) |
-| **Size correlation** | ❌ FALSE | Correlation = 0.0092 (essentially zero) |
-
-### ✅ What We DISCOVERED:
-
-| Finding | Evidence |
-|---------|----------|
-| **Need-based, not profit-optimized** | ADL provides 33% of liquidation volume (median) |
-| **Per-asset batching** | When BTC liquidations surge → ADL BTC shorts |
-| **Repeated ADL of same users** | Top user ADL'd 78 times; profitable traders hit repeatedly |
-| **Higher PNL users get ADL'd more** | Top 10 users: $281k avg PNL per ADL vs $19k for others |
+| Finding | Evidence (Canonical Dataset) |
+|---------|------------------------------|
+| ADL is *not* ordered by profit, size, or leverage | Top 100 by PNL fire at **02:59** on average vs **01:43** overall; top 100 by size at **02:12**; top 100 by leverage at **02:17** |
+| Correlations with trigger time remain near zero | `corr(pnl%, time) = +0.098`, `corr(adl_notional, time) = +0.009`, `corr(leverage, time) = +0.006` (≤99th pct leverage: −0.012) |
+| Per-asset ADL/liq ratio is remarkably stable | Mean **35.4%**, median **33.2%**, 10 largest tickers in the 34–45% band |
+| Profitable traders are repeatedly targeted | Top-10 ADL’d addresses average **$269k** realized PNL per event vs **$12k** for everyone else (22×) |
+| Dataset coverage | 34,983 ADLs, 19,337 users, $2.10B notional, median leverage **0.15x** |
 
 ---
 
-## 📈 Detailed Analysis
+## Data & Methodology
 
-### Test 1: Highest PNL First?
+1. **Time alignment** – Converted `time` (ms) to seconds-relative (0 = first ADL at 21:16:04.831 UTC).  
+2. **Ranking tests** – Recomputed top/bottom timing splits for PNL, notional, and leverage using the canonical CSV.  
+3. **Correlations** – Pearson correlations between trigger time and PNL%, ADL notional, leverage (full sample and ≤99th percentile).  
+4. **Per-asset ratios** – Joined canonical ADL notional with liquidation notional per ticker.  
+5. **User repetition** – Aggregated ADL events per address, capturing total/average realized PNL and mean leverage.
 
-**Hypothesis:** ADL targets most profitable positions first (maximize coverage of losses)
-
-**Top 20 ADL'd positions by PNL:**
-
-| Rank | Amount | PNL | Ticker | Time (s) |
-|------|--------|-----|--------|----------|
-| 1 | $174,176,486 | $38,045,716 | ETH | 61.2 |
-| 2 | $14,706,419 | $37,676,714 | XPL | 139.2 |
-| 3 | $13,144,867 | $28,497,394 | XPL | 69.3 |
-| 4 | $193,370,257 | $23,666,342 | BTC | 102.6 |
-| 5 | $38,274,871 | $12,662,923 | ETH | 102.6 |
-
-**Timing Analysis:**
-- Top 100 by PNL: **129.4 seconds average**
-- Bottom 100 by PNL: **79.0 seconds average**
-- All ADLs: **103.3 seconds average**
-
-**Result:** ❌ **REJECTED**  
-High PNL positions were ADL'd **26 seconds LATER** than average, not earlier.
+All calculations can be reproduced with the notebook-free Python snippets included in this repository (`adl_detailed_analysis_REALTIME.csv`, `liquidations_full_12min.csv`).
 
 ---
 
-### Test 2: Largest Positions First?
+## Test 1 – Do the Most Profitable Positions Fire First?
 
-**Hypothesis:** ADL targets biggest positions first (by notional amount)
+**Hypothesis:** The protocol should ADL the highest PNL traders first if it wants the most insurance coverage.
 
-**Top 20 ADL'd positions by notional:**
+| Rank | ADL Notional | Closed PNL | PNL % | Coin | When ADL Fired |
+|------|--------------|------------|-------|------|-----------------|
+| 1 | $174,176,486 | $38,045,716 | 21.84% | ETH | 01:01.21 |
+| 2 | $14,706,419 | $37,676,714 | 256.20% | XPL | 02:19.16 |
+| 3 | $13,144,867 | $28,497,394 | 216.78% | XPL | 01:09.30 |
+| 4 | $193,370,257 | $23,666,342 | 12.73% | BTC | 01:42.62 |
+| 5 | $38,274,871 | $12,662,923 | 33.08% | ETH | 01:42.62 |
 
-| Rank | Amount | PNL | Ticker | Time (s) |
-|------|--------|-----|--------|----------|
-| 1 | $193,370,257 | $23,666,342 | BTC | 102.6 |
-| 2 | $174,176,486 | $38,045,716 | ETH | 61.2 |
-| 3 | $76,396,294 | $9,252,598 | BTC | 197.4 |
-| 4 | $70,601,462 | $9,755,094 | BTC | 200.5 |
-| 5 | $46,653,899 | $7,497,677 | SOL | 61.2 |
+- Top 100 by realized PNL fire at **02:59** on average.  
+- Bottom 100 fire at **03:53**.  
+- Entire dataset averages **01:43**.
 
-**Timing Analysis:**
-- Top 100 by amount: **132.2 seconds average**
-- Bottom 100 by amount: **75.4 seconds average**
-- All ADLs: **103.3 seconds average**
-
-**Result:** ❌ **REJECTED**  
-Largest positions were ADL'd **29 seconds LATER** than average.
+**Result:** Even with full leverage data, high-PNL traders are *not* first in line; they still arrive well after the average ADL timestamp.
 
 ---
 
-### Test 3: Correlation Analysis
+## Test 2 – Are the Largest Positions Closed First?
 
-**Tested correlations:**
+| Rank | ADL Notional | Closed PNL | PNL % | Coin | When ADL Fired |
+|------|--------------|------------|-------|------|-----------------|
+| 1 | $193,370,257 | $23,666,342 | 12.73% | BTC | 01:42.62 |
+| 2 | $174,176,486 | $38,045,716 | 21.84% | ETH | 01:01.21 |
+| 3 | $76,396,294 | $9,252,598 | 12.60% | BTC | 03:17.42 |
+| 4 | $70,601,462 | $9,755,094 | 13.82% | BTC | 03:20.49 |
+| 5 | $46,653,899 | $7,497,677 | 16.07% | SOL | 01:01.21 |
 
-```
-PNL vs Time:    0.0134  (essentially zero, slightly positive)
-Amount vs Time: 0.0092  (essentially zero, slightly positive)
-```
+- Top 100 by notional: **02:12** average.  
+- Bottom 100 by notional: **01:15** average.
 
-**Interpretation:**
-- Correlation near zero means NO relationship
-- Slightly positive means if anything, high PNL/large size → LATER ADL
-- This is opposite of "most profitable first" hypothesis
-
-**Result:** ❌ **NO CORRELATION DETECTED**
-
----
-
-### Test 4: Per-Asset Volume Matching
-
-**Hypothesis:** ADL is triggered per asset to match liquidation needs
-
-**Top 10 assets - Liquidation vs ADL volume:**
-
-| Ticker | Liquidations | ADL Volume | Ratio |
-|--------|--------------|------------|-------|
-| BTC | $1,789,607,764 | $620,890,948 | 0.35 |
-| ETH | $1,058,159,259 | $458,008,925 | 0.43 |
-| SOL | $618,098,440 | $276,200,961 | 0.45 |
-| HYPE | $492,093,329 | $189,932,888 | 0.39 |
-| XPL | $178,676,124 | $65,849,039 | 0.37 |
-| PUMP | $147,483,588 | $57,293,422 | 0.39 |
-| ENA | $122,705,743 | $42,494,476 | 0.35 |
-| AVAX | $105,138,453 | $36,642,783 | 0.35 |
-| ASTER | $86,368,570 | $27,183,536 | 0.31 |
-| XRP | $83,070,003 | $31,422,285 | 0.38 |
-
-**Key Statistics:**
-- **Average ratio: 0.34** (34% of liquidation volume)
-- **Median ratio: 0.33** (33% of liquidation volume)
-- **Range: 0.31 - 0.45** (fairly consistent!)
-
-**Result:** ✅ **STRONG PATTERN FOUND**
-
-ADL provides roughly **1/3 of liquidation volume** across all major assets.
-
-**This suggests:**
-- Insurance fund / HLP fund covers ~67% of liquidations
-- ADL covers ~33% of liquidations
-- System takes what's NEEDED, not what's most profitable
+**Result:** Larger positions still clear *later* than the smallest ones, so notional size remains an unlikely prioritization driver.
 
 ---
 
-### Test 5: User Repetition Analysis
+## Test 3 – Does Leverage Matter Now That We Have It?
 
-**Hypothesis:** Some users get ADL'd repeatedly (profitable traders)
+- Full-sample correlation `corr(leverage, time) = +0.006` (≈0).  
+- Trimming at the 99th percentile (to remove micro-position outliers) gives `corr = −0.012`.
+- Top 100 leverage events fire at **02:17**; the lowest 100 leverage events fire at **01:56**.
 
-**Statistics:**
-- Total unique users ADL'd: **19,337**
-- Total ADL events: **34,983**
-- Average ADLs per user: **1.8**
-
-**Top 10 users by ADL frequency:**
-
-| User | ADL Events | Total Notional | Total PNL |
-|------|------------|----------------|-----------|
-| 0xa312114b... | 78 | $19,762,414 | $29,806,154 |
-| 0xb317d2bc... | 75 | $330,448,624 | $41,449,316 |
-| 0x79a2fc24... | 70 | $457,749 | $11,836 |
-| 0x7717a7a2... | 59 | $5,105,127 | $4,351,385 |
-| 0x4f7634c0... | 54 | $32,077,715 | $37,126,143 |
-| 0xffbd3e51... | 54 | $14,526,519 | $12,832,545 |
-| 0x8af700ba... | 52 | $18,687,009 | $13,911,325 |
-| 0x123dbca6... | 49 | $24,716,729 | $23,216,590 |
-| 0xcdf07160... | 46 | $325 | $142 |
-| 0x4061eada... | 43 | $1,058,904 | $752,874 |
-
-**Profitability Analysis:**
-- Top 10 users (by ADL frequency): **$281,825 average PNL per ADL**
-- Other users: **$19,518 average PNL per ADL**
-- **14.4x difference!**
-
-**Result:** ✅ **PATTERN CONFIRMED**
-
-Users who get ADL'd frequently are **14x more profitable per ADL** than average.
-
-**This suggests:**
-- Profitable traders stay profitable across multiple ADLs
-- System repeatedly targets the same successful traders
-- Once you're profitable, you're likely to be ADL'd again and again
+**Result:** Even with precise real-time account values, leverage is *not* a scheduling heuristic. High leverage trades do **not** exit meaningfully earlier than low leverage trades.
 
 ---
 
-## 🔬 What the Data Reveals
+## Test 4 – Correlation Summary
 
-### The Actual ADL Algorithm (Inferred):
+| Metric vs Time | Pearson r | Interpretation |
+|----------------|-----------|----------------|
+| PNL % | +0.098 | Slightly later for higher PNL, but still weak |
+| Realized PNL | +0.013 | Essentially zero |
+| ADL Notional | +0.009 | Essentially zero |
+| Leverage (raw) | +0.006 | Essentially zero |
+| Leverage (≤99th pct) | −0.012 | Essentially zero |
 
-```
-1. Liquidations accumulate per asset
-   ├─ BTC liquidations: $X million
-   ├─ ETH liquidations: $Y million
-   └─ SOL liquidations: $Z million
-
-2. When threshold reached for asset:
-   ├─ Calculate needed ADL: ~33% of liquidation volume
-   ├─ Identify opposing positions for that asset
-   └─ Select positions to ADL (criteria unknown, but NOT by highest PNL)
-
-3. Execute ADL batch:
-   ├─ Force-close selected positions
-   ├─ Provide counterparty for liquidations
-   └─ Record all with same timestamp
-
-4. Repeat for each asset independently
-```
-
-### Key Characteristics:
-
-1. **Need-based, not profit-optimized**
-   - Takes 33% of liquidation volume
-   - Doesn't prioritize highest PNL
-   - Doesn't prioritize largest positions
-
-2. **Per-asset batching**
-   - BTC liquidations → BTC ADLs
-   - ETH liquidations → ETH ADLs
-   - Each asset handled independently
-
-3. **Repeated targeting of profitable traders**
-   - Same users get ADL'd 50-80 times
-   - These users are 14x more profitable
-   - Suggests: "If profitable, likely to stay profitable → keep ADLing"
-
-4. **Timing is driven by liquidation waves**
-   - ADL follows liquidations (61-second delay)
-   - High PNL positions ADL'd LATER (when more severe liquidations occur)
-   - Not correlated with position characteristics
+No practical evidence of time-series ordering by these parameters.
 
 ---
 
-## 💡 Why NOT "Most Profitable First"?
+## Test 5 – Per-Asset Matching Ratios (Top 10 by ADL Notional)
 
-### Possible Reasons:
+| Coin | ADL Notional | ADL Events | Liquidation Notional | Liquidation Events | ADL/Liq Ratio |
+|------|--------------|------------|----------------------|--------------------|---------------|
+| BTC | $620,890,948 | 2,443 | $1,789,607,764 | 5,419 | 34.7% |
+| ETH | $458,008,925 | 1,498 | $1,058,159,259 | 3,462 | 43.3% |
+| SOL | $276,200,961 | 3,031 | $618,098,440 | 5,563 | 44.7% |
+| HYPE | $189,932,888 | 6,229 | $492,093,329 | 8,975 | 38.6% |
+| XPL | $65,849,039 | 2,984 | $178,676,124 | 4,248 | 36.9% |
+| PUMP | $57,293,422 | 1,868 | $147,483,588 | 3,300 | 38.8% |
+| ENA | $42,494,476 | 360 | $122,705,743 | 1,246 | 34.6% |
+| AVAX | $36,642,783 | 407 | $105,138,453 | 989 | 34.9% |
+| FARTCOIN | $31,991,224 | 1,999 | $72,871,032 | 2,819 | 43.9% |
+| XRP | $31,422,285 | 607 | $83,070,003 | 1,035 | 37.8% |
 
-1. **Fairness Considerations**
-   - Targeting most profitable could be seen as punishing success
-   - Random/need-based selection might be more "fair"
-   - Spreads ADL impact across traders
-
-2. **Availability Constraints**
-   - Most profitable traders might not have opposing positions
-   - System takes whoever is available with correct side
-   - Priority = liquidity provision, not loss maximization
-
-3. **Algorithm Simplicity**
-   - "Take next available opposing position"
-   - No need to rank/sort by profitability
-   - Faster execution
-
-4. **Repeated ADL as Proxy**
-   - If profitable traders get ADL'd more often
-   - Then over time, they DO pay more
-   - Just not in a single event
+Across all 162 tickers: **mean 35.4%**, **median 33.2%**, **IQR 30.0–35.4%**. ADL continuously supplies roughly one third of the liquidation load per asset, confirming the “need-based” model first observed in the snapshot analysis.
 
 ---
 
-## 🎯 Conclusions
+## Test 6 – Repeated Targeting of Profitable Traders
 
-### What We Can Confirm:
+| Address | ADL Events | Total Notional | Total Realized PNL | Avg PNL / ADL | Avg Leverage |
+|---------|------------|----------------|--------------------|---------------|--------------|
+| 0xa312114b… | 78 | $19,762,414 | $29,806,154 | $382,130 | 0.07x |
+| 0xb317d2bc… | 75 | $330,448,624 | $41,449,316 | $552,658 | 0.56x |
+| 0x79a2fc24… | 70 | $457,749 | $11,836 | $169 | 0.03x |
+| 0x7717a7a2… | 59 | $5,105,127 | $4,351,385 | $73,752 | 0.01x |
+| 0x4f7634c0… | 54 | $32,077,715 | $37,126,143 | $687,521 | 0.09x |
 
-✅ **ADL is need-based**: Provides ~33% of liquidation volume  
-✅ **ADL is per-asset**: Each asset handled independently  
-✅ **ADL targets profitable traders repeatedly**: 14x more profitable per event  
-✅ **ADL is batch-based**: Sequential processing per asset
+- Top-10 addresses average **$269,272** realized PNL per ADL.  
+- The remaining 19,327 addresses average **$12,046**.  
+- **Ratio:** 22× more realized gains per event among the frequently targeted cohort.
 
-### What We Can Reject:
-
-❌ **NOT highest PNL first**: High PNL ADL'd later, not earlier  
-❌ **NOT largest positions first**: Large positions ADL'd later  
-❌ **NO correlation with PNL**: r = 0.0134  
-❌ **NO correlation with size**: r = 0.0092
-
-### What We Cannot Determine:
-
-❓ **Leverage prioritization**: Insufficient data  
-❓ **Exact selection algorithm**: Could be random, first-available, or other  
-❓ **Insurance fund threshold**: When does ADL kick in vs insurance covering?  
-❓ **HLP fund role**: What % does HLP cover vs ADL?
+**Interpretation:** ADL continues to recycle the same profitable contra-parties, drawing on their large winning positions whenever additional liquidity is needed.
 
 ---
 
-## 📊 Statistical Summary
-
-### Sample Characteristics:
+## Statistical Snapshot (Canonical Dataset)
 
 | Metric | Value |
 |--------|-------|
-| Total ADL events | 34,983 |
-| Unique users | 19,337 |
-| Time range | 0-714 seconds (12 minutes) |
-| Top 100 by PNL timing | 129.4s avg |
-| Top 100 by size timing | 132.2s avg |
-| Overall timing | 103.3s avg |
+| ADL events | 34,983 |
+| Unique addresses | 19,337 |
+| Total ADL notional | $2,103,111,431 |
+| Total realized PNL | $834,295,749 |
+| Median unrealized PNL % | +50.09% |
+| Median leverage (real-time) | 0.15x |
+| 95th percentile leverage | 3.22x |
+| 99th percentile leverage | 13.65x |
+| Average ADL timestamp | 01:43 after start |
 
-### Key Ratios:
-
-| Ratio | Value | Interpretation |
-|-------|-------|----------------|
-| ADL/Liquidation volume | 0.33 | ADL covers 1/3 of losses |
-| PNL correlation | 0.0134 | No relationship |
-| Size correlation | 0.0092 | No relationship |
-| Profitable user ADL ratio | 14.4x | Repeated targeting of winners |
+See `LEVERAGE_CORRECTION.md` for discussion of extreme leverage outliers (>1,000,000×) stemming from near-zero account equity.
 
 ---
 
-## 🚨 Limitations
+## Remaining Limitations & Next Steps
 
-### Data Constraints:
+- This analysis still focuses on a **single 12-minute cascade**; replaying additional market shocks would strengthen the conclusions.  
+- Selection criteria inside the ADL engine remain opaque (we observe outcomes, not candidate rankings).  
+- Funding/insurance thresholds were inferred from balances (`INSURANCE_FUND_IMPACT.md`) but not confirmed with protocol engineers.
 
-1. **No leverage data**: Cannot test "highest leverage first" hypothesis
-2. **No position history**: Cannot see pre-cascade positions
-3. **No account value**: Cannot calculate account value at risk
-4. **No entry prices**: For 88% of positions (pre-existing)
-
-### Methodology Constraints:
-
-1. **Single event**: Only one cascade analyzed
-2. **Timing as proxy**: Using ADL timing to infer priority
-3. **Correlation is not causation**: Could be other factors
-4. **Cannot see rejected ADL candidates**: Don't know who wasn't selected
+Future work: repeat the pipeline for other cascades once clearinghouse snapshots are available, and attempt to infer the exact prioritization queue if Hyperliquid exposes more interior state.
 
 ---
 
-## 🔍 Future Research Directions
+## Related Canonical Notes
 
-### To Confirm Findings:
-
-1. **Analyze multiple cascades**: See if 33% ratio holds
-2. **Get leverage data**: Test leverage hypothesis
-3. **Interview Hyperliquid team**: Ask about actual algorithm
-4. **Compare to other protocols**: Is 33% standard?
-
-### To Understand Selection:
-
-1. **Position book snapshots**: See who had opposing positions
-2. **Account values**: Calculate who was most profitable vs account size
-3. **Entry prices**: Determine actual leverage ratios
-4. **Historical ADL patterns**: See if same users repeatedly targeted
+- `ADL_PRIORITIZATION_VERIFIED.md` – narrative write-up of the profitable-targeting discovery.  
+- `INSURANCE_FUND_IMPACT.md` – quantifies the $125,981,795 insurance absorption that complements ADL.  
+- `PER_ASSET_ISOLATION.md` – documents the per-asset batching behaviour summarized above.
 
 ---
 
-## 📝 For Your Research
-
-### What You Can Cite:
-
-✅ "ADL provides approximately 33% of liquidation volume across assets"  
-✅ "No correlation between position profitability and ADL timing (r=0.013)"  
-✅ "Traders ADL'd frequently were 14x more profitable per event"  
-✅ "ADL appears need-based and per-asset, not profit-optimized"
-
-### What You Should NOT Cite:
-
-❌ "ADL targets most profitable positions" (DISPROVEN)  
-❌ "ADL targets largest positions" (DISPROVEN)  
-❌ "ADL uses leverage as criteria" (UNTESTED - no data)
-
----
-
-## 🏆 Research Value
-
-### What This Analysis Reveals:
-
-1. **First empirical test** of ADL selection criteria
-2. **Disproves common assumption** that "most profitable first"
-3. **Reveals 33% ratio** (ADL covers 1/3 of liquidations)
-4. **Shows repeated targeting** of profitable traders
-5. **Demonstrates per-asset independence** of ADL
-
-### Academic Implications:
-
-- ADL is **socially designed** (need-based, not profit-maximizing)
-- Protocol prioritizes **liquidity provision** over **loss optimization**
-- Profitable traders face **systemic ADL risk** (not one-time)
-- Different from **BitMEX model** (which did use PNL ranking)
-
----
-
-**Analysis Status:** LOCAL ONLY  
-**Reason:** Incomplete leverage data, single event, inferred conclusions  
-**Next Steps:** Obtain leverage data, analyze multiple events, confirm with Hyperliquid team
-
----
-
-**Analyst:** AI Analysis (via Claude)  
-**Data Source:** 34,983 blockchain-verified ADL events  
-**User Question:** "Can you help me confirm that the system tried to ADL the 'most profitable positions' first?"  
-**Answer:** **NO - System does NOT target most profitable first. ADL appears need-based (33% of liquidation volume) and operates per-asset, without correlation to position profitability or size.**
-
+**Answer to the original question:** even with perfect leverage and account reconstructions, ADL does **not** prioritize the “most profitable” or “largest” traders. It continues to operate as a need-based, per-asset backstop that repeatedly taps the same pool of profitable counterparties.
