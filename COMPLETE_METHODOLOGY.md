@@ -1,7 +1,7 @@
 # Complete Methodology: Anatomy of the October 10, 2025 ADL Event
 
 **Document Purpose**: Comprehensive guide for researchers to understand and reproduce our complete analysis  
-**Last Updated**: November 12, 2025  
+**Last Updated**: November 13, 2025  
 **Event**: October 10, 2025 Hyperliquid Liquidation Cascade (21:15-21:27 UTC)
 
 ---
@@ -36,6 +36,7 @@
 | **Nov 8, 2025** | Full 12-min analysis | S3 node_fills | All 98,620 events |
 | **Nov 11, 2025** | Timing & batch discovery | Event sequencing | Cascade mechanics |
 | **Nov 12, 2025** | **Clearinghouse breakthrough** | Snapshot + fills | Account-level data |
+| **Nov 13, 2025** | Real-time reconstruction (canonical) | Snapshot + full replay | 100% account + event coverage |
 
 ### What We Can Now Answer
 
@@ -43,7 +44,7 @@
 - ✅ How many events? → 98,620 (63,637 liquidations + 34,983 ADL)
 - ✅ Total notional? → $7.61 billion
 - ✅ Which assets? → 171 tickers
-- ✅ Event timing? → 61-second delay before ADL, burst patterns
+- ✅ Event timing? → ~64-second delay before ADL, burst patterns
 - ✅ Batch processing? → Liquidations then ADL, sequentially
 
 **Phase 2** (+ Clearinghouse Data Snapshot - Historical Approximation):
@@ -365,147 +366,79 @@ for market in positions_by_market:
 - 437,356 accounts with complete data
 - 221,422 positions mapped to accounts
 
-### Stage 3: Fill History Processing
+### Stage 3: Real-Time Replay Preparation
 
-**Script**: `full_analysis.py`
-
-**Process**:
-```python
-# 1. Load all fills from both hours
-all_fills = []
-
-for hour_file in ['20_fills.json', '21_fills.json']:
-    with open(hour_file, 'r') as f:
-        for line in f:
-            block = json.loads(line)
-            if block.get('events'):
-                for event in block['events']:
-                    user, details = event
-                    all_fills.append({
-                        'time': details['time'],
-                        'user': user,
-                        'coin': details['coin'],
-                        'price': float(details['px']),
-                        'size': float(details['sz']),
-                        'side': details['side'],
-                        'direction': details.get('dir', 'Unknown'),
-                        'closedPnl': float(details.get('closedPnl', 0))
-                    })
-
-# 2. Sort chronologically
-all_fills.sort(key=lambda x: x['time'])
-
-# 3. Filter to analysis window (snapshot to cascade end)
-SNAPSHOT_TIME = 1760126694218  # 20:04:54.218
-ADL_END_TIME = 1760131200000   # 21:20:00
-
-fills_in_window = [f for f in all_fills 
-                   if SNAPSHOT_TIME <= f['time'] <= ADL_END_TIME]
-```
-
-**Output**:
-- 2,768,552 fills in analysis window
-- Chronologically sorted
-- Ready for position tracking
-
-### Stage 4: Entry Price Calculation
-
-**Method**: Weighted average from fills before ADL
+**Script**: `full_analysis_realtime.py`
 
 **Process**:
 ```python
-# Track fills for each user-coin pair
-user_coin_fills = defaultdict(list)
+# 1. Load all fills and misc events from hours 20 and 21
+fills = load_all('20_fills.json', '21_fills.json')
+misc = load_all('20_misc.json', '21_misc.json')
 
-for fill in fills_in_window:
-    if fill['time'] < ADL_START_TIME:  # Only fills BEFORE ADL
-        user_coin_fills[(fill['user'], fill['coin'])].append(fill)
+# 2. Combine and sort every event chronologically
+all_events = sorted(fills + misc, key=lambda evt: evt['time'])
 
-# For each ADL event, calculate entry price
-for adl in adl_events:
-    user = adl['user']
-    coin = adl['coin']
-    
-    # Get fills that built this position
-    fills_for_position = user_coin_fills.get((user, coin), [])
-    
-    if fills_for_position:
-        # Weighted average
-        total_notional = 0
-        total_size = 0
-        for fill in fills_for_position:
-            if fill['time'] < adl['time']:
-                total_notional += fill['price'] * fill['size']
-                total_size += fill['size']
-        
-        calculated_entry = total_notional / total_size if total_size > 0 else None
-    else:
-        # Fall back to snapshot entry price if available
-        if user in account_states and coin in account_states[user]['positions']:
-            calculated_entry = account_states[user]['positions'][coin]['entry_price']
-        else:
-            calculated_entry = None
+SNAPSHOT_TIME = 1760126694218  # 2025-10-10 20:04:54.218 UTC
+CASCADE_END  = 1760131620000   # 2025-10-10 21:27:00.000 UTC
+
+# 3. Replay only the window between snapshot and cascade end
+window = [evt for evt in all_events if SNAPSHOT_TIME <= evt['time'] <= CASCADE_END]
+assert len(window) == 3_239_706
 ```
 
-**Coverage**:
-- 31,444 ADL events with calculated entry prices (90% of all ADL)
-- 3,539 ADL events without entry data (10%) - positions opened before snapshot
+**Output**: Chronologically ordered ledger of 3,239,706 events (fills, funding, deposits/withdrawals) ready for replay.
 
-### Stage 5: Leverage & PNL Calculation
+### Stage 4: Account State Reconstruction
 
-**Process**:
+**Goal**: Maintain real-time account equity, position size, and funding accrual for 437,723 accounts.
+
 ```python
-for adl in adl_events:
-    user = adl['user']
-    coin = adl['coin']
-    
-    # Get account state at snapshot
-    if user not in account_states:
-        continue
-    
-    account_state = account_states[user]
-    position = account_state['positions'].get(coin, None)
-    
-    if not position:
-        continue
-    
-    # Calculate leverage
-    position_notional = abs(position['size']) * adl['price']
-    leverage = position_notional / account_state['account_value']
-    
-    # Calculate unrealized PNL
-    if position['size'] > 0:  # Long
-        unrealized_pnl = position['size'] * (adl['price'] - entry_price)
-    else:  # Short
-        unrealized_pnl = abs(position['size']) * (entry_price - adl['price'])
-    
-    pnl_percent = (unrealized_pnl / position_notional * 100)
-    
-    # Store results
-    adl_with_details.append({
-        'user': user,
-        'coin': coin,
-        'adl_price': adl['price'],
-        'adl_size': adl['size'],
-        'entry_price': entry_price,
-        'account_value': account_state['account_value'],
-        'leverage': leverage,
-        'unrealized_pnl': unrealized_pnl,
-        'pnl_percent': pnl_percent
-    })
+accounts = bootstrap_from_snapshot('account_value_snapshot_758750000_1760126694218.json',
+                                   'perp_positions_by_market_758750000_1760126694218.json')
+
+for evt in window:
+    if evt['type'] == 'fill':
+        apply_fill(accounts, evt)
+    elif evt['type'] == 'funding':
+        apply_funding(accounts, evt)
+    elif evt['type'] == 'ledger_update':
+        apply_ledger_delta(accounts, evt)
+    # ... other event types (deposits, withdrawals, insurance adjustments)
 ```
 
-**Output**: `adl_detailed_analysis.csv`
+**Key details**:
+- Long/short positions updated tick-by-tick using actual trade prices.
+- Funding and ledger events adjust cash balance immediately.
+- We track `account_value_realtime`, `total_equity`, `position_size`, and `unrealized_pnl` continuously.
 
-**Fields**:
-- user, coin, time
-- adl_price, adl_size, adl_notional
-- closed_pnl (from blockchain)
-- position_size, entry_price
-- account_value (from snapshot)
-- leverage (calculated)
-- unrealized_pnl, pnl_percent (calculated)
+### Stage 5: Canonical ADL Extraction
 
+```python
+adl_rows = []
+for evt in window:
+    if evt['type'] == 'adl_fill':
+        state = snapshot_account_state(accounts, evt['user'])
+        adl_rows.append({
+            'user': evt['user'],
+            'coin': evt['coin'],
+            'adl_price': evt['price'],
+            'adl_size': evt['size'],
+            'adl_notional': abs(evt['size']) * evt['price'],
+            'account_value_realtime': state.account_value,
+            'total_equity': state.total_equity,
+            'leverage_realtime': state.position_notional(evt['coin']) / state.total_equity,
+            'is_negative_equity': state.total_equity < 0,
+            'pnl_percent': state.unrealized_pnl(evt['coin']) / state.position_notional(evt['coin']) * 100,
+            'seconds_from_start': (evt['time'] - SNAPSHOT_TIME) / 1000
+        })
+```
+
+**Canonical Outputs**:
+- `adl_detailed_analysis_REALTIME.csv` – 34,983 ADL events with real-time leverage and equity (100% coverage).
+- `adl_by_user_REALTIME.csv`, `adl_by_coin_REALTIME.csv` – aggregates using real-time metrics.
+- `realtime_analysis_summary.json` – replay metadata and QA checks.
+- `FINDINGS_VERIFICATION_REPORT.md` – regression tests that rerun prioritization, isolation, timing, and insurance analyses on the canonical dataset.
 ---
 
 ## Analysis Stages
@@ -531,9 +464,9 @@ for adl in adl_events:
 **Coverage**: All timestamps analyzed
 
 **What We Found**:
-- 61-second delay before first ADL
+- ~64-second delay before first ADL
 - ADL activates in bursts, not continuously
-- 0.946 correlation between liquidations and ADL
+- 0.945 correlation between liquidations and ADL
 - Liquidations and ADL execute in separate batches
 
 **Documents**:
@@ -572,6 +505,7 @@ for adl in adl_events:
 
 **Data**: Clearinghouse snapshot + fills + event data  
 **Coverage**: 31,444 ADL events with complete data (90%)
+**Status**: Historical snapshot approximation (superseded by Phase 3 replay)
 
 **What We Found**:
 - **98.3% of ADL'd positions were profitable**
@@ -584,7 +518,7 @@ for adl in adl_events:
 
 **Limitation**: Used snapshot account values (70 minutes stale)
 
-### Analysis 6: Real-Time Account Reconstruction (Nov 12, 2025) 🔥 **BREAKTHROUGH**
+### Analysis 6: Real-Time Account Reconstruction (Nov 13, 2025) 🔥 **BREAKTHROUGH**
 
 **Data**: Clearinghouse snapshot + full event stream (3,239,706 chronological events)  
 **Coverage**: 34,983 ADL events with **real-time** account states (100%)  
@@ -625,11 +559,11 @@ for adl in adl_events:
 |-----------|------|--------|--------|
 | **Full event scope** | Nov 7 | S3 data extraction | Quantified $7.6B impact |
 | **Per-asset isolation** | Nov 11 | Cross-asset analysis | Debunked "ADL contagion" myth |
-| **61-second delay** | Nov 11 | Timestamp analysis | Revealed ADL threshold |
+| **~64-second delay** | Nov 11 | Timestamp analysis | Revealed ADL threshold |
 | **Batch processing** | Nov 11 | Event sequencing | Found separate execution |
 | **Counterparty mechanism** | Nov 11 | Field inspection | Proved 1:1 matching |
 | **PNL prioritization** | Nov 12 | Clearinghouse + fills | **Solved ADL selection** |
-| **Insurance fund impact** | Nov 12 | Real-time reconstruction | **Quantified $128.6M coverage** |
+| **Insurance fund impact** | Nov 13 | Real-time reconstruction | **Quantified $125.98M coverage** |
 
 ### Critical Findings
 
@@ -639,11 +573,11 @@ Question: How does Hyperliquid choose which profitable traders to ADL?
 Answer: Targets highest PNL%, NOT highest leverage
 
 Evidence (Real-Time Reconstruction):
-- 94.5% of ADL'd positions profitable (real-time)
-- Average PNL: +77.99% (real-time)
-- Average leverage: 1.54x (real-time - still very low!)
-- Top 10 ADL'd by size: ALL profitable (10-35% gains)
-- Median leverage: 0.16x (extremely low)
+- 94.5% of ADL'd positions profitable
+- Average unrealized PNL: +80.58% (median +50.09%)
+- Median leverage: 0.15x (95th pct 3.22x, 99th pct 13.65x)
+- Top 10 ADL'd by size: ALL profitable (10-36% gains)
+- Negative-equity detections explain insurance drawdowns
 
 Implication: Low leverage does NOT protect from ADL if highly profitable
 ```
@@ -664,11 +598,11 @@ Implication: "ADL contagion" is a myth; market contagion exists but ADL is isola
 **3. Cascade Timing**
 ```
 Question: When does ADL activate?
-Answer: 61-second delay, then activates in bursts
+Answer: ~64-second delay, then activates in bursts
 
 Evidence:
-- First 710 events: liquidations only (0-60 seconds)
-- Second 61: MASSIVE burst (22,558 events!)
+- First 710 events: liquidations only (0-63 seconds)
+- Second 64: MASSIVE burst (22,558 events!)
 - Pattern continues with alternating waves
 
 Implication: ADL has activation threshold, not immediate
@@ -703,11 +637,11 @@ Implication: ADL is forced exit for winners to cover losers
 **6. Insurance Fund Impact (NEW!) 🔥**
 ```
 Question: How much insurance fund coverage was required?
-Answer: $126.0M to cover 1,275 underwater accounts
+Answer: $125.98M to cover 1,275 underwater accounts
 
 Evidence (Real-Time Reconstruction):
-- 1,275 accounts in negative equity (3.64% of ADL'd)
-- Total negative equity: -$128,608,070
+- 1,275 accounts in negative equity (3.6% of ADL'd)
+- Total negative equity: -$125,981,795
 - Largest underwater: -$7.4M
 - Average underwater: -$145k
 - Peak underwater rate: 387 accounts/minute
@@ -784,57 +718,60 @@ python3 extract_full_12min_adl.py
 # Export account states and positions
 ```
 
-#### Step 4: Process Clearinghouse Data
+#### Step 4: Run the Real-Time Replay
 
 ```bash
-# Create directory
-mkdir -p ~/Desktop/"ADL Clearinghouse Data"
 cd ~/Desktop/"ADL Clearinghouse Data"
-
-# Copy clearinghouse files here
-# Then run analysis
-python3 full_analysis.py
-
-# Outputs:
-# - adl_detailed_analysis.csv (31,444 records)
-# - adl_by_user.csv (18,041 users)
-# - adl_by_coin.csv (153 coins)
-# - clearinghouse_analysis_summary.json
+python3 full_analysis_realtime.py \
+  --fills ~/Desktop/"ADL Net Volume"/adl_fills_full_12min_raw.csv \
+  --liquidations ~/Desktop/"ADL Net Volume"/liquidations_full_12min.csv \
+  --snapshot account_value_snapshot_758750000_1760126694218.json \
+  --positions perp_positions_by_market_758750000_1760126694218.json \
+  --misc 20_misc.json 21_misc.json
 ```
 
-#### Step 5: Verify Results
+**Outputs (canonical)**:
+- `adl_detailed_analysis_REALTIME.csv`
+- `adl_by_user_REALTIME.csv`
+- `adl_by_coin_REALTIME.csv`
+- `realtime_analysis_summary.json`
+- `FINDINGS_VERIFICATION_REPORT.md`
+
+> Legacy Phase-2 files (`adl_detailed_analysis.csv`, `adl_by_user.csv`, `adl_by_coin.csv`) are archived and should not be regenerated.
+
+#### Step 5: Verify Canonical Metrics
 
 ```python
 import pandas as pd
+adl = pd.read_csv('adl_detailed_analysis_REALTIME.csv')
 
-# Load results
-df = pd.read_csv('adl_detailed_analysis.csv')
-
-# Verify key statistics
-print(f"Total ADL events: {len(df):,}")
-print(f"Total notional: ${df['adl_notional'].sum():,.0f}")
-print(f"Profitable: {(df['pnl_percent'] > 0).sum()} ({(df['pnl_percent'] > 0).sum()/len(df)*100:.1f}%)")
-print(f"Average PNL%: {df['pnl_percent'].mean():.2f}%")
-print(f"Average leverage: {df['leverage'].mean():.2f}x")
-
-# Expected output:
-# Total ADL events: 31,444
-# Total notional: $2,007,190,857
-# Profitable: 30,924 (98.3%)
-# Average PNL%: 82.43%
-# Average leverage: 1.16x
+print(f"ADL events: {len(adl):,}")
+print(f"Total ADL notional: ${adl['adl_notional'].sum():,.0f}")
+print(f"Profitable positions: {(adl['pnl_percent'] > 0).sum():,}"
+      f" ({(adl['pnl_percent'] > 0).mean()*100:.1f}%)")
+print(f"Median leverage (real-time): {adl['leverage_realtime'].median():.2f}x")
+print(f"Negative-equity accounts: {adl['is_negative_equity'].sum():,}")
 ```
+
+**Expected output**
+```
+ADL events: 34,983
+Total ADL notional: $2,103,111,431
+Profitable positions: 33,064 (94.5%)
+Median leverage (real-time): 0.15x
+Negative-equity accounts: 1,275
+```
+
+Run `python3 ../"ADL Net Volume"/verify_all_findings.py` to regenerate the verification report covering prioritization, isolation, timing, and insurance analyses.
 
 ### Validation Checklist
 
-- [ ] S3 data downloaded and decompressed
+- [ ] S3 data downloaded and decompressed (`20.lz4`, `21.lz4`)
 - [ ] Event counts match (63,637 liquidations, 34,983 ADL)
-- [ ] Total notional matches ($7.61B combined)
-- [ ] Clearinghouse snapshot loaded (437,356 accounts)
-- [ ] Positions merged (221,422 positions)
-- [ ] Entry prices calculated (31,444 with data)
-- [ ] Leverage calculated (average ~1.16x)
-- [ ] PNL calculated (98.3% profitable)
+- [ ] `full_analysis_realtime.py` replay completes (3,239,706 events processed)
+- [ ] `adl_detailed_analysis_REALTIME.csv` contains 34,983 rows with real-time metrics
+- [ ] Negative-equity tally equals 1,275 accounts (−$125.98M total equity)
+- [ ] `verify_all_findings.py` passes all prioritization/isolation/timing/insurance checks
 
 ---
 
@@ -878,36 +815,30 @@ for fill in fills_between:
 
 ### Dealing with Missing Data
 
-**Issue**: Not all ADL events have complete data
+**Phase 2 (snapshot-only)** covered 90% of ADL events because accounts opened after the 20:04 snapshot lacked balance data. The Phase 3 replay eliminates that gap by rebuilding account state between the snapshot and the cascade in real time.
 
-| Data Point | Coverage | Reason for Missing |
-|------------|----------|-------------------|
-| Event data | 100% (34,983) | Blockchain-verified |
-| Account value | 90% (31,444) | Position existed at snapshot |
-| Entry price | 90% (31,444) | Could calculate from fills |
-| Leverage | 90% (31,444) | Requires account value |
+| Data Point | Coverage | Canonical Source |
+|------------|----------|------------------|
+| Event data | 100% (34,983) | `adl_fills_full_12min_raw.csv`
+| Account value / equity | 100% | `full_analysis_realtime.py` replay
+| Entry price | 100% | Weighted-by-fills reconstruction during replay
+| Leverage | 100% | Real-time position notional ÷ equity
+| Negative equity flag | 100% | Derived from `total_equity < 0`
 
-**Positions opened after snapshot** (10%):
-- No entry price available (opened between 20:04 and 21:15)
-- No leverage data (no snapshot baseline)
-- Still have: event data, closedPnl, ADL price
-
-**Solution**: Report on 31,444 events with complete data, note 90% coverage
-
+Historical Phase-2 CSVs (`adl_detailed_analysis.csv`, etc.) remain archived for provenance but are not used in production analyses.
 ### Cross-Validating Data Sources
 
 **Method 1: User Address Overlap**
 ```python
 # Event users
-event_users = set(df_adl['user'])  # 18,746 unique users
+event_users = set(df_adl['user'])  # 19,337 unique users
 
 # Snapshot users  
 snapshot_users = set(account_states.keys())  # 437,356 accounts
 
 # Overlap
-overlap = len(event_users & snapshot_users)  # ~18,041 (96.2%)
+overlap = len(event_users & snapshot_users)  # 19,337 (100%)
 
-# Missing: Users who opened accounts after snapshot
 ```
 
 **Method 2: Notional Reconciliation**
@@ -915,11 +846,11 @@ overlap = len(event_users & snapshot_users)  # ~18,041 (96.2%)
 # From events only (S3)
 total_adl_notional_s3 = $2,103,111,431
 
-# From clearinghouse analysis
-total_adl_notional_ch = $2,007,190,857
+# From canonical replay
+total_adl_notional_replay = $2,103,111,431
 
-# Difference: $95.9M (4.5%)
-# Reason: 10% of events don't have account data (opened after snapshot)
+# Difference: $0
+# Replay guarantees 100% coverage with consistent totals
 ```
 
 **Method 3: Timestamp Validation**
@@ -951,14 +882,15 @@ for adl in adl_events:
 └── ADL_NET_VOLUME_FULL_12MIN.md          # Full report
 ```
 
-**Clearinghouse Analysis**:
+**Clearinghouse Analysis (Canonical)**:
 ```
 /Users/thebunnymac/Desktop/ADL Clearinghouse Data/
-├── adl_detailed_analysis.csv              # 31,444 ADL with leverage & PNL
-├── adl_by_user.csv                        # 18,041 users aggregated
-├── adl_by_coin.csv                        # 153 assets aggregated
-├── clearinghouse_analysis_summary.json    # JSON summary
-└── CLEARINGHOUSE_ANALYSIS_SUMMARY.md      # Full methodology
+├── adl_detailed_analysis_REALTIME.csv     # 34,983 ADL events with real-time metrics
+├── adl_by_user_REALTIME.csv               # User-level aggregates (real-time)
+├── adl_by_coin_REALTIME.csv               # Asset-level aggregates (real-time)
+├── realtime_analysis_summary.json         # Replay scope and QA
+├── CLEARINGHOUSE_ANALYSIS_SUMMARY.md      # Phase 3 methodology update
+└── archive/                               # Phase-2 snapshot CSVs (historical reference only)
 ```
 
 **Analysis Documents**:
@@ -967,7 +899,7 @@ for adl in adl_events:
 ├── README.md                              # Main overview
 ├── ADL_PRIORITIZATION_VERIFIED.md         # ⭐ ADL targets profit
 ├── ADL_MECHANISM_RESEARCH.md              # Counterparty mechanics
-├── CASCADE_TIMING_ANALYSIS.md             # 61-second delay
+├── CASCADE_TIMING_ANALYSIS.md             # ~64-second delay
 ├── BATCH_PROCESSING_DISCOVERY.md          # Sequential execution
 ├── PER_ASSET_ISOLATION.md                 # Zero cross-asset ADL
 └── TOTAL_IMPACT_ANALYSIS.md               # Combined stats
@@ -977,11 +909,12 @@ for adl in adl_events:
 ```
 /Users/thebunnymac/Desktop/ADL Net Volume/
 ├── extract_full_12min_adl.py              # S3 event extraction
+├── prepare_data.py                        # Visualization dataset builder (canonical files)
 └── calculate_total_impact.py              # Aggregate statistics
 
 /Users/thebunnymac/Desktop/ADL Clearinghouse Data/
-├── analyze_clearinghouse.py               # Load snapshot data
-└── full_analysis.py                       # Complete analysis pipeline
+├── analyze_clearinghouse.py               # Snapshot bootstrap utilities
+└── full_analysis_realtime.py              # Canonical real-time replay pipeline
 ```
 
 ---
@@ -1060,22 +993,22 @@ for chunk in pd.read_csv('fills.csv', chunksize=chunk_size):
 
 ### With Current Data
 
-**Possible now**:
-- [x] ADL prioritization analysis
-- [x] Leverage distribution analysis
-- [x] Entry price reconstruction
-- [x] PNL analysis at ADL time
-- [ ] User behavior analysis (which users got ADL'd multiple times)
-- [ ] Asset-specific ADL patterns
-- [ ] Time-series leverage analysis
+**Completed with canonical replay**:
+- [x] ADL prioritization analysis (real-time)
+- [x] Leverage distribution analysis (real-time)
+- [x] Entry price reconstruction across 100% of ADLs
+- [x] PNL analysis at ADL time (real-time)
+- [x] Negative equity quantification
+- [x] Insurance fund impact measurement
+- [x] Precise leverage at liquidation/ADL moment
+- [x] Account value trajectory throughout the cascade
+
+**Still open for deeper study**:
+- [ ] User behavior analysis (repeat ADL targets)
+- [ ] Asset-specific ADL pattern clustering
+- [ ] Time-series leverage/PNL visualizations
 
 ### With Additional Data
-
-**Requires real-time account tracking**:
-- [ ] Negative equity quantification
-- [ ] Insurance fund impact
-- [ ] Precise leverage at liquidation moment
-- [ ] Account value changes during cascade
 
 **Requires mark price history**:
 - [ ] Mark vs trade price analysis
@@ -1102,8 +1035,8 @@ Data Sources:
 - Clearinghouse: Snapshot at block 758750000 (2025-10-10 20:04:54 UTC)
 - Analysis: 98,620 events, 437,356 accounts, 2.7M fills processed
 
-Key Finding: ADL targets profit (98.3% profitable, avg +82% PNL), 
-not leverage (avg 1.16x).
+Key Finding: ADL targets profit (94.5% profitable, avg +80.6% PNL), 
+not leverage (median 0.15x leverage).
 
 Repository: https://github.com/ConejoCapital/HyperMultiAssetedADL
 ```
@@ -1122,8 +1055,8 @@ Repository: https://github.com/ConejoCapital/HyperMultiAssetedADL
 
 ---
 
-**Document Version**: 1.0  
-**Last Updated**: November 12, 2025  
+**Document Version**: 1.1  
+**Last Updated**: November 13, 2025  
 **Status**: ✅ Complete and verified  
 **Reproducibility**: Full (with clearinghouse access)
 
