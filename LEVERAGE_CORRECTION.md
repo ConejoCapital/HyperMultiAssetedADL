@@ -2,7 +2,8 @@
 
 **Issue Reported**: November 12, 2025  
 **Reported By**: User  
-**Status**: ✅ **FIXED**
+**Status**: ✅ **FIXED**  
+**Re-verified**: November 13, 2025 (canonical replay, `analysis_scripts/adl_prioritization_results.json`)
 
 ---
 

@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """
-Extract ALL ADL events from the full 12-minute window (21:15-21:27 UTC)
-Using the complete S3 data (node_fills_20251010_21.lz4)
+Canonical extractor for all ADL fills during the 12-minute cascade (21:15-21:27 UTC).
+
+Outputs: 
+- `adl_fills_full_12min_raw.csv` → consumed by `analysis_scripts/adl_net_volume.py`
+- Downstream: feeds `prepare_data.py` (HyperFireworks) and the verification suite
 """
 
 import lz4.frame
@@ -10,7 +13,7 @@ import pandas as pd
 from datetime import datetime, timezone
 from pathlib import Path
 
-# Configuration
+# Configuration (points to canonical replay source produced from Hyperliquid S3 dump)
 S3_DATA_FILE = "../ADL Clean/s3_raw_data/node_fills_20251010_21.lz4"
 OUTPUT_DIR = Path(".")
 
