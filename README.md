@@ -4,7 +4,7 @@
 
 ---
 
-## ⚠️ CANONICAL DATA FILE - NO APPROXIMATIONS
+## CANONICAL DATA FILE - NO APPROXIMATIONS
 
 **For researchers: Use ONLY the real-time reconstructed file:**
 
@@ -13,11 +13,11 @@ adl_detailed_analysis_REALTIME.csv
 ```
 
 **This file contains**:
-- ✅ **34,983 ADL events** (100% coverage - complete 12-minute event)
-- ✅ **Real-time account values** at exact ADL moment (no approximations)
-- ✅ **Real-time leverage** calculated with reconstructed account states
-- ✅ **Negative equity detection** (1,275 accounts, $126M insurance impact)
-- ✅ **Zero shortcuts** - 3.2M events processed chronologically
+- **34,983 ADL events** (100% coverage - complete 12-minute event)
+- **Real-time account values** at exact ADL moment (no approximations)
+- **Real-time leverage** calculated with reconstructed account states
+- **Negative equity detection** (1,275 accounts, $126M insurance impact)
+- **Zero shortcuts** - 3.2M events processed chronologically
 
 **Processing details**:
 - 3,239,706 events processed (fills, funding, deposits, withdrawals)
@@ -25,14 +25,14 @@ adl_detailed_analysis_REALTIME.csv
 - Time range: 21:16:04 to 21:26:57 UTC (10.88 minutes of active ADL)
 - Method: Chronological event replay from clearinghouse snapshot
 
-**⚠️ DO NOT use any other CSV files - they contained approximations and have been deleted.**
+** DO NOT use any other CSV files - they contained approximations and have been deleted.**
 
 ---
 
-## 📊 Executive Summary
+## Executive Summary
 
-**Event**: October 10, 2025 Market Crash  
-**Time Window**: 21:15:00 - 21:27:00 UTC (**COMPLETE 12-minute event**)  
+**Event**: October 10, 2025 Market Crash 
+**Time Window**: 21:15:00 - 21:27:00 UTC (**COMPLETE 12-minute event**) 
 **Data Source**: Hyperliquid S3 (blockchain-verified ADL events)
 
 ### Key Findings
@@ -54,13 +54,13 @@ adl_detailed_analysis_REALTIME.csv
 | 4 | **HYPE** | $189.9M | 9.0% | 6,229 |
 | 5 | **XPL** | $65.8M | 3.1% | 2,984 |
 
-**Top 3 (BTC, ETH, SOL)**: 64.4% of total ADL volume! 🔥
+**Top 3 (BTC, ETH, SOL)**: 64.4% of total ADL volume! 
 
 ---
 
-## 📖 COMPLETE METHODOLOGY: For Researchers
+## COMPLETE METHODOLOGY: For Researchers
 
-**🆕 [COMPLETE_METHODOLOGY.md](COMPLETE_METHODOLOGY.md)** - Comprehensive guide to reproduce our entire analysis
+** [COMPLETE_METHODOLOGY.md](COMPLETE_METHODOLOGY.md)** - Comprehensive guide to reproduce our entire analysis
 
 ### What's Inside:
 - **All data sources** (S3 event data + clearinghouse snapshots)
@@ -77,19 +77,19 @@ adl_detailed_analysis_REALTIME.csv
 
 ---
 
-## 🔓 DATA BREAKTHROUGH: Clearinghouse Access Unlocked!
+## DATA BREAKTHROUGH: Clearinghouse Access Unlocked!
 
-**🆕 November 12, 2025 - We now have complete clearinghouse data!**
+** November 12, 2025 - We now have complete clearinghouse data!**
 
-### Previously Unavailable ❌ → Now Available ✅
+### Previously Unavailable -> Now Available 
 
 | Data Point | Previous Status | Current Status |
 |------------|----------------|----------------|
-| **Entry Prices** | ❌ NULL for 88% of positions | ✅ **Calculated from fills** |
-| **Leverage Ratios** | ❌ Requires clearinghouse state | ✅ **REAL-TIME for 34,983 ADL events (100%)** |
-| **Unrealized PNL** | ❌ Can't calculate without entry | ✅ **Real-time for all positions** |
-| **Account Values** | ❌ Not available | ✅ **437,723 accounts - REAL-TIME RECONSTRUCTED** |
-| **Negative Equity** | ❌ Not trackable | ✅ **1,275 accounts identified ($126M insurance impact)** |
+| **Entry Prices** | NULL for 88% of positions | **Calculated from fills** |
+| **Leverage Ratios** | Requires clearinghouse state | **REAL-TIME for 34,983 ADL events (100%)** |
+| **Unrealized PNL** | Can't calculate without entry | **Real-time for all positions** |
+| **Account Values** | Not available | **437,723 accounts - REAL-TIME RECONSTRUCTED** |
+| **Negative Equity** | Not trackable | **1,275 accounts identified ($126M insurance impact)** |
 
 ### What We Now Have
 
@@ -100,25 +100,25 @@ adl_detailed_analysis_REALTIME.csv
 - **Every account state updated** chronologically through the COMPLETE 12-minute cascade
 
 **Calculated for Every ADL Event (REAL-TIME):**
-- ✅ Entry prices (weighted average from fills)
-- ✅ **Leverage ratios at ADL moment** (real-time account values)
-- ✅ **Unrealized PNL at ADL time** (all positions, real-time prices)
-- ✅ **Total equity** (cash + unrealized PNL)
-- ✅ **Negative equity detection** (account underwater)
-- ✅ PNL% (unrealized_pnl / position_notional × 100)
+- Entry prices (weighted average from fills)
+- **Leverage ratios at ADL moment** (real-time account values)
+- **Unrealized PNL at ADL time** (all positions, real-time prices)
+- **Total equity** (cash + unrealized PNL)
+- **Negative equity detection** (account underwater)
+- PNL% (unrealized_pnl / position_notional × 100)
 
 **Analysis Coverage**: **34,983 ADL events** (100% of all ADL events) with **complete real-time data**
 
-This clearinghouse data enabled our breakthrough ADL prioritization discovery below! 👇
+This clearinghouse data enabled our breakthrough ADL prioritization discovery below! 
 
 ---
 
-## 🎯 BREAKTHROUGH DISCOVERY: ADL Targets PROFIT, Not Leverage!
+## BREAKTHROUGH DISCOVERY: ADL Targets PROFIT, Not Leverage!
 
-**📄 See: [ADL_PRIORITIZATION_VERIFIED.md](ADL_PRIORITIZATION_VERIFIED.md)**
+** See: [ADL_PRIORITIZATION_VERIFIED.md](ADL_PRIORITIZATION_VERIFIED.md)**
 
-**MYTH:** "ADL targets the highest leverage positions"  
-**REALITY:** ✅ **DEBUNKED - ADL targets the MOST PROFITABLE positions**
+**MYTH:** "ADL targets the highest leverage positions" 
+**REALITY:** **DEBUNKED - ADL targets the MOST PROFITABLE positions**
 
 ### The Evidence (34,983 Real-Time ADL Events Analyzed - 100% Coverage)
 
@@ -130,7 +130,7 @@ This clearinghouse data enabled our breakthrough ADL prioritization discovery be
 | **Median leverage (REAL-TIME)** | **0.15x** (VERY LOW!) |
 | **95th percentile leverage** | **3.22x** (LOW!) |
 | **99th percentile leverage** | **13.65x** |
-| **Negative equity accounts** | **1,275 (3.64%)** 🔴 |
+| **Negative equity accounts** | **1,275 (3.64%)** |
 | **Insurance fund impact** | **-$126.0M** |
 
 **Note on leverage**: 99.64% of ADL'd positions had leverage ≤50x (within Hyperliquid limits). The **median of 0.15x** shows most positions had extremely low leverage, debunking the myth that ADL targets high leverage.
@@ -149,8 +149,8 @@ This clearinghouse data enabled our breakthrough ADL prioritization discovery be
 
 ### What This Means
 
-❌ **LOW LEVERAGE ≠ SAFE FROM ADL**  
-✅ **HIGH PROFIT = ADL TARGET**
+ **LOW LEVERAGE ≠ SAFE FROM ADL** 
+ **HIGH PROFIT = ADL TARGET**
 
 **If you're sitting on a huge unrealized gain during a liquidation cascade, you're getting ADL'd—regardless of leverage.**
 
@@ -160,9 +160,9 @@ This clearinghouse data enabled our breakthrough ADL prioritization discovery be
 
 ---
 
-## 💰 INSURANCE FUND IMPACT: Quantifying the Underwater Accounts
+## INSURANCE FUND IMPACT: Quantifying the Underwater Accounts
 
-**🆕 Real-Time Reconstruction Reveals**: 1,275 accounts in negative equity
+** Real-Time Reconstruction Reveals**: 1,275 accounts in negative equity
 
 ### The Numbers
 
@@ -179,29 +179,29 @@ When an account's **total equity (cash + unrealized PNL) goes negative**, losses
 
 1. **ADL activates** to close out profitable positions
 2. **Underwater losses** get absorbed by the insurance fund
-3. **If insurance fund insufficient** → socializes losses to remaining traders
+3. **If insurance fund insufficient** -> socializes losses to remaining traders
 
 **This cascade required $126.0M in insurance fund coverage** to prevent loss socialization.
 
 ### Real-Time Reconstruction Achievement
 
 This is the **first time negative equity has been quantified** for a Hyperliquid cascade:
-- ✅ Processed **3.2M events** chronologically (COMPLETE 12-minute window)
-- ✅ Reconstructed **437,723 account states** in real-time
-- ✅ Calculated equity at every ADL moment
-- ✅ Identified exact underwater amount
-- ✅ **100% event coverage** (34,983 / 34,983 ADL events)
+- Processed **3.2M events** chronologically (COMPLETE 12-minute window)
+- Reconstructed **437,723 account states** in real-time
+- Calculated equity at every ADL moment
+- Identified exact underwater amount
+- **100% event coverage** (34,983 / 34,983 ADL events)
 
 **Methodology**: [full_analysis_realtime.py](full_analysis_realtime.py)
 
 ---
 
-## 🚨 CRITICAL FINDING: Per-Asset Isolation - Zero ADL Contagion
+## CRITICAL FINDING: Per-Asset Isolation - Zero ADL Contagion
 
-**📄 See: [PER_ASSET_ISOLATION.md](PER_ASSET_ISOLATION.md)**
+** See: [PER_ASSET_ISOLATION.md](PER_ASSET_ISOLATION.md)**
 
-**MYTH:** "BTC liquidations can trigger ETH ADL" or "ADL contagion across assets"  
-**REALITY:** ✅ **DISPROVEN - Zero cases of cross-asset ADL found**
+**MYTH:** "BTC liquidations can trigger ETH ADL" or "ADL contagion across assets" 
+**REALITY:** **DISPROVEN - Zero cases of cross-asset ADL found**
 
 ### Key Evidence
 
@@ -214,29 +214,29 @@ This is the **first time negative equity has been quantified** for a Hyperliquid
 
 ### What This Proves
 
-✅ **BTC liquidations cause ONLY BTC ADL** (never ETH, SOL, or other assets)  
-✅ **ETH liquidations cause ONLY ETH ADL** (never BTC, SOL, or other assets)  
-✅ **SOL liquidations cause ONLY SOL ADL** (never BTC, ETH, or other assets)  
-✅ **Each asset has independent ADL engine** (no shared risk pool)  
-✅ **Perfect 1:1 matching per asset** when ADL triggers  
+ **BTC liquidations cause ONLY BTC ADL** (never ETH, SOL, or other assets) 
+ **ETH liquidations cause ONLY ETH ADL** (never BTC, SOL, or other assets) 
+ **SOL liquidations cause ONLY SOL ADL** (never BTC, ETH, or other assets) 
+ **Each asset has independent ADL engine** (no shared risk pool) 
+ **Perfect 1:1 matching per asset** when ADL triggers 
 
 ### Important Distinction
 
-❌ **ADL contagion** (technical): Does NOT exist  
-✅ **Market contagion** (price dynamics): DOES exist
+ **ADL contagion** (technical): Does NOT exist 
+ **Market contagion** (price dynamics): DOES exist
 
 **Example:**
 ```
-BTC crashes → Market panic → Traders sell all assets
-  ↓              ↓              ↓
-BTC price ↓   Psychology   ETH price ↓, SOL price ↓
-  ↓                            ↓              ↓
-BTC liquidations        ETH liquidations  SOL liquidations
-  ↓                            ↓              ↓
-BTC ADL ONLY            ETH ADL ONLY      SOL ADL ONLY
+BTC crashes -> Market panic -> Traders sell all assets
+ v v v
+BTC price v Psychology ETH price v, SOL price v
+ v v v
+BTC liquidations ETH liquidations SOL liquidations
+ v v v
+BTC ADL ONLY ETH ADL ONLY SOL ADL ONLY
 
-Market contagion: YES ✅ (prices correlate)
-ADL contagion:    NO ❌ (ADL systems isolated)
+Market contagion: YES (prices correlate)
+ADL contagion: NO (ADL systems isolated)
 ```
 
 **Analysis of 100 timestamps proves:**
@@ -248,7 +248,7 @@ ADL contagion:    NO ❌ (ADL systems isolated)
 
 ---
 
-## 💥 TOTAL MARKET IMPACT (Liquidations + ADL)
+## TOTAL MARKET IMPACT (Liquidations + ADL)
 
 **NEW: Complete cascade analysis now available!**
 
@@ -258,32 +258,32 @@ ADL contagion:    NO ❌ (ADL systems isolated)
 | **Net Notional** | $5.51B | $2.10B | **$7.61 BILLION** |
 | **Realized PNL** | -$607.7M | $834.3M | **$226.6M net** |
 
-**🚨 This represents the largest documented liquidation cascade event:**
+** This represents the largest documented liquidation cascade event:**
 - **$7.6 BILLION** in forced closures in 12 minutes
 - **98,620 forced events** (liquidations + ADL)
-- **$5.5B liquidated** → **$2.1B ADL'd** to cover losses
+- **$5.5B liquidated** -> **$2.1B ADL'd** to cover losses
 
-👉 **See full analysis**: [TOTAL_IMPACT_ANALYSIS.md](TOTAL_IMPACT_ANALYSIS.md)
+ **See full analysis**: [TOTAL_IMPACT_ANALYSIS.md](TOTAL_IMPACT_ANALYSIS.md)
 
 ---
 
-## 🔬 NEW: ADL Mechanism Research - How It Really Works
+## NEW: ADL Mechanism Research - How It Really Works
 
 ### 1. Individual Event Analysis
 
-**📄 See: [ADL_MECHANISM_RESEARCH.md](ADL_MECHANISM_RESEARCH.md)**
+** See: [ADL_MECHANISM_RESEARCH.md](ADL_MECHANISM_RESEARCH.md)**
 
 We analyzed the **largest single ADL event** ($174.18M ETH) to understand **how ADL is triggered** using empirical blockchain data:
 
-### 2. CASCADE TIMING DISCOVERY 🔥
+### 2. CASCADE TIMING DISCOVERY 
 
-**📄 See: [CASCADE_TIMING_ANALYSIS.md](CASCADE_TIMING_ANALYSIS.md)**
+** See: [CASCADE_TIMING_ANALYSIS.md](CASCADE_TIMING_ANALYSIS.md)**
 
 **MAJOR FINDING:** Liquidations happen in waves BEFORE ADL kicks in!
 
-### 3. BATCH PROCESSING DISCOVERY 💥
+### 3. BATCH PROCESSING DISCOVERY 
 
-**📄 See: [BATCH_PROCESSING_DISCOVERY.md](BATCH_PROCESSING_DISCOVERY.md)**
+** See: [BATCH_PROCESSING_DISCOVERY.md](BATCH_PROCESSING_DISCOVERY.md)**
 
 **CRITICAL FINDING:** Liquidations and ADL execute in SEPARATE, SEQUENTIAL BATCHES!
 
@@ -292,26 +292,26 @@ Even when they share the same millisecond timestamp, liquidations and ADL are **
 | Finding | Evidence |
 |---------|----------|
 | **Same timestamp** | Both recorded at `21:16:04.831874` |
-| **Different batches** | 11,279 liquidations → THEN 11,279 ADLs |
+| **Different batches** | 11,279 liquidations -> THEN 11,279 ADLs |
 | **Zero interleaving** | 0% mixing across 100 analyzed timestamps |
-| **Universal pattern** | 100% of events show liquidation → ADL order |
+| **Universal pattern** | 100% of events show liquidation -> ADL order |
 
 **The Architecture:**
 ```
 Block at timestamp T:
-├─ Phase 1: Process ALL liquidations (liquidation engine)
-├─ Phase 2: Calculate total losses & ADL requirements
-├─ Phase 3: Select profitable positions for ADL
-└─ Phase 4: Process ALL ADLs (ADL engine)
+ Phase 1: Process ALL liquidations (liquidation engine)
+ Phase 2: Calculate total losses & ADL requirements
+ Phase 3: Select profitable positions for ADL
+ Phase 4: Process ALL ADLs (ADL engine)
 
 All events stamped with timestamp T, but SEQUENCED internally!
 ```
 
 **Why This Matters:**
-- ✅ Reveals internal processing order (liquidation engine → ADL engine)
-- ✅ Proves sequential dependency (ADL calculated AFTER liquidations)
-- ✅ Explains visual patterns (chunks on visualization are REAL batches)
-- ✅ No concurrent liquidation+ADL (clear execution phases)
+- Reveals internal processing order (liquidation engine -> ADL engine)
+- Proves sequential dependency (ADL calculated AFTER liquidations)
+- Explains visual patterns (chunks on visualization are REAL batches)
+- No concurrent liquidation+ADL (clear execution phases)
 
 **Technical Detail:** At the largest burst, 22,558 events occurred at the exact same millisecond, but analysis of event ordering shows perfect batch separation: events 710-11,988 were all liquidations, events 11,989-23,267 were all ADLs. Average batch run length: 11,279 events (no interleaving detected).
 
@@ -327,16 +327,16 @@ All events stamped with timestamp T, but SEQUENCED internally!
 
 **The Pattern:**
 ```
-0-60s:    710 liquidations, 0 ADL        ← ADL hasn't kicked in yet
-61s:      11,279 liquidations + 11,279 ADL  ← MASSIVE burst when threshold hit
-61-180s:  Alternating waves              ← Liquidations → ADL → Liquidations → ADL
+0-60s: 710 liquidations, 0 ADL ← ADL hasn't kicked in yet
+61s: 11,279 liquidations + 11,279 ADL ← MASSIVE burst when threshold hit
+61-180s: Alternating waves ← Liquidations -> ADL -> Liquidations -> ADL
 ```
 
 **Why This Matters:**
-- ✅ ADL is NOT instantaneous - there's a ~61 second delay
-- ✅ ADL activates in BURSTS (threshold-based, not continuous)
-- ✅ Liquidations accumulate → Threshold reached → ADL fires
-- ✅ Explains the "chunks" pattern visible on [HyperFireworks visualization](https://hyperfireworks.vercel.app/)
+- ADL is NOT instantaneous - there's a ~61 second delay
+- ADL activates in BURSTS (threshold-based, not continuous)
+- Liquidations accumulate -> Threshold reached -> ADL fires
+- Explains the "chunks" pattern visible on [HyperFireworks visualization](https://hyperfireworks.vercel.app/)
 
 ---
 
@@ -350,31 +350,31 @@ All events stamped with timestamp T, but SEQUENCED internally!
 | **ADL** | $174.18M | `0x2ea1...3f4` | 1 ETH short ADL'd (winning forced to close) |
 
 **Timeline:**
-1. ETH price crashed → User's 265 long positions hit liquidation price
-2. $204.67M in liquidations triggered → Exchange needs sellers
-3. Profitable short holder ADL'd for $174.18M → Provides liquidity
+1. ETH price crashed -> User's 265 long positions hit liquidation price
+2. $204.67M in liquidations triggered -> Exchange needs sellers
+3. Profitable short holder ADL'd for $174.18M -> Provides liquidity
 4. Insurance/HLP fund covers remaining $30M gap
 
 ### What This Means
 
-✅ **ADL is NOT random** - It's triggered by liquidation events  
-✅ **ADL provides counterparty liquidity** - When liquidations happen, ADL supplies the opposite side  
-✅ **Same-millisecond execution** - Liquidation → ADL happens instantly  
-✅ **Profitable traders pay the price** - Winners get force-closed to save losers from socialized losses
+ **ADL is NOT random** - It's triggered by liquidation events 
+ **ADL provides counterparty liquidity** - When liquidations happen, ADL supplies the opposite side 
+ **Same-millisecond execution** - Liquidation -> ADL happens instantly 
+ **Profitable traders pay the price** - Winners get force-closed to save losers from socialized losses
 
 ### Why This Matters for Research
 
 This is the **first empirical documentation** of ADL-liquidation coupling:
-- ✅ Proves ADL is triggered BY liquidations (not independent)
-- ✅ Shows exact timing relationship (same millisecond)
-- ✅ Quantifies the counterparty relationship ($174M ADL ↔ $205M liquidations)
-- ✅ Explains why insurance funds don't cover 100% (ADL does most of the work)
+- Proves ADL is triggered BY liquidations (not independent)
+- Shows exact timing relationship (same millisecond)
+- Quantifies the counterparty relationship ($174M ADL <-> $205M liquidations)
+- Explains why insurance funds don't cover 100% (ADL does most of the work)
 
 **Full analysis with transaction hashes, addresses, and blockchain verification**: [ADL_MECHANISM_RESEARCH.md](ADL_MECHANISM_RESEARCH.md)
 
 ---
 
-## 🔥 Major Insights
+## Major Insights
 
 ### Market Concentration
 - **$2.1 BILLION** in forced ADL closures over 12 minutes
@@ -400,14 +400,14 @@ This is the **first empirical documentation** of ADL-liquidation coupling:
 
 ---
 
-## 📁 Files in This Folder
+## Files in This Folder
 
 | File | Description | Size |
 |------|-------------|------|
 | **README.md** | This file - Full 12-minute overview |
-| **BATCH_PROCESSING_DISCOVERY.md** | 💥 **NEW!** Sequential batch processing architecture | 18 KB |
-| **CASCADE_TIMING_ANALYSIS.md** | 🔥 Liquidation→ADL timing patterns & delay analysis | 15 KB |
-| **ADL_MECHANISM_RESEARCH.md** | 🔬 Empirical analysis of ADL trigger mechanism | 12 KB |
+| **BATCH_PROCESSING_DISCOVERY.md** | **NEW!** Sequential batch processing architecture | 18 KB |
+| **CASCADE_TIMING_ANALYSIS.md** | Liquidation->ADL timing patterns & delay analysis | 15 KB |
+| **ADL_MECHANISM_RESEARCH.md** | Empirical analysis of ADL trigger mechanism | 12 KB |
 | **ADL_NET_VOLUME_FULL_12MIN.md** | Detailed analysis report (all 162 tickers) |
 | **TOTAL_IMPACT_ANALYSIS.md** | Complete $7.6B liquidation + ADL cascade |
 | **adl_net_volume_full_12min.csv** | Raw data (CSV) - complete dataset |
@@ -418,7 +418,7 @@ This is the **first empirical documentation** of ADL-liquidation coupling:
 
 ---
 
-## 📊 Top 20 ADL'd Tickers
+## Top 20 ADL'd Tickers
 
 | Rank | Ticker | Net Notional | # Events | Total PNL |
 |------|--------|--------------|----------|-----------|
@@ -445,7 +445,7 @@ This is the **first empirical documentation** of ADL-liquidation coupling:
 
 ---
 
-## 📈 Comparison: 2-Minute Sample vs Full Event
+## Comparison: 2-Minute Sample vs Full Event
 
 | Metric | 2-Minute Sample | Full 12-Minute | Scaling Factor |
 |--------|-----------------|----------------|----------------|
@@ -461,7 +461,7 @@ This is the **first empirical documentation** of ADL-liquidation coupling:
 
 ---
 
-## 🎯 What is ADL Net Volume?
+## What is ADL Net Volume?
 
 **Auto-Deleveraging (ADL)** is Hyperliquid's mechanism to manage liquidations during extreme market volatility:
 
@@ -469,12 +469,12 @@ This is the **first empirical documentation** of ADL-liquidation coupling:
 2. The protocol **force-closes** the most profitable opposing positions
 3. This is called "Auto-Deleveraging" (ADL)
 
-**Net Volume** = Sum of all position sizes that were ADL'd per ticker  
+**Net Volume** = Sum of all position sizes that were ADL'd per ticker 
 **Net Notional** = Sum of (position size × price) for all ADL'd positions
 
 ---
 
-## 🔬 Methodology
+## Methodology
 
 ### Data Source
 - **File**: `node_fills_20251010_21.lz4` (S3 bucket)
@@ -487,7 +487,7 @@ This is the **first empirical documentation** of ADL-liquidation coupling:
 # Net Volume per ticker
 net_volume = sum(size) for all ADL events per ticker
 
-# Net Notional per ticker  
+# Net Notional per ticker 
 net_notional = sum(size × price) for all ADL events per ticker
 
 # Total Realized PNL per ticker
@@ -501,22 +501,22 @@ total_pnl = sum(closed_pnl) for all ADL events per ticker
 
 ---
 
-## ✅ Data Quality
+## Data Quality
 
 **100% Blockchain-Verified**:
-- ✅ Complete 12-minute dataset (not a sample)
-- ✅ Blockchain-verified: Only fills with explicit "Auto-Deleveraging" label
-- ✅ No heuristics: Direct from S3 node_fills
-- ✅ Spot positions excluded: @ tokens filtered out
-- ✅ Cross-validated: Matches expected event timeline
+- Complete 12-minute dataset (not a sample)
+- Blockchain-verified: Only fills with explicit "Auto-Deleveraging" label
+- No heuristics: Direct from S3 node_fills
+- Spot positions excluded: @ tokens filtered out
+- Cross-validated: Matches expected event timeline
 
-**Source**: Hyperliquid S3 `node_fills_20251010_21.lz4`  
-**Processing time**: ~30 seconds  
-**Records**: 42,893 blocks → 1.42M fills → 34,983 ADL events
+**Source**: Hyperliquid S3 `node_fills_20251010_21.lz4` 
+**Processing time**: ~30 seconds 
+**Records**: 42,893 blocks -> 1.42M fills -> 34,983 ADL events
 
 ---
 
-## 📊 Usage
+## Usage
 
 ### View Results
 
@@ -557,30 +557,30 @@ print(f"BTC: ${btc['net_notional_usd']:,.0f} across {btc['num_adl_events']} even
 
 ---
 
-## 🎓 For Academic Research
+## For Academic Research
 
 ### Suitable For
-- ✅ ADL mechanism analysis (largest known event)
-- ✅ Market concentration studies ($2.1B in 12 minutes)
-- ✅ Liquidity crisis behavior
-- ✅ Cross-asset contagion effects
-- ✅ Forced closure impact on traders
+- ADL mechanism analysis (largest known event)
+- Market concentration studies ($2.1B in 12 minutes)
+- Liquidity crisis behavior
+- Cross-asset contagion effects
+- Forced closure impact on traders
 
 ### Key Research Questions This Dataset Answers
 
 **Event-Level (All Datasets)**:
-1. **How effective is ADL?** → $2.1B processed in 12 minutes
-2. **Which assets are most affected?** → BTC, ETH, SOL dominate
-3. **How concentrated is ADL?** → Top 3 = 64.4% of volume
-4. **What's the trader impact?** → $834M in forced PNL closures
-5. **How fast does it happen?** → 2,915 ADLs per second at peak
+1. **How effective is ADL?** -> $2.1B processed in 12 minutes
+2. **Which assets are most affected?** -> BTC, ETH, SOL dominate
+3. **How concentrated is ADL?** -> Top 3 = 64.4% of volume
+4. **What's the trader impact?** -> $834M in forced PNL closures
+5. **How fast does it happen?** -> 2,915 ADLs per second at peak
 
 **Account-Level (NEW - With Clearinghouse Data)**:
-6. **What leverage do ADL'd positions have?** → Median 0.15x (95th pct 3.22x, 99th pct 13.65x)
-7. **How profitable are ADL'd positions?** → 94.5% profitable, avg +80.6% PNL
-8. **Does ADL target high leverage?** → NO - targets high PROFIT
-9. **What are entry prices?** → Calculated for 34,983 positions (100% coverage)
-10. **Which accounts have highest risk?** → Tracked across 437,723 accounts
+6. **What leverage do ADL'd positions have?** -> Median 0.15x (95th pct 3.22x, 99th pct 13.65x)
+7. **How profitable are ADL'd positions?** -> 94.5% profitable, avg +80.6% PNL
+8. **Does ADL target high leverage?** -> NO - targets high PROFIT
+9. **What are entry prices?** -> Calculated for 34,983 positions (100% coverage)
+10. **Which accounts have highest risk?** -> Tracked across 437,723 accounts
 
 ### Citation
 
@@ -604,28 +604,28 @@ Key Finding: ADL targets PROFIT (94.5% profitable), not leverage (median 0.15x).
 
 ---
 
-## 📊 Position-Level Data: What's Available
+## Position-Level Data: What's Available
 
 **For researchers analyzing individual positions**, here's what data we have:
 
-### ✅ Available in `adl_detailed_analysis_REALTIME.csv` (34,983 ADL'd positions - 100% Coverage)
+### Available in `adl_detailed_analysis_REALTIME.csv` (34,983 ADL'd positions - 100% Coverage)
 
-**🆕 REAL-TIME RECONSTRUCTION COMPLETE** - All metrics calculated at exact ADL moment for the FULL 12-minute cascade!
+** REAL-TIME RECONSTRUCTION COMPLETE** - All metrics calculated at exact ADL moment for the FULL 12-minute cascade!
 
 | What You Need | Column Name | Description |
 |---------------|-------------|-------------|
 | **Absolute PNL** | `position_unrealized_pnl` | Unrealized PNL at ADL time (real-time) |
-|  | `closed_pnl` | Realized PNL from blockchain |
+| | `closed_pnl` | Realized PNL from blockchain |
 | **% PNL** | `pnl_percent` | Percentage PNL (unrealized_pnl / notional × 100) |
-| **Leverage ratio (REAL-TIME)** | `leverage_realtime` | Position notional / **real-time account value** ✅ |
+| **Leverage ratio (REAL-TIME)** | `leverage_realtime` | Position notional / **real-time account value** |
 | **Side (long/short)** | `position_size` | Positive = LONG, Negative = SHORT |
-| **Whether ADL'd** | All rows | Every row is an ADL'd position ✅ |
+| **Whether ADL'd** | All rows | Every row is an ADL'd position |
 | **Entry price** | `entry_price` | Calculated from fills |
 | **ADL price** | `adl_price` | Price at which ADL occurred |
-| **Account value (REAL-TIME)** | `account_value_realtime` | **Reconstructed at ADL moment** ✅ |
-| **Total unrealized PNL** | `total_unrealized_pnl` | All positions, real-time prices ✅ |
-| **Total equity** | `total_equity` | Cash + total unrealized PNL ✅ |
-| **Negative equity** | `is_negative_equity` | TRUE if equity < 0 ✅ |
+| **Account value (REAL-TIME)** | `account_value_realtime` | **Reconstructed at ADL moment** |
+| **Total unrealized PNL** | `total_unrealized_pnl` | All positions, real-time prices |
+| **Total equity** | `total_equity` | Cash + total unrealized PNL |
+| **Negative equity** | `is_negative_equity` | TRUE if equity < 0 |
 | **Position size** | `position_size` | Size of position before ADL |
 | **Notional value** | `adl_notional` | Position value (size × price) |
 | **Asset** | `coin` | Ticker (BTC, ETH, SOL, etc.) |
@@ -633,36 +633,36 @@ Key Finding: ADL targets PROFIT (94.5% profitable), not leverage (median 0.15x).
 | **User address** | `user` | Anonymized address |
 | **Liquidated counterparty** | `liquidated_user` | Who got liquidated |
 
-### ✅ Real-Time Reconstruction Achievement
+### Real-Time Reconstruction Achievement
 
 **We processed 3.2M events to reconstruct exact account states (FULL 12-minute cascade):**
 
 **Data processed**:
-- ✅ Snapshot at block 758750000 (20:04:54 UTC) - 437,723 accounts
-- ✅ All fills with `closedPnl` (3.2M fills processed)
-- ✅ All funding events (from misc events)
-- ✅ All deposits/withdrawals (from ledger updates)
-- ✅ Real-time price tracking (last traded price per asset)
+- Snapshot at block 758750000 (20:04:54 UTC) - 437,723 accounts
+- All fills with `closedPnl` (3.2M fills processed)
+- All funding events (from misc events)
+- All deposits/withdrawals (from ledger updates)
+- Real-time price tracking (last traded price per asset)
 
 **Reconstruction process**:
-1. ✅ Started with snapshot account values
-2. ✅ Looped through all **3,239,706 events** chronologically (FULL 12 minutes)
-3. ✅ Updated account value: `account_value += closedPnl` for each fill
-4. ✅ Processed funding events from misc events
-5. ✅ Processed deposit/withdrawal events
-6. ✅ Calculated unrealized PNL using real-time prices
-7. ✅ Got account value at **exact ADL moment**
+1. Started with snapshot account values
+2. Looped through all **3,239,706 events** chronologically (FULL 12 minutes)
+3. Updated account value: `account_value += closedPnl` for each fill
+4. Processed funding events from misc events
+5. Processed deposit/withdrawal events
+6. Calculated unrealized PNL using real-time prices
+7. Got account value at **exact ADL moment**
 
 **Results**:
-- ✅ Real-time account values at every ADL moment
-- ✅ Accurate negative equity detection (1,275 accounts identified)
-- ✅ Precise leverage ratios (median 0.15x)
-- ✅ Insurance fund impact quantified ($126.0M)
-- ✅ **100% event coverage** (34,983 ADL events)
+- Real-time account values at every ADL moment
+- Accurate negative equity detection (1,275 accounts identified)
+- Precise leverage ratios (median 0.15x)
+- Insurance fund impact quantified ($126.0M)
+- **100% event coverage** (34,983 ADL events)
 
 **Methodology**: [full_analysis_realtime.py](full_analysis_realtime.py)
 
-### 📥 How to Access the Data
+### How to Access the Data
 
 **Option 1: Download from GitHub**
 ```bash
@@ -692,9 +692,9 @@ print('Negative equity accounts:', df['is_negative_equity'].sum())
 print('Total negative equity:', df.loc[df['is_negative_equity'], 'total_equity'].sum())
 ```
 
-> 🧪 Run `python3 verify_all_findings.py` for the full automated test suite.
+> Run `python3 verify_all_findings.py` for the full automated test suite.
 
-### 📋 Complete Column Reference
+### Complete Column Reference
 
 **adl_detailed_analysis_REALTIME.csv** columns:
 1. `user` – User address (string)
@@ -718,27 +718,27 @@ print('Total negative equity:', df.loc[df['is_negative_equity'], 'total_equity']
 ---
 ---
 
-## 📧 Questions?
+## Questions?
 
-### 📖 For Researchers
-- **How to reproduce this analysis?**: See **`COMPLETE_METHODOLOGY.md`** 📘 ← **START HERE**
+### For Researchers
+- **How to reproduce this analysis?**: See **`COMPLETE_METHODOLOGY.md`** ← **START HERE**
 - **What data sources were used?**: See `COMPLETE_METHODOLOGY.md` (Section: Data Sources)
 - **How to obtain clearinghouse data?**: See `COMPLETE_METHODOLOGY.md` (Section: Data Acquisition)
 - **How to reconcile multiple data sources?**: See `COMPLETE_METHODOLOGY.md` (Section: Data Reconciliation)
 
-### 🔬 For Findings
-- **ADL prioritization?**: See `ADL_PRIORITIZATION_VERIFIED.md` 🎯 **MAJOR DISCOVERY**
-- **Per-asset isolation?**: See `PER_ASSET_ISOLATION.md` 🚨
-- **Why separate chunks?**: See `BATCH_PROCESSING_DISCOVERY.md` 💥
-- **When does ADL activate?**: See `CASCADE_TIMING_ANALYSIS.md` 🔥
-- **How ADL works**: See `ADL_MECHANISM_RESEARCH.md` 🔬
+### For Findings
+- **ADL prioritization?**: See `ADL_PRIORITIZATION_VERIFIED.md` **MAJOR DISCOVERY**
+- **Per-asset isolation?**: See `PER_ASSET_ISOLATION.md` 
+- **Why separate chunks?**: See `BATCH_PROCESSING_DISCOVERY.md` 
+- **When does ADL activate?**: See `CASCADE_TIMING_ANALYSIS.md` 
+- **How ADL works**: See `ADL_MECHANISM_RESEARCH.md` 
 
-### 📊 For Data
+### For Data
 - **Net volume analysis**: See `ADL_NET_VOLUME_FULL_12MIN.md`
 - **Processing scripts**: `extract_full_12min_adl.py`, `full_analysis_realtime.py`, `verify_all_findings.py`
 - **Individual fills**: `adl_fills_full_12min_raw.csv` (blockchain ADL events)
 
-### 📁 Clearinghouse Data Files (this repository)
+### Clearinghouse Data Files (this repository)
 
 **Canonical Outputs (Real-Time):**
 - `adl_detailed_analysis_REALTIME.csv` – 34,983 ADL events with real-time metrics (canonical dataset)
@@ -759,7 +759,7 @@ print('Total negative equity:', df.loc[df['is_negative_equity'], 'total_equity']
 
 ---
 
-## 🔗 Related Analysis
+## Related Analysis
 
 - **Position-level Analysis**: `~/Desktop/ADL Clean/` (BTC & SOL positions)
 - **GitHub Repository**: https://github.com/ConejoCapital/HyperAnalyzeADL
@@ -767,7 +767,7 @@ print('Total negative equity:', df.loc[df['is_negative_equity'], 'total_equity']
 
 ---
 
-## 🚀 What Makes This Special
+## What Makes This Special
 
 ### Largest Known ADL Event Analysis
 - **$2.1 BILLION** in 12 minutes
@@ -778,30 +778,30 @@ print('Total negative equity:', df.loc[df['is_negative_equity'], 'total_equity']
 ### Complete Dataset (Multiple Levels)
 
 **Event-Level Data**:
-- ✅ Full 12-minute event (not sampled)
-- ✅ All assets (not just BTC/SOL)
-- ✅ Individual fill data included
-- ✅ Reproducible code provided
+- Full 12-minute event (not sampled)
+- All assets (not just BTC/SOL)
+- Individual fill data included
+- Reproducible code provided
 
 **Account-Level Data** (NEW - Clearinghouse):
-- ✅ **437,723 accounts** reconstructed in real-time
-- ✅ **3,239,706 events** processed chronologically (fills, funding, deposits)
-- ✅ **34,983 ADL events** with real-time leverage, PNL, entry price
-- ✅ **1,275 negative-equity accounts** (insurance impact quantified)
-- ✅ **First analysis** with complete protocol state and real-time account values
+- **437,723 accounts** reconstructed in real-time
+- **3,239,706 events** processed chronologically (fills, funding, deposits)
+- **34,983 ADL events** with real-time leverage, PNL, entry price
+- **1,275 negative-equity accounts** (insurance impact quantified)
+- **First analysis** with complete protocol state and real-time account values
 
 ### Academic Quality
-- ✅ Blockchain-verified (no heuristics)
-- ✅ Comprehensive documentation
-- ✅ Raw data available (event + clearinghouse)
-- ✅ Methodology fully explained
-- ✅ **Zero speculation** - all empirical
+- Blockchain-verified (no heuristics)
+- Comprehensive documentation
+- Raw data available (event + clearinghouse)
+- Methodology fully explained
+- **Zero speculation** - all empirical
 
 ---
 
-**Analysis Date**: November 7, 2025 (Event Data) | November 12, 2025 (Clearinghouse Data)  
-**Data Quality**: ⭐⭐⭐⭐⭐ (Blockchain-verified, complete dataset + clearinghouse state)  
-**Time Coverage**: FULL 12-minute event (21:15-21:27 UTC)  
-**Scope**: All 162 affected tickers + 437,723 accounts  
-**Status**: ✅ **COMPLETE - Event + Account-Level Data - Ready for research and publication**
+**Analysis Date**: November 7, 2025 (Event Data) | November 12, 2025 (Clearinghouse Data) 
+**Data Quality**: (Blockchain-verified, complete dataset + clearinghouse state) 
+**Time Coverage**: FULL 12-minute event (21:15-21:27 UTC) 
+**Scope**: All 162 affected tickers + 437,723 accounts 
+**Status**: **COMPLETE - Event + Account-Level Data - Ready for research and publication**
 
