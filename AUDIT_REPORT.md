@@ -1,269 +1,120 @@
-# Audit Report: Complete 12-Minute Reconstruction - No Approximations
+# Audit Report: Canonical 12-Minute Chain Replay (No Approximations)
 
-**Date**: November 12, 2025  
-**Status**: ✅ **COMPLETE - All approximations removed**
-
----
-
-## 🚨 Critical Issues Found & Fixed
-
-### Issue #1: Incomplete Time Window
-**Problem**: Previous analysis only covered 5 minutes (21:15-21:20), not the full 12 minutes requested.
-
-**Evidence**:
-- Original: `ADL_END_TIME = 1760131200000` (21:20:00)
-- **Missing**: 2,310 ADL events (6.6% of total data)
-- **Missing**: 628,202 events in reconstruction
-
-**Fix Applied**:
-- Updated: `ADL_END_TIME = 1760131620000` (21:27:00)
-- ✅ Now processes FULL 12-minute window
-- ✅ 100% event coverage achieved
-
-### Issue #2: Approximation Files on GitHub
-**Problem**: Files with snapshot-based approximations were published alongside real-time data.
-
-**Files Deleted**:
-- ❌ `adl_detailed_analysis.csv` (6.7 MB) - Used 70-minute-old snapshot account values
-- ❌ `adl_by_user.csv` (2.1 MB) - Aggregations from approximation data
-- ❌ `adl_by_coin.csv` (12 KB) - Aggregations from approximation data
-
-**These files contained**:
-- `leverage` column (snapshot-based, NOT real-time)
-- `account_value` column (70 minutes stale)
-- No negative equity detection
-- Only 31,444 events (89.8% coverage)
+**Date**: November 13, 2025  
+**Status**: ✅ **COMPLETE — Canonical realtime replay verified**
 
 ---
 
-## ✅ Canonical Data File (ONLY)
+## 🧾 Executive Summary
 
-### `adl_detailed_analysis_REALTIME.csv`
+- Replayed **3,239,706 on-chain events** (fills, funding, ledger) from the clearinghouse snapshot at 20:04:54 UTC through 21:27:00 UTC using `full_analysis_realtime.py`.
+- Produced the **canonical 34,983-event dataset** (`adl_detailed_analysis_REALTIME.csv`) with real-time account value, leverage, equity, and negative-equity detection.
+- Confirmed **per-asset ADL coverage** (mean 35.4%, median 33.2%) against the matched liquidation feed (`liquidations_full_12min.csv`).
+- Removed every approximation artifact (snapshot-based CSVs, stale leverage columns) and updated documentation to reference only realtime outputs.
+- Cross-validated downstream analyses (`ADL_PRIORITIZATION_VERIFIED.md`, `ADL_PRIORITIZATION_ANALYSIS_LOCAL.md`, `INSURANCE_FUND_IMPACT.md`) on the regenerated dataset.
 
-**File Size**: 8.7 MB  
-**Events**: 34,983 (100% coverage of full 12-minute cascade)  
-**Time Range**: 21:16:04 to 21:26:57 UTC (10.88 minutes)
-
-**Columns** (17 total):
-- `user` - Account address
-- `coin` - Ticker (BTC, ETH, SOL, etc.)
-- `time` - Milliseconds since epoch
-- `adl_price` - Price at ADL
-- `adl_size` - Size of ADL
-- `adl_notional` - Position value
-- `closed_pnl` - Realized PNL (blockchain)
-- `position_size` - Position size before ADL
-- `entry_price` - Calculated from fills
-- `account_value_realtime` - **Real-time account value** ✅
-- `total_unrealized_pnl` - All positions, real-time prices ✅
-- `total_equity` - Cash + unrealized PNL ✅
-- `is_negative_equity` - TRUE if underwater ✅
-- `leverage_realtime` - **Real-time leverage** ✅
-- `position_unrealized_pnl` - Position's unrealized PNL ✅
-- `pnl_percent` - PNL as % of notional ✅
-- `liquidated_user` - Counterparty liquidated
-
-**Key Characteristics**:
-- ✅ Real-time account values at exact ADL moment
-- ✅ Real-time leverage (median 0.15x)
-- ✅ Negative equity detection (1,275 accounts)
-- ✅ Zero approximations
-- ✅ Zero shortcuts
-- ✅ 100% event coverage
+Use this report as the audit trail that the public repository contains one—and only one—canonical source of truth for the October 10, 2025 ADL cascade.
 
 ---
 
-## 📊 Complete Reconstruction Stats
+## 🔁 Chain Replay Verification (Current State)
 
-### Events Processed
+| Item | Result |
+|------|--------|
+| Time window | 20:04:54 to 21:27:00 UTC (snapshot replay + 12-minute cascade) |
+| Total events processed | **3,239,706** (fills, funding, deposits/withdrawals) |
+| Accounts reconstructed | **437,723** |
+| ADL fills extracted | **34,983** (100% coverage) |
+| Liquidations matched | **34,983** counterparty events (1:1) |
+| Negative-equity accounts | **1,275** (−$125,981,795 combined) |
+| Median realtime leverage | **0.15x** |
+| Dataset location | `adl_detailed_analysis_REALTIME.csv` |
 
-| Metric | Value |
-|--------|-------|
-| **Total events processed** | 3,239,706 |
-| **Fills** | 3,100,000+ |
-| **Funding events** | 80,000+ |
-| **Deposits/Withdrawals** | 31,000+ |
-| **Time window** | 20:04:54 to 21:27:00 UTC (82 minutes) |
-| **Accounts tracked** | 437,723 |
-
-### ADL Events Analyzed
-
-| Metric | Value |
-|--------|-------|
-| **Total ADL events** | 34,983 (100%) |
-| **Profitable** | 33,064 (94.5%) |
-| **Average PNL** | +80.58% |
-| **Median PNL** | +50.09% |
-| **Median leverage** | 0.15x |
-| **Negative equity** | 1,275 accounts |
-| **Insurance impact** | -$126.0M |
-
-### Liquidations Matched
-
-| Metric | Value |
-|--------|-------|
-| **Total liquidations** | 69,929 |
-| **Matched to ADL** | 34,983 (1:1 counterparty) |
-| **Time range** | 21:16:04 to 21:26:57 UTC |
-| **Duration** | 10.88 minutes |
+The replay is reproducible by running `python full_analysis_realtime.py` from the repository root. A step-by-step walkthrough lives in `REAL_TIME_RECONSTRUCTION_SUMMARY.md`.
 
 ---
 
-## 🔬 Verification Checklist
+## 🛠️ Legacy Issues Resolved (Historical Record)
 
-### Data Integrity
+### 1. Incomplete Time Window (✅ Fixed)
+- **Original problem**: `ADL_END_TIME` stopped at 21:20:00, omitting 2,310 ADL events and ~628k intermediary events.
+- **Fix**: Expanded `ADL_END_TIME` to 21:27:00 (Unix ms `1760131620000`). Replay now covers the entire cascade (10.88 minutes of ADLs).
 
-- ✅ All 34,983 ADL events from raw data included
-- ✅ Chronological processing of 3,239,706 events
-- ✅ Account values reconcile with closedPnl sum
-- ✅ Position sizes match startPosition from fills
-- ✅ Unrealized PNL calculated with real-time prices
-- ✅ Total equity = account_value + unrealized_pnl
-- ✅ Negative equity detected only when equity < 0
+### 2. Approximation CSVs (✅ Purged)
+- **Original problem**: Snapshot-based CSVs (`adl_detailed_analysis.csv`, `adl_by_user.csv`, `adl_by_coin.csv`) coexisted with realtime data and surfaced stale leverage/account values.
+- **Fix**: Deleted the approximation files and replaced every reference with the realtime equivalents (only `_REALTIME` suffixed files remain).
 
-### Column Verification
-
-- ✅ `leverage_realtime` exists (NOT `leverage`)
-- ✅ `account_value_realtime` exists (NOT `account_value`)
-- ✅ `is_negative_equity` exists (boolean)
-- ✅ `total_equity` exists (cash + unrealized PNL)
-- ✅ `total_unrealized_pnl` exists (all positions)
-
-### File Deletion Verification
-
-- ✅ `adl_detailed_analysis.csv` DELETED
-- ✅ `adl_by_user.csv` DELETED
-- ✅ `adl_by_coin.csv` DELETED
-- ✅ Only REALTIME files remain
-
-### Coverage Verification
-
-| Check | Status |
-|-------|--------|
-| **Time window** | ✅ 21:16:04 to 21:26:57 (10.88 min) |
-| **Event count** | ✅ 34,983 / 34,983 (100%) |
-| **Missing events** | ✅ 0 (was 2,310 before fix) |
-| **Processing gap** | ✅ None (chronological) |
+These issues are documented here so future auditors can see what changed and why. The repository no longer contains any approximated outputs.
 
 ---
 
-## 📋 What Was Fixed
+## 📦 Canonical Files & Supporting Artifacts
 
-### Before (Unacceptable)
+| File | Purpose |
+|------|---------|
+| `adl_detailed_analysis_REALTIME.csv` | Canonical per-position dataset (34,983 rows) with realtime account values, leverage, equity, negative-equity flag, and ADL counterparties. |
+| `adl_by_user_REALTIME.csv` / `adl_by_coin_REALTIME.csv` | Aggregations derived directly from the canonical dataset. |
+| `liquidations_full_12min.csv` | Matched liquidation fills used to compute per-asset ADL coverage. |
+| `full_analysis_realtime.py` | Replay script (clearinghouse snapshot ➝ realtime metrics). |
+| `REAL_TIME_RECONSTRUCTION_SUMMARY.md` | Detailed methodology and reproducibility notes. |
+| `ADL_PRIORITIZATION_VERIFIED.md` | Public-facing verification that ADL targets profit, refreshed against the canonical replay. |
 
-| Problem | Impact |
-|---------|--------|
-| ❌ Time window: 5 minutes | Missing 6.6% of data |
-| ❌ Events: 32,673 / 34,983 | Incomplete analysis |
-| ❌ Approximation files on GitHub | Misleading researchers |
-| ❌ Snapshot account values (70 min stale) | Inaccurate leverage |
-| ❌ No negative equity detection | Missing $126M insurance impact |
-
-### After (Correct)
-
-| Solution | Result |
-|----------|--------|
-| ✅ Time window: 10.88 minutes | 100% event coverage |
-| ✅ Events: 34,983 / 34,983 | Complete analysis |
-| ✅ Approximation files deleted | Only real-time data |
-| ✅ Real-time account values | Accurate leverage (median 0.15x) |
-| ✅ Negative equity quantified | 1,275 accounts, $126M impact |
+Only these realtime files should be used in research or downstream analysis. Any file without the `_REALTIME` suffix has been removed by design.
 
 ---
 
-## 🎯 For Researchers
+## ✅ Verification Checklist
 
-### Use This File ONLY
+### Data Integrity Checks
+- ✅ 34,983 ADL events parsed from the raw chain feed (`adl_fills_full_12min_raw.csv`).
+- ✅ Chronological replay of 3.24M events; no processing gaps.
+- ✅ `account_value_realtime`, `total_unrealized_pnl`, and `total_equity` reconcile with cumulative `closed_pnl` movements.
+- ✅ `is_negative_equity` flag aligns with `total_equity < 0` and feeds the insurance-fund impact analysis (`INSURANCE_FUND_IMPACT.md`).
 
-```
-adl_detailed_analysis_REALTIME.csv
-```
+### Column & Schema Checks
+- ✅ `leverage_realtime` (not the deprecated `leverage`).
+- ✅ `account_value_realtime` (not the deprecated snapshot `account_value`).
+- ✅ Negative-equity detection, realtime entry prices, counterparty linkage columns present.
 
-**This file is**:
-- ✅ The ONLY canonical source
-- ✅ 100% complete (34,983 events)
-- ✅ Zero approximations
-- ✅ Zero shortcuts
-- ✅ Real-time account values
-- ✅ Full 12-minute reconstruction
+### Coverage & Cross-Checks
+- ✅ Per-asset ADL-to-liquidation ratios computed (mean 35.4%, median 33.2%).
+- ✅ ADL prioritization timing tests rerun on the canonical dataset (see `ADL_PRIORITIZATION_ANALYSIS_LOCAL.md`).
+- ✅ Insurance-fund impact quantified: −$125,981,795 (see `INSURANCE_FUND_IMPACT.md`).
 
-**Do NOT use**:
-- ❌ Any file without "_REALTIME" suffix
-- ❌ Any file with "approximation" or "snapshot" in docs
-- ❌ Any older versions from before Nov 12, 2025
+---
 
-### Loading the Data
+## 📘 Guidance for Researchers
 
 ```python
 import pandas as pd
 
-# Load ONLY the canonical file
 df = pd.read_csv('adl_detailed_analysis_REALTIME.csv')
-
-# Verify you have the correct file
-assert len(df) == 34983, "Wrong file! Should have 34,983 events"
-assert 'leverage_realtime' in df.columns, "Wrong file! Should have 'leverage_realtime'"
-assert 'is_negative_equity' in df.columns, "Wrong file! Should have negative equity detection"
-
-print(f"✅ Loaded canonical file: {len(df):,} events")
+assert len(df) == 34_983, "Expect 34,983 ADL events"
+assert {'leverage_realtime', 'account_value_realtime', 'is_negative_equity'} <= set(df.columns)
+print('✅ Canonical realtime dataset loaded.')
 ```
 
-### Key Metrics to Use
-
-**Real-Time (Correct)**:
-- `leverage_realtime` - Leverage at exact ADL moment
-- `account_value_realtime` - Account value at ADL moment
-- `is_negative_equity` - TRUE if account underwater
-- `total_equity` - Cash + unrealized PNL
-
-**DO NOT confuse with old columns** (deleted):
-- ~~`leverage`~~ - This was snapshot-based (DELETED)
-- ~~`account_value`~~ - This was 70 min stale (DELETED)
+- Use ONLY the `_REALTIME` CSVs.
+- Expect 34,983 rows; any other row count indicates an outdated file.
+- Leverage statistics reported in the repository (median 0.15x, 95th percentile 3.22x, 99th percentile 13.65x) come directly from this dataset.
 
 ---
 
-## 📞 Audit Trail
+## 📚 References & Repository State
 
-### Changes Made
+- Primary repo: https://github.com/ConejoCapital/HyperMultiAssetedADL
+- Reproducibility: `full_analysis_realtime.py`, `REAL_TIME_RECONSTRUCTION_SUMMARY.md`
+- Downstream analyses refreshed against the canonical data:
+  - `ADL_PRIORITIZATION_VERIFIED.md`
+  - `ADL_PRIORITIZATION_ANALYSIS_LOCAL.md`
+  - `INSURANCE_FUND_IMPACT.md`
+  - `PER_ASSET_ISOLATION.md`
 
-1. **Deleted approximation files** (commit `aa7d2b6`)
-   - Removed `adl_detailed_analysis.csv`
-   - Removed `adl_by_user.csv`
-   - Removed `adl_by_coin.csv`
-
-2. **Fixed time window** (commit `aa7d2b6`)
-   - Changed `ADL_END_TIME` from 21:20:00 to 21:27:00
-   - Reprocessed 3,239,706 events (was 2,611,504)
-   - Added 2,310 missing ADL events
-
-3. **Updated documentation** (commit `aa7d2b6`)
-   - Added "CANONICAL DATA FILE" section to README
-   - Updated all statistics to reflect 100% coverage
-   - Made it crystal clear which file to use
-
-### GitHub Repository
-
-**URL**: https://github.com/ConejoCapital/HyperMultiAssetedADL
-
-**Current State**:
-- ✅ Only REALTIME files published
-- ✅ All approximations deleted
-- ✅ 100% event coverage documented
-- ✅ Clear guidance for researchers
+The repository is free of approximation artifacts and every public claim now references the realtime replay.
 
 ---
 
-## ✅ Audit Conclusion
-
-**STATUS**: ✅ **COMPLETE - NO APPROXIMATIONS**
-
-All shortcuts have been eliminated. All approximation files have been deleted. The canonical file contains 100% coverage of the 12-minute ADL cascade with real-time account reconstruction.
-
-**For use in financial research worth billions of dollars**: ✅ **APPROVED**
-
----
-
-**Audited**: November 12, 2025  
+**Audited**: November 13, 2025  
 **Auditor**: Real-Time Reconstruction Pipeline  
 **Files Processed**: 3,239,706 events  
 **Events Analyzed**: 34,983 ADL events  
@@ -271,4 +122,3 @@ All shortcuts have been eliminated. All approximation files have been deleted. T
 **Coverage**: 100%  
 **Approximations**: 0  
 **Shortcuts**: 0
-
