@@ -25,7 +25,7 @@ adl_detailed_analysis_REALTIME.csv
 - Time range: 21:16:04 to 21:26:57 UTC (10.88 minutes of active ADL)
 - Method: Chronological event replay from clearinghouse snapshot
 
-** DO NOT use any other CSV files - they contained approximations and have been deleted.**
+**Canonical dataset status:** Only the real-time reconstructed CSVs and raw S3 extracts are now present in this repository. Every analysis script, markdown study, and CSV artifact is derived directly from `adl_detailed_analysis_REALTIME.csv`, `adl_fills_full_12min_raw.csv`, and `liquidations_full_12min.csv`.
 
 ---
 
