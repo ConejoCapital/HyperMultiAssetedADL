@@ -1,8 +1,11 @@
 # Real-Time Account Reconstruction: Complete Analysis Summary
 
-**Date**: November 12, 2025  
+**Date**: November 13, 2025  
 **Event**: October 10, 2025 Hyperliquid Cascade (21:15-21:27 UTC)  
-**Status**: ✅ **COMPLETE - No Approximations**
+**Status**: ✅ **COMPLETE – Canonical Replay, No Approximations**
+
+> Associated script: `analysis_scripts/insurance_fund_impact.py`  
+> Automated regression: `python3 verify_all_findings.py` (Tests 5/7 + overall integrity)
 
 ---
 
@@ -36,12 +39,14 @@ You requested the **true anatomy of the ADL event** with **no approximations**. 
 - ✅ Insurance fund impact **quantified** ($126.0M)
 - ✅ Total equity = cash + unrealized PNL (all positions)
 
-**Results**:
+**Results (Canonical Replay)**:
 - **34,983 ADL events** analyzed (100% coverage)
 - **94.5% profitable** (real-time)
 - **Median leverage: 0.15x** (95th pct 3.22x, 99th pct 13.65x)
-- **1,275 accounts underwater** (-$126.0M)
-- **NO APPROXIMATIONS**
+- **1,275 accounts underwater** (aggregate **−$125,981,795**)
+- **Total ADL notional**: **$2,103,111,431**
+- **Insurance coverage required**: **$126.0M**
+- **Primary outputs**: `adl_detailed_analysis_REALTIME.csv`, `realtime_analysis_summary.json`
 
 ---
 
@@ -307,8 +312,9 @@ print(f"Profitable: {len(profitable):,} ({len(profitable)/len(df)*100:.1f}%)")
 - ✅ Real-time leverage > snapshot leverage (expected)
 - ✅ 94.5% profitable (confirms profit-based prioritization)
 - ✅ 2.71% underwater (reasonable for extreme cascade)
-- ✅ Insurance impact = sum of negative equity
-- ✅ Event counts reconcile with S3 data
+- ✅ Insurance impact = sum of negative equity (`analysis_scripts/insurance_fund_results.json`)
+- ✅ Event counts reconcile with S3 data (`analysis_scripts/total_impact_results.json`)
+- ✅ `python3 verify_all_findings.py` passes Tests 1–7 (see `FINDINGS_VERIFICATION_REPORT.md`)
 
 ---
 
@@ -361,10 +367,10 @@ Key Finding: 1,275 accounts underwater, $126.0M insurance fund coverage required
 
 ---
 
-**Generated**: November 12, 2025  
+**Generated**: November 13, 2025  
 **Analysis Period**: October 10, 2025, 21:15:00 - 21:27:00 UTC  
 **Processing Time**: ~6 minutes  
 **Events Processed**: 3,239,706  
 **Accounts Tracked**: 437,723  
-**Status**: ✅ **COMPLETE - TRUE ANATOMY REVEALED**
+**Status**: ✅ **COMPLETE – True Anatomy Verified via Canonical Replay**
 
