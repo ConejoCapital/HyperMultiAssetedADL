@@ -1,29 +1,28 @@
 # Per-Asset Isolation Analysis - GitHub Deployment Summary
 
-**Date:** November 11, 2025  
+**Date:** November 13, 2025  
 **Repository:** https://github.com/ConejoCapital/HyperMultiAssetedADL  
-**Commit:** `d7a57f0` - "Add per-asset isolation analysis - Zero ADL contagion proven"
+**Commit:** `a1dd8d1` + latest canonical replay updates (per-asset isolation reverified)
 
 ---
 
 ## ✅ What Was Deployed
 
-### New Files Added
+### Canonical Replay Refresh (November 13, 2025)
 
-1. **`PER_ASSET_ISOLATION.md`** (13.4 KB)
-   - Complete analysis of per-asset ADL isolation
-   - Evidence from 100 timestamps
-   - 0/100 cases of cross-asset ADL contamination
-   - Architectural implications
-   - Market vs ADL contagion distinction
+1. **`PER_ASSET_ISOLATION.md`**
+   - Re-run on the canonical 12-minute dataset (`adl_fills_full_12min_raw.csv`, `liquidations_full_12min.csv`).
+   - Verifies **0/100** cross-asset ADL cases using real-time reconstructed account data.
+   - Documents that every ADL ticker is a subset of liquidation tickers at the same timestamp.
+   - Notes automated coverage through `verify_all_findings.py` (Per-Asset Isolation suite).
 
-### Updated Files
+2. **`README.md`**
+   - Updated canonical-data callouts and cross-links to `FINDINGS_VERIFICATION_REPORT.md`.
+   - Emphasizes that per-asset isolation is backed by the full replay rather than snapshot approximations.
 
-2. **`README.md`** (16.5 KB)
-   - Added prominent "CRITICAL FINDING" section near top
-   - Explains ADL contagion myth vs reality
-   - Clear distinction between market and ADL contagion
-   - Updated Questions section to reference new document
+3. **`DEPLOYMENT_SUMMARY_PER_ASSET_ISOLATION.md`** (this file)
+   - Summarizes the canonical replay refresh.
+   - Updates metrics and references (96.74% ticker overlap, 34,983 ADLs, 63,637 liquidations).
 
 ---
 
@@ -41,9 +40,10 @@
 
 | Metric | Result |
 |--------|--------|
-| **Timestamps analyzed** | 100 (with both liquidations and ADL) |
+| **Timestamps analyzed** | 100 (liquidations + ADL in same timestamp) |
 | **Cross-asset ADL cases** | **0 (ZERO)** |
-| **Ticker overlap** | 96.36% |
+| **ADL tickers outside liquidation set** | **0 (ZERO)** |
+| **Ticker overlap (Jaccard, first 100)** | 96.74% |
 | **Perfect 1:1 ratio** | 44/44 tickers at biggest burst |
 
 ---
@@ -119,7 +119,7 @@ PERFECT ISOLATION
 
 1. **Zero cross-asset ADL contamination** (0/100 cases)
 2. **Perfect 1:1 matching per asset** (when ADL fires)
-3. **96.36% ticker overlap** (high isolation consistency)
+3. **96.74% ticker overlap** (high isolation consistency)
 4. **Independent ADL engines** (architectural inference)
 
 ### Disproves Common Assumptions:
@@ -143,7 +143,7 @@ PERFECT ISOLATION
 
 ✅ **"Analysis of 100 timestamps with 98,620 events reveals zero cases of cross-asset ADL contamination"**
 
-✅ **"Each asset operates with independent ADL engines, achieving 96.36% ticker isolation"**
+✅ **"Each asset operates with independent ADL engines, achieving 96.74% ticker isolation"**
 
 ✅ **"While market dynamics cause price contagion across assets, Hyperliquid's ADL mechanism maintains complete per-asset isolation"**
 
@@ -167,7 +167,7 @@ PERFECT ISOLATION
 |------|---------|-------------|
 | **PER_ASSET_ISOLATION.md** 🚨 NEW | Per-asset isolation proof | 0/100 cross-asset cases |
 | **BATCH_PROCESSING_DISCOVERY.md** 💥 | Sequential batch execution | Liquidations → ADL order |
-| **CASCADE_TIMING_ANALYSIS.md** 🔥 | 61-second delay discovery | Threshold-based activation |
+| **CASCADE_TIMING_ANALYSIS.md** 🔥 | ~64-second delay discovery | Threshold-based activation |
 | **ADL_MECHANISM_RESEARCH.md** 🔬 | Counterparty analysis | $174M ETH ↔ 265 liquidations |
 | **TOTAL_IMPACT_ANALYSIS.md** | Complete cascade | $7.6B total impact |
 
@@ -175,8 +175,9 @@ PERFECT ISOLATION
 
 | File | Description | Size |
 |------|-------------|------|
-| **adl_fills_full_12min_raw.csv** | All 34,983 ADL fills | 5.2 MB |
-| **liquidations_full_12min.csv** | All 63,637 liquidations | 9.8 MB |
+| **adl_fills_full_12min_raw.csv** | All 34,983 ADL fills (canonical) | 5.2 MB |
+| **liquidations_full_12min.csv** | All 63,637 liquidations (canonical) | 9.8 MB |
+| **adl_detailed_analysis_REALTIME.csv** | Real-time leverage + equity metrics | 8.7 MB |
 | **combined_impact_by_ticker.csv** | Summary by ticker | 18 KB |
 | **adl_net_volume_full_12min.csv** | ADL summary | 11 KB |
 
@@ -265,7 +266,7 @@ HyperMultiAssetedADL/
 
 **What we proved:**
 - Zero ADL contagion (0/100 cases)
-- Perfect per-asset isolation (96.36% overlap)
+- Perfect per-asset isolation (96.74% overlap)
 - Independent ADL engines (architectural)
 - Market vs ADL contagion distinction
 
@@ -275,11 +276,11 @@ HyperMultiAssetedADL/
 - Clear myth-busting messaging
 - Academic-quality evidence
 
-**Status:** ✅ **DEPLOYMENT COMPLETE**
+**Status:** ✅ **CANONICAL DATA VERIFIED**
 
 **Repository:** https://github.com/ConejoCapital/HyperMultiAssetedADL  
-**Commit:** `d7a57f0`  
-**Date:** November 11, 2025
+**Commit:** `a1dd8d1`  
+**Date:** November 13, 2025
 
 ---
 
