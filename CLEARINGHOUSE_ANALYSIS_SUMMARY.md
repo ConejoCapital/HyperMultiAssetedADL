@@ -1,396 +1,153 @@
-# Complete Clearinghouse Analysis - October 10, 2025 ADL Event
+# Clearinghouse Analysis Summary – Canonical Real-Time Replay
 
-**Analysis Date**: November 12, 2025  
-**Event Date**: October 10, 2025, 21:15-21:20 UTC  
-**Data Source**: Hyperliquid Clearinghouse Snapshot + Complete Event History  
-**Status**: ✅ **COMPLETE**
+**Analysis Date**: November 13, 2025  
+**Event Window**: October 10, 2025, 21:15-21:27 UTC  
+**Data Sources**: Hyperliquid clearinghouse snapshot (block 758750000) + full event replay (`full_analysis_realtime.py`)  
+**Status**: ✅ Canonical real-time dataset verified (34,983 ADL events, 100% coverage)
 
-> **Historical Snapshot Report (Phase 2)**: This document summarizes the pre-reconstruction snapshot analysis (31,444 events ≈90% coverage). For the canonical 34,983-event real-time dataset, see `README.md`, `FINDINGS_VERIFICATION_REPORT.md`, and `REAL_TIME_RECONSTRUCTION_SUMMARY.md`.
+> This document supersedes the Phase-2 snapshot report (31,444-event approximation). Snapshot-era outputs are preserved in git history for reference; all current figures and files derive from the canonical real-time reconstruction (`adl_detailed_analysis_REALTIME.csv`).
 
 ---
 
 ## 🎯 Executive Summary
 
-We conducted a comprehensive analysis of the October 10, 2025 liquidation cascade using **complete clearinghouse data** including:
-- Account value snapshots (437,356 accounts, $5.1B total)
-- Position snapshots (221,422 positions across 182 markets)
-- Complete event history (2.7M fills processed)
-- Calculated entry prices from actual fills
-- Leverage ratios at time of ADL
-- Unrealized PNL for all ADL'd positions
+We replayed 3,239,706 clearinghouse events (fills, funding, ledger updates) from the 20:04:54 UTC snapshot through the end of the 12-minute cascade (21:27:00 UTC). The canonical dataset captures every ADL with real-time account value, leverage, and equity. Key outcomes:
 
-**This is the first analysis with access to complete protocol state.**
+- **ADL targets profit, not leverage** – 94.5% of ADL'd positions were profitable (avg +80.6% PNL).
+- **Low leverage is no shield** – Median real-time leverage was 0.15x; 86.7% of positions carried <1x leverage.
+- **Negative-equity accounts quantified** – 1,275 accounts fell below zero equity (−$125.98M absorbed by insurance/HLP reserves).
+- **Per-asset coverage stable** – ADL delivered ~35% of liquidation notional on every major ticker (mean 35.4%, median 33.2%).
 
 ---
 
-## 💡 KEY DISCOVERY: ADL Targets PROFIT, Not Leverage
-
-### The Finding
-
-**98.3% of ADL'd positions were profitable.**  
-**Average unrealized PNL: +82.43%**  
-**Average leverage: 1.16x (LOW)**
-
-This definitively proves that **ADL prioritizes profitability**, not leverage.
-
-### Why This Matters
-
-❌ **Common belief**: "ADL targets high leverage positions"  
-✅ **Reality**: ADL targets the most profitable positions
-
-**Implication**: Low leverage does NOT protect you from ADL if you're sitting on large unrealized gains.
-
----
-
-## 📊 Comprehensive Statistics
-
-### Overall Event Summary
+## 📊 Canonical Dataset Overview
 
 | Metric | Value |
 |--------|-------|
-| **Time window analyzed** | 20:04:54 - 21:20:00 UTC (75 minutes) |
-| **Total fills processed** | 2,768,552 |
-| **Liquidation fills** | 63,609 |
-| **ADL fills** | 32,673 |
-| **Unique liquidated accounts** | 11,883 |
-| **Unique ADL'd accounts** | 18,746 |
+| ADL events (real-time) | **34,983** |
+| Unique ADL accounts | 19,337 |
+| Total ADL notional | $2.103B |
+| Average ADL size | $60.1K |
+| Median ADL size | $347.78 |
+| Largest ADL | $193,370,257 (BTC) |
+| Time window | 21:16:04 – 21:26:57 UTC (10.88 min) |
+| Total events replayed | 3,239,706 |
+| Accounts tracked | 437,723 |
 
-### ADL Analysis (31,444 events with complete data)
+### Profitability & PNL Distribution
 
-| Metric | Value |
-|--------|-------|
-| **Total ADL notional** | $2,007,190,857 |
-| **Average ADL size** | $63,833.83 |
-| **Median ADL size** | $343.90 |
-| **Largest single ADL** | $193,370,257 (BTC) |
-| **Smallest ADL** | < $1 |
+| Range | Count | % of Total |
+|-------|-------|------------|
+| **>100%** | 9,749 | 27.9% |
+| **50-100%** | 7,784 | 22.3% |
+| **20-50%** | 10,726 | 30.7% |
+| **10-20%** | 3,648 | 10.4% |
+| **0-10%** | 1,157 | 3.3% |
+| **< 0%** | 1,919 | 5.5% |
 
-### PNL Analysis
+- **Average unrealized PNL%**: +80.58%  
+- **Median unrealized PNL%**: +50.09%  
+- **Profitable positions**: 33,064 / 34,983 (**94.5%**)
 
-| Metric | Value |
-|--------|-------|
-| **Profitable positions** | 30,924 (98.3%) |
-| **Unprofitable positions** | 520 (1.7%) |
-| **Average unrealized PNL%** | +82.43% |
-| **Median unrealized PNL%** | +52.20% |
-| **Highest PNL%** | +8,328.86% (AI16Z) |
+### Leverage & Equity Distribution
 
-### Leverage Analysis
+| Range | Count | % of Total |
+|-------|-------|------------|
+| **0-1x** | 30,343 | 86.7% |
+| **1-3x** | 2,790 | 8.0% |
+| **3-5x** | 818 | 2.3% |
+| **5-10x** | 557 | 1.6% |
+| **>10x** | 475 | 1.4% |
 
-| Metric | Value |
-|--------|-------|
-| **Average leverage** | 1.16x |
-| **Median leverage** | 0.24x |
-| **Max leverage** | 56.49x (BTC) |
-| **Positions with < 1x leverage** | 21,847 (69.5%) |
-| **Positions with > 10x leverage** | 675 (2.1%) |
+- **Median leverage (real-time)**: 0.15x  
+- **Average leverage**: 474.76x (skewed by near-zero equity outliers – see `LEVERAGE_CORRECTION.md`)  
+- **99th percentile leverage**: 13.65x  
+- **Negative-equity accounts**: 1,275 (total equity −$125,981,795)
 
----
+### Top ADL Notional (Real-Time)
 
-## 🔍 Top 10 ADL Events by Notional
+| Rank | Coin | Notional | Unrealized PNL% | Leverage | Account Value |
+|------|------|----------|-----------------|----------|---------------|
+| 1 | BTC | $193.37M | 12.73% | 0.6x | $184.3M |
+| 2 | ETH | $174.18M | 21.84% | 1.3x | $113.4M |
+| 3 | BTC | $76.40M | 12.60% | 0.6x | $184.3M |
+| 4 | BTC | $70.60M | 13.82% | 2.3x | $36.2M |
+| 5 | SOL | $46.65M | 16.07% | 2.1x | $22.3M |
+| 6 | ETH | $41.32M | 26.37% | 1.3x | $113.4M |
+| 7 | ETH | $41.20M | 26.47% | 1.1x | $36.2M |
+| 8 | ETH | $38.27M | 33.08% | 1.4x | $27.3M |
+| 9 | BTC | $30.31M | 10.37% | 4.3x | $7.0M |
+|10 | SOL | $29.52M | 35.77% | 0.5x | $54.1M |
 
-| Rank | Coin | Notional | PNL% | Leverage | Account Value |
-|------|------|----------|------|----------|---------------|
-| 1 | BTC | $193.4M | +12.73% | 6.3x | $32.3M |
-| 2 | **ETH** | **$174.2M** | **+21.84%** | 5.6x | $32.7M |
-| 3 | BTC | $76.4M | +12.60% | 6.3x | $12.7M |
-| 4 | BTC | $70.6M | +13.82% | 5.5x | $13.4M |
-| 5 | SOL | $46.7M | +16.07% | 3.2x | $15.3M |
-| 6 | ETH | $41.3M | +26.37% | 5.4x | $8.1M |
-| 7 | ETH | $41.2M | +26.47% | 2.6x | $16.7M |
-| 8 | ETH | $38.3M | +33.08% | 2.6x | $15.4M |
-| 9 | BTC | $30.3M | +10.37% | 7.8x | $4.1M |
-| 10 | SOL | $29.5M | +35.77% | 1.0x | $30.7M |
-
-**Every single one was profitable.**
-
-### Key Observations
-
-1. **Leverage varied widely** (1.0x to 7.8x) - not consistently high
-2. **All were profitable** (10.37% to 35.77% PNL)
-3. **ETH had highest PNL%** among top 10 (21-33% gains)
-4. **Large account values** ($4M to $33M)
+Every major ADL remained profitable at execution; leverage spans modest values because account equity is calculated in real time.
 
 ---
 
-## 📈 Distribution Analysis
+## 🛡️ Negative Equity & Insurance Fund Impact
 
-### PNL Distribution
-
-| PNL Range | Count | % of Total |
-|-----------|-------|------------|
-| **> 100%** | 7,241 | 23.0% |
-| **50-100%** | 11,892 | 37.8% |
-| **20-50%** | 7,614 | 24.2% |
-| **10-20%** | 2,652 | 8.4% |
-| **0-10%** | 1,525 | 4.9% |
-| **< 0%** | 520 | 1.7% |
-
-**60.8% of ADL'd positions had > 50% unrealized gains.**
-
-### Leverage Distribution
-
-| Leverage Range | Count | % of Total |
-|----------------|-------|------------|
-| **0-1x** | 21,847 | 69.5% |
-| **1-3x** | 4,892 | 15.6% |
-| **3-5x** | 2,341 | 7.4% |
-| **5-10x** | 1,689 | 5.4% |
-| **> 10x** | 675 | 2.1% |
-
-**69.5% of ADL'd positions had < 1x leverage.**
+- Accounts in negative equity at ADL time: **1,275**  
+- Aggregate deficit (cash + unrealized PNL): **−$125,981,795**  
+- These losses explain the insurance/HLP drawdown quantified in `INSURANCE_FUND_IMPACT.md`.
 
 ---
 
-## 🎓 Academic Findings
+## 🔬 Methodology (Phase 3 – Real-Time Reconstruction)
 
-### ADL Prioritization Algorithm (Verified)
+1. **Snapshot Load** – Parse account and position snapshots at block 758750000 (20:04:54 UTC).  
+2. **Event Replay** – Process 3.24M events chronologically with `full_analysis_realtime.py`, updating account balances, positions, and PNL after every fill/funding/ledger change.  
+3. **ADL Extraction** – Record all 34,983 ADL fills with contemporaneous account state, leverage, and equity.  
+4. **Verification** – Cross-check totals with raw ADL feed (`adl_fills_full_12min_raw.csv`), liquidation feed (`liquidations_full_12min.csv`), and downstream analyses (`verify_all_findings.py`).
 
-Based on 31,444 empirical observations:
-
-```
-ADL_Priority ∝ Unrealized_PNL_Percent
-
-NOT:
-ADL_Priority ∝ Leverage
-ADL_Priority ∝ Position_Size
-ADL_Priority = Random()
-```
-
-### Correlation Analysis
-
-| Factor | Correlation with ADL Selection |
-|--------|-------------------------------|
-| **Unrealized PNL%** | ✅ **Strong positive** (98.3% profitable) |
-| **Leverage** | ⚠️ **Weak** (avg 1.16x, not high) |
-| **Position size** | ⚠️ **Moderate** (largest positions ADL'd, but not always) |
-| **Account value** | ❌ **Negligible** (wide range) |
-
-### Statistical Significance
-
-- **Sample size**: 31,444 ADL events
-- **Confidence level**: 99.9%
-- **P-value**: < 0.0001
-- **Conclusion**: ADL selection is **non-random** and **PNL-driven**
+All statistics in this summary come directly from the canonical CSV generated by the replay (`adl_detailed_analysis_REALTIME.csv`).
 
 ---
 
-## 🔬 Methodology
+## 📁 Output Artifacts (Canonical Only)
 
-### Data Sources
+| File | Purpose |
+|------|---------|
+| `adl_detailed_analysis_REALTIME.csv` | 34,983-event per-position dataset with realtime account value, leverage, equity, negative-equity flag, and counterparties |
+| `adl_by_user_REALTIME.csv` | User-level aggregations (real-time metrics) |
+| `adl_by_coin_REALTIME.csv` | Asset-level aggregations (real-time metrics) |
+| `realtime_analysis_summary.json` | JSON summary of replay scope + key findings |
+| `full_analysis_realtime.py` | Replay script used to regenerate the canonical dataset |
 
-1. **Account Value Snapshot**
-   - File: `account_value_snapshot_758750000_1760126694218.json`
-   - Block: 758750000
-   - Time: 2025-10-10 20:04:54.218 UTC
-   - Accounts: 437,356
-   - Total value: $5,111,814,817
+Snapshot-era files (`adl_detailed_analysis.csv`, `adl_by_user.csv`, `adl_by_coin.csv`) were retired on Nov 12, 2025 and should not be used for production analysis.
 
-2. **Position Snapshot**
-   - File: `perp_positions_by_market_758750000_1760126694218.json`
-   - Markets: 182
-   - Positions: 221,422
-   - Includes: size, entry_price, leverage, liquidation_price
+---
 
-3. **Fill Events**
-   - Files: `20_fills.json`, `21_fills.json`
-   - Total fills: 5,939,266
-   - Time range: 20:00:00 - 22:00:00 UTC
-   - Filtered to: 20:04:54 - 21:20:00 (analysis window)
+## 💡 Key Takeaways
 
-4. **Misc Events**
-   - Files: `20_misc.json`, `21_misc.json`
-   - Includes: funding, deposits, withdrawals
-   - (Not heavily used in this analysis)
+- **ADL prioritizes profitable counterparties** – Winners are tapped to cover liquidation losses regardless of leverage level.
+- **Low leverage does not eliminate ADL risk** – The bulk of ADLs carried <1x leverage at execution.
+- **Insurance/HLP buffers absorbed $126M** – Now quantified via negative-equity detection in the canonical dataset.
+- **Per-asset matching remains strict** – See `PER_ASSET_ISOLATION.md` for empirical evidence of zero cross-asset contagion.
 
-### Calculations
+---
 
-#### Entry Price
+## 📘 For Researchers
+
 ```python
-For each ADL event:
-  1. Find all fills for (user, coin) from snapshot to ADL
-  2. Calculate weighted average:
-     entry_price = sum(fill.price × fill.size) / sum(fill.size)
-  3. Fall back to snapshot entry_price if no fills found
+import pandas as pd
+
+# Load canonical realtime dataset
+adl = pd.read_csv('adl_detailed_analysis_REALTIME.csv')
+assert len(adl) == 34_983
+assert {'leverage_realtime','account_value_realtime','is_negative_equity'} <= set(adl.columns)
+print('✅ Canonical realtime dataset loaded')
 ```
 
-#### Leverage
-```python
-leverage = position_notional / account_value
-where:
-  position_notional = abs(position_size) × current_price
-  account_value = from snapshot (70 min before ADL)
-```
-
-#### Unrealized PNL
-```python
-if long_position:
-  unrealized_pnl = size × (adl_price - entry_price)
-else:  # short position
-  unrealized_pnl = abs(size) × (entry_price - adl_price)
-
-pnl_percent = (unrealized_pnl / position_notional) × 100
-```
-
-### Data Quality
-
-✅ **100% blockchain-verified**  
-✅ **Complete clearinghouse state** (not sampled)  
-✅ **All calculations from empirical data** (no assumptions)  
-✅ **Entry prices from actual fills** (not heuristics)  
-✅ **Account values from snapshot** (not estimated)
+Recommended references:
+- `REAL_TIME_RECONSTRUCTION_SUMMARY.md` – replay methodology & reproducibility
+- `FINDINGS_VERIFICATION_REPORT.md` – regression tests on the canonical dataset
+- `ADL_PRIORITIZATION_VERIFIED.md` – public-facing summary of the profitability finding
+- `INSURANCE_FUND_IMPACT.md` – insurance/HLP impact analysis using realtime equity
 
 ---
 
-## 📁 Output Files
+**Analysis Completed**: November 13, 2025  
+**Data Quality**: ⭐⭐⭐⭐⭐ (cli replay, real-time metrics)  
+**Coverage**: 100% of the 12-minute cascade  
+**Approximations**: 0 – all metrics derived from chain replay
 
-### Generated Files
-
-1. **`adl_detailed_analysis.csv`** (31,444 records)
-   - Every ADL event with full details
-   - Columns: user, coin, time, adl_price, adl_size, adl_notional, closed_pnl, position_size, entry_price, account_value, leverage, unrealized_pnl, pnl_percent, liquidated_user
-
-2. **`adl_by_user.csv`** (18,041 users)
-   - User-level aggregations
-   - Columns: user, adl_notional, closed_pnl, leverage, pnl_percent, account_value, num_adl_events
-
-3. **`adl_by_coin.csv`** (153 coins)
-   - Asset-level aggregations
-   - Columns: coin, adl_notional, closed_pnl, leverage, pnl_percent, num_users, num_events
-
-4. **`clearinghouse_analysis_summary.json`**
-   - JSON summary of all key metrics
-
-### Analysis Scripts
-
-1. **`analyze_clearinghouse.py`**
-   - Phase 1: Data loading and indexing
-   - Outputs: `clearinghouse_snapshot.json`
-
-2. **`full_analysis.py`**
-   - Phase 2: Complete event processing
-   - Calculates: entry prices, leverage, PNL
-   - Generates: all CSV output files
-
----
-
-## 💬 Key Insights
-
-### For Traders
-
-1. **Low leverage ≠ Safe from ADL**
-   - 69.5% of ADL'd positions had < 1x leverage
-   - If you're profitable, you're a target
-
-2. **Highly profitable = High ADL risk**
-   - 98.3% of ADL'd positions were profitable
-   - Average PNL was +82.43%
-
-3. **ADL is not punishment**
-   - It's a forced exit for winners
-   - Your profits are used to cover liquidated losses
-
-### For Researchers
-
-1. **ADL is deterministic, not random**
-   - Clear selection criteria based on PNL
-   - Statistical significance: p < 0.0001
-
-2. **Protocol design prioritizes solvency**
-   - Winners subsidize losers (partially)
-   - Insurance fund is protected
-
-3. **Per-asset isolation holds**
-   - No cross-asset ADL contagion
-   - Each asset has independent ADL engine
-
-### For Protocol Designers
-
-1. **PNL-based ADL is effective**
-   - Ensures sufficient liquidity for liquidations
-   - Minimizes socialized losses
-
-2. **Trade-off: User experience vs. solvency**
-   - Winners get forcibly exited
-   - But protocol stays solvent
-
-3. **"Too profitable to hold" dynamic**
-   - Creates unique risk for large profitable positions
-   - May encourage profit-taking before cascades
-
----
-
-## 🚀 Future Research
-
-### Unanswered Questions
-
-1. **Negative Equity Analysis**
-   - How many liquidated accounts went negative?
-   - What was the insurance fund impact?
-   - Requires tracking account values through every fill
-
-2. **Dynamic Leverage Tracking**
-   - How did leverage change during the cascade?
-   - Which accounts got liquidated at what leverage?
-
-3. **Entry/Exit Timing**
-   - When did winners build their positions?
-   - How long were they in profit before ADL?
-
-4. **Alternative ADL Mechanisms**
-   - Could a different prioritization be fairer?
-   - What if ADL targeted size instead of PNL?
-
-### Required Data
-
-To answer these questions, we'd need:
-- Real-time account value tracking (updated on every fill)
-- Mark prices (not just trade prices)
-- Historical snapshots at multiple points
-- Insurance fund balance history
-
----
-
-## 📧 Contact
-
-For questions about:
-- **This analysis**: See scripts or CSV files in this directory
-- **Methodology**: Review `full_analysis.py`
-- **Raw data**: Contact for access to clearinghouse snapshots
-- **Collaboration**: Open to academic partnerships
-
----
-
-## 📚 Related Documents
-
-- **ADL Prioritization**: `ADL_PRIORITIZATION_VERIFIED.md` (in HyperMultiAssetedADL repo)
-- **Per-Asset Isolation**: `PER_ASSET_ISOLATION.md`
-- **Cascade Timing**: `CASCADE_TIMING_ANALYSIS.md`
-- **Batch Processing**: `BATCH_PROCESSING_DISCOVERY.md`
-- **Net Volume Analysis**: `README.md` (in ADL Net Volume repo)
-
----
-
-**Analysis Completed**: November 12, 2025  
-**Data Quality**: ⭐⭐⭐⭐⭐  
-**Confidence**: **DEFINITIVE**  
-**Status**: ✅ **COMPLETE**
-
-> **Historical Snapshot Report (Phase 2)**: This document summarizes the pre-reconstruction snapshot analysis (31,444 events ≈90% coverage). For the canonical 34,983-event real-time dataset, see `README.md`, `FINDINGS_VERIFICATION_REPORT.md`, and `REAL_TIME_RECONSTRUCTION_SUMMARY.md`.
-
----
-
-## TL;DR
-
-We analyzed 31,444 ADL events with complete clearinghouse data:
-
-**Key Finding**: **ADL targets PROFIT, not leverage.**
-
-- 98.3% of ADL'd positions were profitable
-- Average PNL: +82.43%
-- Average leverage: 1.16x (LOW)
-
-**If you're sitting on huge unrealized gains during a liquidation cascade, you're getting ADL'd—regardless of your leverage.**
-
-**This is not a bug. This is the design.**
-
+**Bottom line:** the canonical clearinghouse replay confirms that ADL forcibly closes the most profitable positions to absorb liquidation losses, with precise leverage and equity measurements captured in real time.
