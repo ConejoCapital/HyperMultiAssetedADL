@@ -246,9 +246,9 @@ This is the **first time negative equity has been quantified** for a Hyperliquid
 
 | Metric | Result |
 |--------|--------|
-| **Timestamps analyzed** | 100 with both liquidations and ADL |
+| **Timestamps analyzed** | 100 (liquidations + ADL in same timestamp) |
 | **Cross-asset ADL cases** | **0 (ZERO)** |
-| **Ticker overlap** | 96.36% |
+| **Ticker overlap** | 96.74% |
 | **Perfect 1:1 ratio matches** | 44/44 tickers at biggest burst |
 
 ### What This Proves
@@ -358,23 +358,23 @@ All events stamped with timestamp T, but SEQUENCED internally!
 
 | Metric | Value | Insight |
 |--------|-------|---------|
-| **First liquidation** | 0.0 seconds | Cascade starts |
-| **First ADL** | 61.7 seconds later | **61-second delay!** |
+| **First liquidation** | 0.0 seconds | Cascade starts (T+3s absolute) |
+| **First ADL** | 61.7 seconds later | ≈62-second delay before ADL kicks in |
 | **Liquidations before ADL** | **710 events** | System tries normal methods first |
-| **Correlation** | 0.946 | Liquidations predict ADL |
+| **Correlation** | 0.945 | Liquidations predict ADL |
 | **Biggest burst** | 22,558 events/second | 11,279 liqs + 11,279 ADLs |
 
 **The Pattern:**
 ```
-0-60s: 710 liquidations, 0 ADL ← ADL hasn't kicked in yet
-61s: 11,279 liquidations + 11,279 ADL ← MASSIVE burst when threshold hit
-61-180s: Alternating waves ← Liquidations -> ADL -> Liquidations -> ADL
+0-61s: 710 liquidations, 0 ADL ← ADL hasn't kicked in yet
+62s:   11,279 liquidations + 11,279 ADL ← MASSIVE burst when threshold hit
+63-180s: Alternating waves ← Liquidations → ADL → Liquidations → ADL
 ```
 
 **Why This Matters:**
-- ADL is NOT instantaneous - there's a ~61 second delay
+- ADL is NOT instantaneous – there's a ~62-second delay
 - ADL activates in BURSTS (threshold-based, not continuous)
-- Liquidations accumulate -> Threshold reached -> ADL fires
+- Liquidations accumulate → Threshold reached → ADL fires
 - Explains the "chunks" pattern visible on [HyperFireworks visualization](https://hyperfireworks.vercel.app/)
 
 ---
@@ -838,9 +838,9 @@ print('Total negative equity:', df.loc[df['is_negative_equity'], 'total_equity']
 
 ---
 
-**Analysis Date**: November 7, 2025 (Event Data) | November 12, 2025 (Clearinghouse Data) 
-**Data Quality**: (Blockchain-verified, complete dataset + clearinghouse state) 
-**Time Coverage**: FULL 12-minute event (21:15-21:27 UTC) 
-**Scope**: All 162 affected tickers + 437,723 accounts 
-**Status**: **COMPLETE - Event + Account-Level Data - Ready for research and publication**
+**Analysis Date**: November 13, 2025 (Canonical Replay)  
+**Data Quality**: Blockchain-verified event data + real-time clearinghouse reconstruction  
+**Time Coverage**: FULL 12-minute event (21:15:00 - 21:27:00 UTC)  
+**Scope**: All 162 affected tickers + 437,723 accounts  
+**Status**: **COMPLETE – Event + Account-Level Data – Ready for research and publication**
 
