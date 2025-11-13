@@ -4,7 +4,7 @@
 
 ---
 
-## CANONICAL DATA FILE - NO APPROXIMATIONS
+## CANONICAL DATA FILE
 
 **For researchers: Use ONLY the real-time reconstructed file:**
 
