@@ -15,6 +15,14 @@
 
 ---
 
+## Purpose of this 2-Minute Snapshot (Quality Check)
+
+- This report preserves the original SonarX export as a **baseline sanity check** against our canonical S3 extraction.
+- Replaying the canonical dataset (`adl_fills_full_12min_raw.csv`) over the same 21:15:00-21:17:00 UTC window reproduces these exact metrics: **64 tickers**, **14,194 ADL events**, **$285,546,805 net notional**, **$142,118,725 realized PNL**.
+- Because the numbers match to the dollar and event count, we treat the canonical pipeline as equal-or-better fidelity; it extends coverage to the full 12-minute cascade and adds realtime account context (`adl_detailed_analysis_REALTIME.csv`).
+
+---
+
 ## ADL Net Volume by Ticker
 
 *Note: This is a 2-minute sample (21:15-21:17 UTC). Full event window was 21:15-21:27 UTC.*
@@ -233,7 +241,8 @@ For the complete ADL volume, multiply these values by approximately 6.
 ✅ **Blockchain-verified**: All ADL events extracted from `DIR` field  
 ✅ **No heuristics**: Only explicitly labeled ADL events  
 ✅ **Spot positions excluded**: @ tokens filtered out  
-✅ **Validated**: Cross-checked with S3 extraction
+✅ **Canonical cross-check**: Filtering `adl_fills_full_12min_raw.csv` to the same 2-minute window produces **14,194 events**, **$285,546,805 net notional**, **$142,118,725 realized PNL** — an exact match to SonarX.  
+✅ **Enhanced coverage available**: The canonical 12-minute dataset introduces realtime account values, leverage, and insurance-fund analytics (`adl_detailed_analysis_REALTIME.csv`, `INSURANCE_FUND_IMPACT.md`).
 
 ---
 
