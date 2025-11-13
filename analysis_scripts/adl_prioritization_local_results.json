@@ -1,8 +1,8 @@
 {
   "spearman_correlations": {
     "pnl_vs_notional": -0.22070057062218798,
-    "pnl_vs_leverage": -0.4781425727397429,
-    "notional_vs_leverage": 0.1818010528979877
+    "pnl_vs_leverage": -0.4756619351401145,
+    "notional_vs_leverage": 0.17505403658656915
   },
   "top_assets_by_avg_order": [
     {

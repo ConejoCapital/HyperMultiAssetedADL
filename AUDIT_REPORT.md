@@ -26,8 +26,8 @@ Use this report as the audit trail that the public repository contains one—and
 | Accounts reconstructed | **437,723** |
 | ADL fills extracted | **34,983** (100% coverage) |
 | Liquidations matched | **34,983** counterparty events (1:1) |
-| Negative-equity accounts | **1,275** (−$125,981,795 combined) |
-| Median realtime leverage | **0.15x** |
+| Negative-equity accounts | **1,147** (−$109,288,587 combined) |
+| Median realtime leverage | **0.18x** |
 | Dataset location | `adl_detailed_analysis_REALTIME.csv` |
 
 The replay is reproducible by running `python full_analysis_realtime.py` from the repository root. A step-by-step walkthrough lives in `REAL_TIME_RECONSTRUCTION_SUMMARY.md`.
@@ -79,7 +79,7 @@ Only these realtime files should be used in research or downstream analysis. Any
 ### Coverage & Cross-Checks
 - ✅ Per-asset ADL-to-liquidation ratios computed (mean 35.4%, median 33.2%).
 - ✅ ADL prioritization timing tests rerun on the canonical dataset (see `ADL_PRIORITIZATION_ANALYSIS_LOCAL.md`).
-- ✅ Insurance-fund impact quantified: −$125,981,795 (see `INSURANCE_FUND_IMPACT.md`).
+- ✅ Insurance-fund impact quantified: −$109,288,587 (see `INSURANCE_FUND_IMPACT.md`).
 
 ---
 
@@ -96,7 +96,7 @@ print('✅ Canonical realtime dataset loaded.')
 
 - Use ONLY the `_REALTIME` CSVs.
 - Expect 34,983 rows; any other row count indicates an outdated file.
-- Leverage statistics reported in the repository (median 0.15x, 95th percentile 3.22x, 99th percentile 13.65x) come directly from this dataset.
+- Leverage statistics reported in the repository (median 0.18x, 95th percentile 4.23x, 99th percentile 74.18x) come directly from this dataset.
 
 ---
 

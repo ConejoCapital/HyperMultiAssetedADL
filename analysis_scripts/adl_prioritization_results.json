@@ -3,9 +3,9 @@
   "profitable_pct": 94.51447846096676,
   "avg_pnl_percent": 80.58430055866836,
   "median_pnl_percent": 50.08839779005524,
-  "median_leverage": 0.1483032310480596,
-  "p95_leverage": 3.2213283261819687,
-  "p99_leverage": 13.652351690172912,
+  "median_leverage": 0.1775996534882699,
+  "p95_leverage": 4.2255092686167,
+  "p99_leverage": 74.17738021330788,
   "top_repeated_winners": [
     {
       "user": "0xa312114b5795dff9b8db50474dd57701aa78ad1e",

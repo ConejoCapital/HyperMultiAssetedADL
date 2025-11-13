@@ -14,8 +14,8 @@
 We replayed 3,239,706 clearinghouse events (fills, funding, ledger updates) from the 20:04:54 UTC snapshot through the end of the 12-minute cascade (21:27:00 UTC). The canonical dataset captures every ADL with real-time account value, leverage, and equity. Key outcomes:
 
 - **ADL targets profit, not leverage** – 94.5% of ADL'd positions were profitable (avg +80.6% PNL).
-- **Low leverage is no shield** – Median real-time leverage was 0.15x; 86.7% of positions carried <1x leverage.
-- **Negative-equity accounts quantified** – 1,275 accounts fell below zero equity (−$125.98M absorbed by insurance/HLP reserves).
+- **Low leverage is no shield** – Median real-time leverage was 0.18x; 84.9% of positions carried <1x leverage.
+- **Negative-equity accounts quantified** – 1,147 accounts fell below zero equity (−$109.29M absorbed by insurance/HLP reserves).
 - **Per-asset coverage stable** – ADL delivered ~35% of liquidation notional on every major ticker (mean 35.4%, median 33.2%).
 
 ---
@@ -53,16 +53,16 @@ We replayed 3,239,706 clearinghouse events (fills, funding, ledger updates) from
 
 | Range | Count | % of Total |
 |-------|-------|------------|
-| **0-1x** | 30,343 | 86.7% |
-| **1-3x** | 2,790 | 8.0% |
-| **3-5x** | 818 | 2.3% |
-| **5-10x** | 557 | 1.6% |
-| **>10x** | 475 | 1.4% |
+| **0-1x** | 29,701 | 84.9% |
+| **1-3x** | 2,995 | 8.6% |
+| **3-5x** | 782 | 2.2% |
+| **5-10x** | 728 | 2.1% |
+| **>10x** | 777 | 2.2% |
 
-- **Median leverage (real-time)**: 0.15x  
-- **Average leverage**: 474.76x (skewed by near-zero equity outliers – see `LEVERAGE_CORRECTION.md`)  
-- **99th percentile leverage**: 13.65x  
-- **Negative-equity accounts**: 1,275 (total equity −$125,981,795)
+- **Median leverage (real-time)**: 0.18x  
+- **Average leverage**: 3,321.71x (skewed by near-zero equity outliers – see `LEVERAGE_CORRECTION.md`)  
+- **99th percentile leverage**: 74.18x  
+- **Negative-equity accounts**: 1,147 (total equity −$109,288,587)
 
 ### Top ADL Notional (Real-Time)
 
@@ -85,8 +85,8 @@ Every major ADL remained profitable at execution; leverage spans modest values b
 
 ## 🛡️ Negative Equity & Insurance Fund Impact
 
-- Accounts in negative equity at ADL time: **1,275**  
-- Aggregate deficit (cash + unrealized PNL): **−$125,981,795**  
+- Accounts in negative equity at ADL time: **1,147**  
+- Aggregate deficit (cash + unrealized PNL): **−$109,288,587**  
 - These losses explain the insurance/HLP drawdown quantified in `INSURANCE_FUND_IMPACT.md`.
 
 ---
@@ -120,7 +120,7 @@ Snapshot-era files (`adl_detailed_analysis.csv`, `adl_by_user.csv`, `adl_by_coin
 
 - **ADL prioritizes profitable counterparties** – Winners are tapped to cover liquidation losses regardless of leverage level.
 - **Low leverage does not eliminate ADL risk** – The bulk of ADLs carried <1x leverage at execution.
-- **Insurance/HLP buffers absorbed $126M** – Now quantified via negative-equity detection in the canonical dataset.
+- **Insurance/HLP buffers absorbed $109.29M** – Now quantified via negative-equity detection in the canonical dataset.
 - **Per-asset matching remains strict** – See `PER_ASSET_ISOLATION.md` for empirical evidence of zero cross-asset contagion.
 
 ---
@@ -141,7 +141,7 @@ Recommended references:
 - `REAL_TIME_RECONSTRUCTION_SUMMARY.md` – replay methodology & reproducibility
 - `FINDINGS_VERIFICATION_REPORT.md` – regression tests on the canonical dataset
 - `ADL_PRIORITIZATION_VERIFIED.md` – public-facing summary of the profitability finding
-- `INSURANCE_FUND_IMPACT.md` – insurance/HLP impact analysis using realtime equity
+- `INSURANCE_FUND_IMPACT.md` – quantifies the $109,288,587 insurance absorption that complements ADL.
 
 ---
 

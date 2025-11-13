@@ -16,6 +16,9 @@ print("REAL-TIME ACCOUNT VALUE RECONSTRUCTION")
 print("October 10, 2025 - Complete ADL Event Analysis")
 print("="*80)
 
+# Track latest trade price per coin (seeded from snapshot marks)
+last_prices = {}
+
 # ============================================================================
 # STEP 1: Load Snapshot Data (Baseline State)
 # ============================================================================
@@ -34,28 +37,52 @@ for acc in account_values:
     account_states[acc['user']] = {
         'account_value': acc['account_value'],
         'positions': {},
-        'snapshot_time': 1760126694218
+        'snapshot_time': 1760126694218,
+        'initial_unrealized': 0.0
     }
 
-# Add positions
+# Add positions and accumulate initial unrealized PnL
 for market in positions_by_market:
     coin = market['market_name'].replace('hyperliquid:', '')
     for pos in market['positions']:
         user = pos['user']
+        size = float(pos['size'])
+        entry_price = float(pos['entry_price'])
+        notional = float(pos['notional_size'])
+        mark_price = abs(notional / size) if size else entry_price
+
         if user not in account_states:
             account_states[user] = {
-                'account_value': pos['account_value'],
+                'account_value': float(pos.get('account_value', 0.0)),
                 'positions': {},
-                'snapshot_time': 1760126694218
+                'snapshot_time': 1760126694218,
+                'initial_unrealized': 0.0
             }
+
         account_states[user]['positions'][coin] = {
-            'size': pos['size'],
-            'entry_price': pos['entry_price'],
-            'notional': pos['notional_size']
+            'size': size,
+            'entry_price': entry_price,
+            'notional': notional,
+            'mark_price': mark_price
         }
 
+        # Accumulate unrealized PnL at snapshot (size * (mark - entry))
+        if size != 0:
+            account_states[user]['initial_unrealized'] += size * (mark_price - entry_price)
+
+        # Seed last-known price for this coin from snapshot
+        if mark_price and mark_price > 0:
+            last_prices.setdefault(coin, mark_price)
+
+# Convert account values to "cash" by removing initial unrealized PnL
+for state in account_states.values():
+    initial_u = state.get('initial_unrealized', 0.0)
+    state['initial_account_value'] = state['account_value']
+    state['account_value'] = state['account_value'] - initial_u
+
 print(f"  ✓ Loaded {len(account_states):,} accounts")
-print(f"  ✓ Total account value at snapshot: ${sum(s['account_value'] for s in account_states.values()):,.0f}")
+print(f"  ✓ Total account value at snapshot: ${sum(s['initial_account_value'] for s in account_states.values()):,.0f}")
+print(f"  ✓ Total initial unrealized removed: ${sum(s.get('initial_unrealized',0.0) for s in account_states.values()):,.0f}")
 
 # ============================================================================
 # STEP 2: Load ALL Events (Fills + Misc)
@@ -183,9 +210,6 @@ print("  (This will take several minutes - processing 2.7M+ events)")
 
 # Create working copy of account states
 working_states = deepcopy(account_states)
-
-# Track last price for each coin (for unrealized PNL calculation)
-last_prices = {}
 
 # Process events chronologically
 event_count = 0

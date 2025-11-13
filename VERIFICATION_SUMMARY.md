@@ -21,11 +21,11 @@
 
 | Test | Result | Status |
 |------|--------|--------|
-| **1. ADL Prioritization** | 94.5% profitable, median leverage 0.15x | ✅ PROFIT-based |
+| **1. ADL Prioritization** | 94.5% profitable, median leverage 0.18x | ✅ PROFIT-based |
 | **2. Per-Asset Isolation** | 100 shared timestamps, 0 cross-asset cases | ✅ ZERO contagion |
 | **3. Counterparty Mechanism** | 100% ADL events carry `liquidated_user` | ✅ 1:1 matching |
 | **4. Cascade Timing** | First ADL at 61.7s; burst 11,279 liq + 11,279 ADL | ✅ Threshold/burst |
-| **5. Negative Equity** | 1,275 underwater accounts; −$125,981,795 total equity | ✅ Quantified |
+| **5. Negative Equity** | 1,147 underwater accounts; −$109,288,587 total equity | ✅ Quantified |
 | **6. Real-Time Integrity** | Required columns present; no NaN in critical fields | ✅ No approximations |
 | **7. Total Impact Consistency** | Liquidations $5.511B + ADL $2.103B = $7.614B | ✅ Matches reports |
 
@@ -46,9 +46,9 @@
 |--------|-------------------------|---------------------------|--------|
 | **Events** | 31,444 | 34,983 | +3,539 |
 | **Profitable %** | 98.3% | 94.5% | −3.8% |
-| **Median leverage** | 0.24x | 0.15x | −0.09x |
-| **Underwater accounts** | 886 | 1,275 | +389 |
-| **Insurance impact** | $128.6M (approx.) | $126.0M (canonical) | More accurate |
+| **Median leverage** | 0.24x | 0.18x | −0.06x |
+| **Underwater accounts** | 886 | 1,147 | +261 |
+| **Insurance impact** | $128.6M (approx.) | $109.3M (canonical) | More accurate |
 
 **Key insight:** Additional late-cascade events and real-time pricing made the findings more precise without changing any conclusions.
 

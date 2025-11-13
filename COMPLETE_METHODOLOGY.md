@@ -55,12 +55,12 @@
 - ⚠️ Limitations: Snapshot 70 min stale, no negative equity, no real-time account values
 
 **Phase 3** (+ Real-Time Reconstruction - Canonical Dataset):
-- ✅ Real-time leverage? → Median 0.15x (95th pct 3.22x, 99th pct 13.65x)
+- ✅ Real-time leverage? → Median 0.18x (95th pct 4.23x, 99th pct 74.18x)
 - ✅ Real-time PNL? → 94.5% profitable (avg +80.58% PNL)
-- ✅ Negative equity? → **1,275 accounts (-$126.0M insurance impact)**
+- ✅ Negative equity? → **1,147 accounts (−$109.29M insurance impact)**
 - ✅ Account values? → **437,723 accounts reconstructed in real-time**
 - ✅ Total equity? → Cash + unrealized PNL at exact ADL moment
-- ✅ Insurance fund impact? → **$126.0M coverage required**
+- ✅ Insurance fund impact? → **$109.29M coverage required**
 
 ---
 
@@ -527,8 +527,8 @@ for evt in window:
 **What We Found**:
 - **94.5% of ADL'd positions were profitable** (real-time)
 - Average PNL: +80.58% (real-time)
-- Median leverage: **0.15x** (95th pct 3.22x, 99th pct 13.65x)
-- **1,275 accounts in negative equity (-$126.0M)**
+- Median leverage: **0.18x** (95th pct 4.23x, 99th pct 74.18x)
+- **1,147 accounts in negative equity (−$109.29M)**
 - **Insurance fund impact quantified** for first time at full scale
 
 **Technical Achievement**:
@@ -575,7 +575,7 @@ Answer: Targets highest PNL%, NOT highest leverage
 Evidence (Real-Time Reconstruction):
 - 94.5% of ADL'd positions profitable
 - Average unrealized PNL: +80.58% (median +50.09%)
-- Median leverage: 0.15x (95th pct 3.22x, 99th pct 13.65x)
+- Median leverage: 0.18x (95th pct 4.23x, 99th pct 74.18x)
 - Top 10 ADL'd by size: ALL profitable (10-36% gains)
 - Negative-equity detections explain insurance drawdowns
 
@@ -637,11 +637,11 @@ Implication: ADL is forced exit for winners to cover losers
 **6. Insurance Fund Impact (NEW!) 🔥**
 ```
 Question: How much insurance fund coverage was required?
-Answer: $125.98M to cover 1,275 underwater accounts
+Answer: $109.29M to cover 1,147 underwater accounts
 
 Evidence (Real-Time Reconstruction):
-- 1,275 accounts in negative equity (3.6% of ADL'd)
-- Total negative equity: -$125,981,795
+- 1,147 accounts in negative equity (3.28% of ADL'd)
+- Total negative equity: -$109,290,000
 - Largest underwater: -$7.4M
 - Average underwater: -$145k
 - Peak underwater rate: 387 accounts/minute
@@ -758,8 +758,8 @@ print(f"Negative-equity accounts: {adl['is_negative_equity'].sum():,}")
 ADL events: 34,983
 Total ADL notional: $2,103,111,431
 Profitable positions: 33,064 (94.5%)
-Median leverage (real-time): 0.15x
-Negative-equity accounts: 1,275
+Median leverage (real-time): 0.18x
+Negative-equity accounts: 1,147
 ```
 
 Run `python3 ../"ADL Net Volume"/verify_all_findings.py` to regenerate the verification report covering prioritization, isolation, timing, and insurance analyses.
@@ -770,7 +770,7 @@ Run `python3 ../"ADL Net Volume"/verify_all_findings.py` to regenerate the verif
 - [ ] Event counts match (63,637 liquidations, 34,983 ADL)
 - [ ] `full_analysis_realtime.py` replay completes (3,239,706 events processed)
 - [ ] `adl_detailed_analysis_REALTIME.csv` contains 34,983 rows with real-time metrics
-- [ ] Negative-equity tally equals 1,275 accounts (−$125.98M total equity)
+- [ ] Negative-equity tally equals 1,147 accounts (−$109.29M total equity)
 - [ ] `verify_all_findings.py` passes all prioritization/isolation/timing/insurance checks
 
 ---
@@ -1036,7 +1036,7 @@ Data Sources:
 - Analysis: 98,620 events, 437,356 accounts, 2.7M fills processed
 
 Key Finding: ADL targets profit (94.5% profitable, avg +80.6% PNL), 
-not leverage (median 0.15x leverage).
+not leverage (median 0.18x leverage).
 
 Repository: https://github.com/ConejoCapital/HyperMultiAssetedADL
 ```

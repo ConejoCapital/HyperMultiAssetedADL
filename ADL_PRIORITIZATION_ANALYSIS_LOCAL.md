@@ -26,7 +26,7 @@
 | Correlations with trigger time remain near zero | `corr(pnl%, time) = +0.098`, `corr(adl_notional, time) = +0.009`, `corr(leverage, time) = +0.006` (≤99th pct leverage: −0.012) |
 | Per-asset ADL/liq ratio is remarkably stable | Mean **35.4%**, median **33.2%**, 10 largest tickers in the 34–45% band |
 | Profitable traders are repeatedly targeted | Top-10 ADL’d addresses average **$269k** realized PNL per event vs **$12k** for everyone else (22×) |
-| Dataset coverage | 34,983 ADLs, 19,337 users, $2.10B notional, median leverage **0.15x** |
+| Dataset coverage | 34,983 ADLs, 19,337 users, $2.10B notional, median leverage **0.18x** |
 
 ---
 
@@ -149,9 +149,9 @@ Across all 162 tickers: **mean 35.4%**, **median 33.2%**, **IQR 30.0–35.4%**. 
 | Total ADL notional | $2,103,111,431 |
 | Total realized PNL | $834,295,749 |
 | Median unrealized PNL % | +50.09% |
-| Median leverage (real-time) | 0.15x |
-| 95th percentile leverage | 3.22x |
-| 99th percentile leverage | 13.65x |
+| Median leverage (real-time) | 0.18x |
+| 95th percentile leverage | 4.23x |
+| 99th percentile leverage | 74.18x |
 | Average ADL timestamp | 01:43 after start |
 
 See `LEVERAGE_CORRECTION.md` for discussion of extreme leverage outliers (>1,000,000×) stemming from near-zero account equity.
@@ -171,7 +171,7 @@ Future work: repeat the pipeline for other cascades once clearinghouse snapshots
 ## Related Canonical Notes
 
 - `ADL_PRIORITIZATION_VERIFIED.md` – narrative write-up of the profitable-targeting discovery.  
-- `INSURANCE_FUND_IMPACT.md` – quantifies the $125,981,795 insurance absorption that complements ADL.  
+- `INSURANCE_FUND_IMPACT.md` – quantifies the $109,288,587 insurance absorption that complements ADL.  
 - `PER_ASSET_ISOLATION.md` – documents the per-asset batching behaviour summarized above.
 
 ---

@@ -36,16 +36,16 @@ You requested the **true anatomy of the ADL event** with **no approximations**. 
 - ✅ Account values reconstructed at **exact ADL moment**
 - ✅ Leverage calculated with **real-time account values**
 - ✅ Negative equity detected **precisely**
-- ✅ Insurance fund impact **quantified** ($126.0M)
+- ✅ Insurance fund impact **quantified** ($109.29M)
 - ✅ Total equity = cash + unrealized PNL (all positions)
 
 **Results (Canonical Replay)**:
 - **34,983 ADL events** analyzed (100% coverage)
 - **94.5% profitable** (real-time)
-- **Median leverage: 0.15x** (95th pct 3.22x, 99th pct 13.65x)
-- **1,275 accounts underwater** (aggregate **−$125,981,795**)
+- **Median leverage: 0.18x** (95th pct 4.23x, 99th pct 74.18x)
+- **1,147 accounts underwater** (aggregate **−$109,288,587**)
 - **Total ADL notional**: **$2,103,111,431**
-- **Insurance coverage required**: **$126.0M**
+- **Insurance coverage required**: **$109.29M**
 - **Primary outputs**: `adl_detailed_analysis_REALTIME.csv`, `realtime_analysis_summary.json`
 
 ---
@@ -56,20 +56,20 @@ You requested the **true anatomy of the ADL event** with **no approximations**. 
 |--------|----------------|-----------------|--------|
 | **ADL Events** | 31,444 | 34,983 | +3,539 |
 | **Profitable %** | 98.3% | 94.5% | -3.8% |
-| **Median Leverage** | 0.24x | 0.15x | -0.09x |
+| **Median Leverage** | 0.24x | 0.18x | -0.06x |
 | **95th pct Leverage** | — | 3.22x | — |
 | **99th pct Leverage** | — | 13.65x | — |
 | **Avg PNL %** | 82.43% | 80.58% | -1.85% |
-| **Negative Equity** | Unknown | 1,275 accounts | **NEW** |
-| **Insurance Impact** | Unknown | -$126.0M | **NEW** |
+| **Negative Equity** | Unknown | 1,147 accounts | **NEW** |
+| **Insurance Impact** | Unknown | -$109.29M | **NEW** |
 
 ### Why the Differences?
 
-**Leverage distribution clarified** (median 0.24x → 0.15x):
+**Leverage distribution clarified** (median 0.24x → 0.18x):
 - Snapshot averages overstated leverage (mean 1.16x)
 - Real-time reconstruction shows leverage stayed extremely low
-- 99.64% of positions had leverage ≤50x
-- 95th percentile 3.22x, 99th percentile 13.65x
+- 98.89% of positions had leverage ≤50x
+- 95th percentile 4.23x, 99th percentile 74.18x
 
 **Profitable % decreased slightly** (98.3% → 94.5%):
 - Real-time prices capture cascade impact more accurately
@@ -79,8 +79,8 @@ You requested the **true anatomy of the ADL event** with **no approximations**. 
 **Negative equity now visible**:
 - Snapshot-only analysis could not detect underwater accounts
 - Real-time reconstruction calculates total equity at ADL moment
-- 1,275 accounts went underwater during cascade
-- $126.0M insurance fund coverage required to absorb losses
+- 1,147 accounts went underwater during cascade
+- $109.29M insurance fund coverage required to absorb losses
 
 ---
 
@@ -145,9 +145,9 @@ STEP 5: Output
 
 | Metric | Value |
 |--------|-------|
-| **Accounts underwater** | 1,275 (3.64% of ADL'd) |
+| **Accounts underwater** | 1,147 (3.28% of ADL'd) |
 | **Total negative equity** | -$125,981,794.94 |
-| **Insurance coverage required** | $126.0M |
+| **Insurance coverage required** | $109.29M |
 | **Largest underwater** | -$21.95M |
 | **Average underwater** | -$98,809 |
 | **Peak rate** | 399 accounts/min (21:19-21:20) |
@@ -155,8 +155,8 @@ STEP 5: Output
 ### What This Means
 
 **Insurance fund mechanics revealed**:
-1. **1,275 accounts** went underwater (total equity < 0)
-2. Their combined losses: **$126.0M**
+1. **1,147 accounts** went underwater (total equity < 0)
+2. Their combined losses: **$109.29M**
 3. This must be covered by **insurance fund**
 4. If insufficient → **loss socialization** to all traders
 5. ADL extracts profit from winners to **replenish fund**
@@ -175,8 +175,8 @@ STEP 5: Output
 
 **First-Ever Accomplishments in DeFi Research**:
 1. ✅ Real-time account reconstruction during cascade (3.2M events)
-2. ✅ Insurance fund impact quantification ($126.0M)
-3. ✅ Negative equity detection at exact moment (1,275 accounts)
+2. ✅ Insurance fund impact quantification ($109.29M)
+3. ✅ Negative equity detection at exact moment (1,147 accounts)
 4. ✅ Risk assessment with real-time precision
 5. ✅ Complete anatomy of ADL event (no approximations)
 
@@ -362,7 +362,7 @@ Real-Time Account Reconstruction (2025). "Complete Anatomy of October 10, 2025
 Hyperliquid ADL Cascade with Insurance Fund Impact Quantification."
 Method: Chronological processing of 3.2M events to reconstruct 437k+ account states (437,723 unique accounts).
 Data: Clearinghouse snapshot (Block 758750000) + complete event stream.
-Key Finding: 1,275 accounts underwater, $126.0M insurance fund coverage required.
+Key Finding: 1,147 accounts underwater, $109.29M insurance fund coverage required.
 ```
 
 ---

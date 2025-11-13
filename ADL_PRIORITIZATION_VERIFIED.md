@@ -33,13 +33,13 @@ After analyzing **34,983 ADL events** with complete **real-time account reconstr
 | **Profitable positions** | 33,064 (94.5%) |
 | **Average unrealized PNL%** | **+80.58%** |
 | **Median unrealized PNL%** | **+50.09%** |
-| **Median leverage (REAL-TIME)** | 0.15x |
-| **95th percentile leverage** | 3.22x |
-| **99th percentile leverage** | 13.65x |
-| **Negative equity accounts** | 1,275 (3.64%) |
-| **Insurance fund impact** | **-$126.0M** |
+| **Median leverage (REAL-TIME)** | 0.18x |
+| **95th percentile leverage** | 4.23x |
+| **99th percentile leverage** | 74.18x |
+| **Negative equity accounts** | 1,147 (3.28%) |
+| **Insurance fund impact** | **-$109.29M** |
 
-**Note**: 99.64% of ADL'd positions had leverage ≤50x (within Hyperliquid limits).
+**Note**: 98.89% of ADL'd positions had leverage ≤50x (within Hyperliquid limits).
 
 ### The Smoking Gun
 
@@ -47,7 +47,7 @@ After analyzing **34,983 ADL events** with complete **real-time account reconstr
 
 This is not a coincidence. This is not random. This is **algorithmic selection based on profitability**.
 
-Even more striking: only 3.64% of ADL'd accounts were underwater (negative equity), proving ADL targets winners to cover losses.
+Even more striking: only 3.28% of ADL'd accounts were underwater (negative equity), proving ADL targets winners to cover losses.
 
 ---
 
@@ -57,16 +57,16 @@ Even more striking: only 3.64% of ADL'd accounts were underwater (negative equit
 
 | Rank | Coin | ADL Notional | Unrealized PNL% | Leverage | Account Value |
 |------|------|--------------|-----------------|----------|---------------|
-| 1 | BTC | $193,370,257 | **12.73%** | 0.6x | $184.3M |
-| 2 | ETH | $174,176,486 | **21.84%** | 1.3x | $113.4M |
-| 3 | BTC | $76,396,294 | **12.60%** | 0.6x | $184.3M |
-| 4 | BTC | $70,601,462 | **13.82%** | 2.3x | $36.2M |
-| 5 | SOL | $46,653,899 | **16.07%** | 2.1x | $22.3M |
-| 6 | ETH | $41,315,927 | **26.37%** | 1.3x | $113.4M |
-| 7 | ETH | $41,203,200 | **26.47%** | 1.1x | $36.2M |
-| 8 | ETH | $38,274,871 | **33.08%** | 1.4x | $27.3M |
-| 9 | BTC | $30,306,580 | **10.37%** | 4.3x | $7.0M |
-| 10 | SOL | $29,518,068 | **35.77%** | 0.5x | $54.1M |
+| 1 | BTC | $193,370,257 | **12.73%** | 0.66x | $159.5M |
+| 2 | ETH | $174,176,486 | **21.84%** | 1.79x | $82.7M |
+| 3 | BTC | $76,396,294 | **12.60%** | 0.66x | $159.5M |
+| 4 | BTC | $70,601,462 | **13.82%** | 2.92x | $29.1M |
+| 5 | SOL | $46,653,899 | **16.07%** | 2.01x | $23.2M |
+| 6 | ETH | $41,315,927 | **26.37%** | 1.73x | $82.7M |
+| 7 | ETH | $41,203,200 | **26.47%** | 1.42x | $29.1M |
+| 8 | ETH | $38,274,871 | **33.08%** | 2.11x | $18.1M |
+| 9 | BTC | $30,306,580 | **10.37%** | 4.80x | $6.3M |
+| 10 | SOL | $29,518,068 | **35.77%** | 0.54x | $54.4M |
 
 **Every single one was profitable.**  
 Leverage ranged from roughly 0.5x to 4.3x — entirely within conservative bounds.
@@ -93,16 +93,16 @@ These are **extremely profitable** positions on memecoins/altcoins.
 
 | Rank | Coin | Leverage | Unrealized PNL% | ADL Notional |
 |------|------|----------|-----------------|--------------|
-| 1 | BTC | **15.76x** | 16.26% | $9,011,260 |
-| 2 | BTC | **14.35x** | 8.01% | $433,501 |
-| 3 | BTC | **14.35x** | 8.01% | $2,232,110 |
-| 4 | BTC | **14.35x** | 8.01% | $415,655 |
-| 5 | BTC | **10.53x** | 8.50% | $1,718,687 |
-| 6 | BTC | **8.90x** | 8.20% | $976,811 |
-| 7 | BTC | **6.98x** | 6.42% | $3,246,060 |
-| 8 | BTC | **6.46x** | 4.82% | $3,220,500 |
-| 9 | BTC | **5.43x** | 10.37% | $1,240,870 |
-| 10 | BTC | **5.41x** | 7.20% | $728,664 |
+| 1 | BTC | **14.35x** | 8.01% | $415,655 |
+| 2 | BTC | **14.35x** | 8.01% | $2,232,110 |
+| 3 | BTC | **14.35x** | 8.01% | $433,501 |
+| 4 | BTC | **11.07x** | 16.26% | $9,011,260 |
+| 5 | BTC | **11.04x** | 8.50% | $1,718,687 |
+| 6 | BTC | **9.23x** | 8.20% | $976,811 |
+| 7 | BTC | **7.21x** | 12.12% | $542,080 |
+| 8 | BTC | **6.98x** | 6.42% | $3,246,060 |
+| 9 | BTC | **6.85x** | 12.23% | $1,300,992 |
+| 10 | BTC | **6.77x** | 9.13% | $487,872 |
 
 To remove near-zero equity artifacts we limit the ranking to accounts with >$100K real-time equity. Even then, the most levered fills were mid-sized BTC shorts (roughly $0.4M–$9.0M notional) carrying 5x–16x leverage — still modest relative to exchange limits and all solidly profitable.
 
@@ -161,9 +161,9 @@ ADL doesn't punish reckless traders. It forces **profitable traders** to exit th
 
 ### 2. Leverage is Irrelevant (Mostly)
 
-Median leverage of ADL'd positions: **0.15x**  
-95th percentile leverage: **3.22x**  
-99th percentile leverage: **13.65x**
+Median leverage of ADL'd positions: **0.18x**  
+95th percentile leverage: **4.23x**  
+99th percentile leverage: **74.18x**
 
 These are **conservative** positions. Not degenerate gamblers. Even the top 1% had reasonable leverage (≤13.65x).
 
@@ -246,13 +246,13 @@ For each ADL event:
 
 | Leverage Range | Count | % of Total |
 |----------------|-------|------------|
-| **0-1x** | 30,343 | 86.7% |
-| **1-3x** | 2,790 | 8.0% |
-| **3-5x** | 818 | 2.3% |
-| **5-10x** | 557 | 1.6% |
-| **> 10x** | 475 | 1.4% |
+| **0-1x** | 29,701 | 84.9% |
+| **1-3x** | 2,995 | 8.6% |
+| **3-5x** | 782 | 2.2% |
+| **5-10x** | 728 | 2.1% |
+| **> 10x** | 777 | 2.2% |
 
-**Takeaway**: Over 86% of ADL'd positions had leverage below 1x; even the 99th percentile was only 13.65x.
+**Takeaway**: Over 84% of ADL'd positions had leverage below 1x; even the 99th percentile was 74.18x.
 
 ---
 
@@ -260,7 +260,7 @@ For each ADL event:
 
 ### ❌ MYTH: "ADL targets the highest leverage positions"
 
-**REALITY**: 99.64% of ADL'd positions had leverage ≤50x. Median leverage: 0.15x. Even the 99th percentile was only 13.65x.
+**REALITY**: 98.89% of ADL'd positions had leverage ≤50x. Median leverage: 0.18x. Even the 99th percentile was only 74.18x.
 
 ### ❌ MYTH: "ADL is random"
 
@@ -385,8 +385,8 @@ For questions about:
 
 - 94.5% of ADL'd positions were profitable (complete 12-minute dataset)
 - Average PNL: +80.58%
-- Median leverage: 0.15x (extremely low!)
-- 99.64% had leverage ≤50x (within Hyperliquid limits)
+- Median leverage: 0.18x (extremely low!)
+- 98.89% had leverage ≤50x (within Hyperliquid limits)
 - If you're sitting on a huge unrealized gain during a liquidation cascade, you're getting ADL'd - **regardless of your leverage**.
 
 **This is not a bug. This is the design.**

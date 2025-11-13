@@ -12,12 +12,12 @@
 
 | Metric | Value |
 |--------|-------|
-| **Accounts in negative equity** | **1,275** |
-| **Total negative equity** | **-$125,981,794.94** |
-| **Insurance fund coverage required** | **$126.0M** |
-| **% of ADL'd accounts underwater** | **3.64%** |
+| **Accounts in negative equity** | **1,147** |
+| **Total negative equity** | **-$109,288,587.34** |
+| **Insurance fund coverage required** | **$109.29M** |
+| **% of ADL'd accounts underwater** | **3.28%** |
 | **Largest underwater account** | -$21.95M |
-| **Average underwater account** | -$98,809 |
+| **Average underwater account** | -$95,322 |
 
 ---
 
@@ -98,14 +98,14 @@ This enables:
 
 | Equity Range | # Accounts | Total Negative Equity |
 |--------------|------------|----------------------|
-| $0 to -$10k | 939 | -$1.42M |
-| -$10k to -$50k | 169 | -$3.91M |
-| -$50k to -$100k | 57 | -$4.60M |
-| -$100k to -$500k | 87 | -$27.03M |
-| -$500k to -$1M | 5 | -$3.62M |
-| < -$1M | 18 | -$85.39M |
+| $0 to -$10k | 841 | -$1.04M |
+| -$10k to -$50k | 155 | -$3.58M |
+| -$50k to -$100k | 26 | -$2.15M |
+| -$100k to -$500k | 91 | -$20.39M |
+| -$500k to -$1M | 16 | -$9.72M |
+| < -$1M | 18 | -$72.42M |
 
-**18 accounts** with losses greater than $1M each account for **68% of total insurance impact**.
+**18 accounts** with losses greater than $1M each account for **66% of total insurance impact**.
 
 ### Timeline of Negative Equity Emergence
 
@@ -113,19 +113,19 @@ Negative equity accounts emerged in waves as the cascade progressed:
 
 | Time Range | New Underwater Accounts | Cumulative |
 |------------|-------------------------|------------|
-| 21:16:00 - 21:17:00 | 248 | 248 |
-| 21:17:01 - 21:18:00 | 242 | 490 |
-| 21:18:01 - 21:19:00 | 279 | 769 |
-| 21:19:01 - 21:20:00 | 399 | 1,168 |
-| 21:20:01 - 21:21:00 | 40 | 1,208 |
-| 21:21:01 - 21:22:00 | 29 | 1,237 |
-| 21:22:01 - 21:23:00 | 20 | 1,257 |
-| 21:23:01 - 21:24:00 | 1 | 1,258 |
-| 21:24:01 - 21:25:00 | 1 | 1,259 |
-| 21:25:01 - 21:26:00 | 15 | 1,274 |
-| 21:26:01 - 21:27:00 | 1 | 1,275 |
+| 21:16:00 - 21:17:00 | 237 | 237 |
+| 21:17:01 - 21:18:00 | 214 | 451 |
+| 21:18:01 - 21:19:00 | 250 | 701 |
+| 21:19:01 - 21:20:00 | 312 | 1,013 |
+| 21:20:01 - 21:21:00 | 71 | 1,084 |
+| 21:21:01 - 21:22:00 | 23 | 1,107 |
+| 21:22:01 - 21:23:00 | 20 | 1,127 |
+| 21:23:01 - 21:24:00 | 1 | 1,128 |
+| 21:24:01 - 21:25:00 | 1 | 1,129 |
+| 21:25:01 - 21:26:00 | 17 | 1,146 |
+| 21:26:01 - 21:27:00 | 1 | 1,147 |
 
-**Peak underwater rate**: 21:16:00 - 21:17:00 (387 accounts went negative in 60 seconds)
+**Peak underwater rate**: 21:19:01 - 21:20:00 (312 accounts went negative in 60 seconds)
 
 ---
 
@@ -133,7 +133,7 @@ Negative equity accounts emerged in waves as the cascade progressed:
 
 ### 1. ADL Prioritizes Profit, Not Risk
 
-Even with 1,275 accounts underwater, ADL targeted **profitable positions** (94.5% of ADL'd positions were profitable).
+Even with 1,147 accounts underwater, ADL targeted **profitable positions** (94.5% of ADL'd positions were profitable).
 
 **Why?**
 - Insurance fund covers losses from underwater accounts
@@ -156,19 +156,19 @@ Profitable positions force-closed
 Proceeds restore insurance fund
 ```
 
-**This cascade required $126.0M in insurance fund coverage.**
+**This cascade required $109.29M in insurance fund coverage.**
 
-If insurance fund balance was < $126.0M → loss socialization to all traders would occur.
+If insurance fund balance was < $109.29M → loss socialization to all traders would occur.
 
 ### 3. Leverage vs Underwater Status
 
 | Leverage Range | % ADL'd | % Underwater |
 |----------------|---------|--------------|
-| < 1x | 52.3% | 1.8% |
-| 1x - 2x | 18.4% | 2.4% |
-| 2x - 5x | 21.2% | 3.9% |
-| 5x - 10x | 6.1% | 5.7% |
-| > 10x | 2.0% | 8.2% |
+| < 1x | 84.90% | 51.70% |
+| 1x - 2x | 5.94% | 5.75% |
+| 2x - 5x | 4.86% | 7.76% |
+| 5x - 10x | 2.08% | 5.23% |
+| > 10x | 2.22% | 29.56% |
 
 **Even low-leverage accounts** went underwater during this cascade, though higher leverage correlated with higher underwater probability.
 
@@ -285,9 +285,9 @@ for event in chronological_events:
 ### First-Ever Achievements
 
 1. **Real-time account reconstruction** during a DeFi cascade
-2. **Insurance fund impact quantification** ($126.0M)
-3. **Negative equity detection** at exact ADL moment (1,275 accounts)
-4. **Risk pool analysis** showing 2.71% underwater rate
+2. **Insurance fund impact quantification** ($109.29M)
+3. **Negative equity detection** at exact ADL moment (1,147 accounts)
+4. **Risk pool analysis** showing 3.28% underwater rate
 
 ### Future Research Directions
 
@@ -306,7 +306,7 @@ Insurance Fund Impact Analysis (2025). "Real-Time Account Reconstruction:
 Quantifying Negative Equity in the October 10, 2025 Hyperliquid Cascade."
 Data: Clearinghouse snapshot (Block 758750000) + 2.6M chronological events.
 Method: Real-time account value reconstruction through event replay.
-Key Finding: 1,275 accounts underwater, $126.0M insurance fund coverage required.
+Key Finding: 1,147 accounts underwater, $109.29M insurance fund coverage required.
 ```
 
 ---
