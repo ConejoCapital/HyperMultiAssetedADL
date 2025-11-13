@@ -132,34 +132,27 @@ All 265 occurred at timestamp: `2025-10-10 21:17:06.037894+00:00`
 
 ## Key Insights for Further Research
 
-### Questions Worth Investigating:
+### Questions Worth Investigating (Updated with canonical realtime data)
 
 1. **ADL Prioritization**: How does Hyperliquid choose which profitable traders to ADL?
-   - ✅ **ANSWERED** (November 12, 2025 - with clearinghouse data)
+   - ✅ **ANSWERED** with the realtime dataset (`adl_detailed_analysis_REALTIME.csv`)
    - **ADL targets PROFIT, not leverage**
    - 94.5% of ADL'd positions were profitable (avg +80.6% PNL)
    - Median leverage was only 0.15x (LOW!)
-   - See `ADL_PRIORITIZATION_VERIFIED.md` for complete analysis
-   - **Key Finding**: Low leverage does NOT protect from ADL if position is highly profitable
+   - See `ADL_PRIORITIZATION_VERIFIED.md` and `FINDINGS_VERIFICATION_REPORT.md`
 
-2. **Partial ADL**: Why was only 85% covered by this ADL?
-   - Was the short position only $174M (smaller than liquidation need)?
-   - Did other ADLs cover the remaining $30M?
-   - What's the HLP fund's role in the remaining gap?
-   - ⚠️ Further investigation needed with insurance fund data
+2. **Partial ADL Coverage**: Why was only 85% of the $204.7M liquidation stack covered by this single ETH ADL?
+   - ✅ **EXPLAINED**: Canonical realtime data shows 34,983 ADLs across the burst. The remaining ~$30.5M was satisfied by follow-on ADLs in the same millisecond cluster **plus** $125,981,795 in insurance-fund absorption (quantified in `INSURANCE_FUND_IMPACT.md`).
+   - Real-time equity for the forced short was $147.4M; the protocol drew only what was needed from that account while routing residual loss to other ADL counterparties and the insurance fund.
 
 3. **Cascade Effect**: How do liquidations trigger more liquidations?
-   - ✅ **ANALYZED** - See `CASCADE_TIMING_ANALYSIS.md`
-   - This event shows $7.6B total impact (liquidations + ADL)
-   - 61-second delay before ADL activation
-   - Multiple waves of liquidations over 12 minutes
-   - 0.946 correlation between liquidations and ADL
+   - ✅ **VERIFIED** with the canonical 12-minute feed (`liquidations_full_12min.csv` + `adl_fills_full_12min_raw.csv`)
+   - $7.61B combined impact, 61-second delay before the first ADL, alternating liquidation → ADL waves, 0.946 correlation.
+   - See `CASCADE_TIMING_ANALYSIS.md`, `BATCH_PROCESSING_DISCOVERY.md`, and `TOTAL_IMPACT_ANALYSIS.md`.
 
-4. **Insurance Fund**: What's its current size and how much did it lose?
-   - Hyperliquid has an insurance fund
-   - May have covered some of the $30M gap
-   - ⚠️ Requires additional clearinghouse state data
-   - Negative equity analysis pending
+4. **Insurance Fund Impact**: What's the size of the gap the fund had to absorb?
+   - ✅ **MEASURED** using real-time reconstruction: 1,275 accounts in negative equity, totalling **$125,981,795** that the insurance fund (and HLP buffer) covered to prevent socialized losses.
+   - Details in `INSURANCE_FUND_IMPACT.md`, `REAL_TIME_RECONSTRUCTION_SUMMARY.md`, and `LEVERAGE_CORRECTION.md`.
 
 ## Data Availability
 
