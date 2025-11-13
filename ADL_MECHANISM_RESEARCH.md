@@ -82,6 +82,16 @@ The remaining ~$30M was likely covered by:
 
 All 265 occurred at timestamp: `2025-10-10 21:17:06.037894+00:00`
 
+
+### Canonical Verification (November 13, 2025)
+- **Data sources**: `adl_detailed_analysis_REALTIME.csv`, `adl_fills_full_12min_raw.csv`, `liquidations_full_12min.csv`
+- **ADL fills at this timestamp**: 2,468 across all tickers (34,983-event canonical dataset).
+- **ETH ADL fills**: 265 addresses forced to close, totaling **$204,671,086.94**, perfectly matching the ETH liquidation stack.
+   - Largest ADL: `0x2ea1…3f4` with $174,176,486.12 (the case study position).
+   - Remaining 264 ETH ADLs contributed the additional $30,494,600.82 needed to offset the 265 liquidations.
+- **Cross-asset spillover**: 2,203 simultaneous ADLs on other tickers injected another $181,940,613.12 of liquidity at the same millisecond.
+- **Insurance fund absorption**: Real-time reconstruction identified **1,275 negative-equity accounts** and **$125,981,795** of residual loss absorbed by the insurance/HLP buffers (`INSURANCE_FUND_IMPACT.md`).
+
 ## What This Tells Us About ADL
 
 ### 1. ADL is Triggered by Liquidations
@@ -94,14 +104,14 @@ All 265 occurred at timestamp: `2025-10-10 21:17:06.037894+00:00`
 - The profitable short was forced to close to provide liquidity for liquidating the longs
 
 ### 3. One Profitable Trader vs Many Losing Traders
-- 1 ADL user (profitable short)
-- 265 liquidation fills from 1 user (actually one account with many positions)
-- Shows how concentrated risk can trigger ADL for winners
+- 265 ADL users (profitable shorts), including the $174M position holder
+- 265 liquidation fills from a single long-only account
+- Extreme concentration: one losing counterparty forced hundreds of profitable traders to close
 
 ### 4. ADL Doesn't Cover 100%
-- Only covered 85% of the liquidation notional
-- Insurance/HLP fund covered the rest
-- This is normal - ADL is one part of the solvency mechanism
+- The largest ADL supplied $174.18M (85% of the ETH liquidation stack); the remaining $30.5M came from the other 264 ETH ADLs in the same millisecond
+- Any outstanding gap after ADLs was absorbed by the insurance/HLP buffers (see canonical insurance-impact analysis)
+- This confirms ADL is part of a multi-layer solvency stack (ADL → insurance → socialization)
 
 ## Research Sources
 
