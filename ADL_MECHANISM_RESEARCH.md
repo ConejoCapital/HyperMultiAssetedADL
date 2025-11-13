@@ -4,6 +4,8 @@
 
 Analysis of the $174.18M ETH Auto-Deleveraging (ADL) event using blockchain data from Hyperliquid's October 10, 2025 liquidation cascade.
 
+This report has been refreshed using the canonical real-time reconstruction dataset (`adl_detailed_analysis_REALTIME.csv`, generated November 13, 2025).
+
 ## Key Finding: YES, the $174M ADL has corresponding liquidations
 
 **ADL Event:**
@@ -12,6 +14,10 @@ Analysis of the $174.18M ETH Auto-Deleveraging (ADL) event using blockchain data
 - Timestamp: `2025-10-10 21:17:06.037894+00:00`
 - Direction: Auto-Deleveraging
 - PNL: $38,045,716.34 (profitable short forced to close)
+- Real-time account value at ADL: $113,407,181.02
+- Real-time total equity at ADL: $147,432,877.35
+- Real-time leverage at ADL: 1.31x
+- Unrealized PNL% at ADL: +21.84%
 
 **Corresponding Liquidations:**
 - **265 ETH liquidations** at the EXACT SAME TIMESTAMP
@@ -131,8 +137,8 @@ All 265 occurred at timestamp: `2025-10-10 21:17:06.037894+00:00`
 1. **ADL Prioritization**: How does Hyperliquid choose which profitable traders to ADL?
    - ✅ **ANSWERED** (November 12, 2025 - with clearinghouse data)
    - **ADL targets PROFIT, not leverage**
-   - 98.3% of ADL'd positions were profitable (avg +82% PNL)
-   - Average leverage was only 1.16x (LOW!)
+   - 94.5% of ADL'd positions were profitable (avg +80.6% PNL)
+   - Median leverage was only 0.15x (LOW!)
    - See `ADL_PRIORITIZATION_VERIFIED.md` for complete analysis
    - **Key Finding**: Low leverage does NOT protect from ADL if position is highly profitable
 
@@ -165,17 +171,15 @@ All raw data and analysis code available at:
   - Complete liquidation + ADL analysis
   - $7.61 billion total impact calculation
 
-**NEW - Clearinghouse Data** (November 12, 2025):
-- **Account snapshot**: 437,356 accounts with complete values ($5.1B total)
-- **Position snapshot**: 221,422 positions across 182 markets
-- **Complete fills**: 2.7M fills processed from snapshot to cascade end
-- **ADL analysis**: 31,444 ADL events with leverage, entry prices, and PNL
-- **Location**: `~/Desktop/ADL Clearinghouse Data/`
-- **Files**:
-  - `adl_detailed_analysis.csv` - Complete ADL events with account data
-  - `adl_by_user.csv` - User-level aggregations
-  - `adl_by_coin.csv` - Asset-level aggregations
-  - `CLEARINGHOUSE_ANALYSIS_SUMMARY.md` - Full methodology
+**Canonical Clearinghouse Integration** (November 13, 2025 update):
+- **Account snapshot**: 437,723 accounts reconstructed in real time ($5.1B total)
+- **Complete event stream**: 3,239,706 fills, funding, and ledger updates processed
+- **ADL analysis**: 34,983 ADL events with real-time leverage, entry prices, and equity
+- **Repository files**:
+  - `adl_detailed_analysis_REALTIME.csv` – Canonical per-position dataset
+  - `adl_by_user_REALTIME.csv` – User-level aggregations
+  - `adl_by_coin_REALTIME.csv` – Asset-level aggregations
+  - `REAL_TIME_RECONSTRUCTION_SUMMARY.md` – Full methodology
 
 ## Conclusion
 
@@ -185,7 +189,7 @@ This is not a bug or data error - it's how Hyperliquid's ADL mechanism prevents 
 
 ---
 
-**Data extracted:** November 11, 2025  
+**Data extracted:** November 13, 2025  
 **Event date:** October 10, 2025, 21:17:06 UTC  
 **Blockchain:** Hyperliquid L1  
 **Verification:** 100% blockchain-verified data
