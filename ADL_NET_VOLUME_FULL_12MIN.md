@@ -301,6 +301,11 @@
 
 ## Methodology
 
+### Canonical Files
+- `adl_fills_full_12min_raw.csv` – Raw blockchain ADL fills for the 12-minute window
+- `adl_detailed_analysis_REALTIME.csv` – Realtime per-position metrics that validate notional and PNL totals
+- `adl_by_coin_REALTIME.csv` – Aggregated cross-check for net notional and PNL by asset
+
 ### Data Source
 - **Source**: Hyperliquid S3 bucket (node_fills_20251010_21.lz4)
 - **Filter**: Only fills with direction containing "Auto-Deleveraging"
