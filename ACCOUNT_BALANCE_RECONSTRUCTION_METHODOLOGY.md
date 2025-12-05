@@ -562,8 +562,16 @@ for event in events_in_window:
                 'notional': 0.0
             }
         
-        # Position size is startPosition (before fill)
-        working_states[user]['positions'][coin]['size'] = event['startPosition']
+        # Update position size based on fill
+        # startPosition is BEFORE fill, size is fill amount
+        # For buy (side='B'): position increases, for sell (side='A'): position decreases
+        start_position = event['startPosition']
+        fill_size = event['size']
+        if event['side'] == 'B':  # Buy
+            new_size = start_position + fill_size
+        else:  # Sell (side='A')
+            new_size = start_position - fill_size
+        working_states[user]['positions'][coin]['size'] = new_size
         
         # Update last price
         last_prices[coin] = event['price']
@@ -622,9 +630,15 @@ Cash-Only Baseline: $10,000 - $5,000 = $5,000
 account_value += closedPnl - fee
 account_value = $5,000 + $500 - $2 = $5,498
 
-# 2. Update position
-position['size'] = startPosition = 1.0  # Position before fill
-# After fill, position becomes 1.0 + 0.5 = 1.5 BTC
+# 2. Update position size
+start_position = 1.0  # Position before fill
+fill_size = 0.5  # Fill amount
+side = 'B'  # Buy
+if side == 'B':
+    new_size = start_position + fill_size  # 1.0 + 0.5 = 1.5 BTC
+else:
+    new_size = start_position - fill_size
+position['size'] = new_size  # Position after fill: 1.5 BTC
 
 # 3. Update entry price (weighted average)
 # Old: 1.0 BTC @ $50,000
@@ -895,18 +909,24 @@ if dtype == 'accountClassTransfer':
         account_value -= usdc_amount  # Perp → Spot
 ```
 
-### Pitfall 3: Using Wrong Position Size
+### Pitfall 3: Not Updating Position Size Correctly
 
-**Problem**: Using fill `size` instead of `startPosition`.
+**Problem**: Setting position size to `startPosition` (before fill) instead of calculating the new size after the fill.
 
-**Solution**: `startPosition` is the position size **before** the fill, which is what we need.
+**Solution**: Calculate new position size by adding/subtracting the fill size based on the side.
 
 ```python
 # WRONG
-position['size'] = event['size']  # This is the fill amount, not position size
+position['size'] = event['startPosition']  # This is position BEFORE fill, not AFTER
 
 # CORRECT
-position['size'] = event['startPosition']  # Position size before fill
+start_position = event['startPosition']  # Position before fill
+fill_size = event['size']  # Fill amount
+if event['side'] == 'B':  # Buy
+    new_size = start_position + fill_size
+else:  # Sell
+    new_size = start_position - fill_size
+position['size'] = new_size  # Position AFTER fill
 ```
 
 ### Pitfall 4: Not Tracking All Ledger Event Types
