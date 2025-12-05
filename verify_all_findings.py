@@ -19,8 +19,10 @@ print("="*80)
 # ============================================================================
 
 print("\n[1/7] Loading canonical data...")
-df = pd.read_csv('adl_detailed_analysis_REALTIME.csv')
-df_raw = pd.read_csv('adl_fills_full_12min_raw.csv')
+# Use canonical file from cash-only folder
+canonical_path = 'cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv'
+df = pd.read_csv(canonical_path)
+df_raw = pd.read_csv('cash-only balances ADL event orderbook 2025-10-10/adl_fills_full_12min_raw.csv')
 
 print(f"  ✓ Loaded {len(df):,} ADL events from canonical file")
 print(f"  ✓ Loaded {len(df_raw):,} raw ADL events")
@@ -69,7 +71,7 @@ print("\n[3/7] TEST 2: Per-Asset Isolation")
 print("-" * 80)
 
 # Load raw data and check liquidations
-liquidations = pd.read_csv('liquidations_full_12min.csv')
+liquidations = pd.read_csv('cash-only balances ADL event orderbook 2025-10-10/liquidations_full_12min.csv')
 liquidations['time_ms'] = pd.to_datetime(liquidations['block_time'], utc=True).view('int64') // 10**6
 
 # Group by timestamp

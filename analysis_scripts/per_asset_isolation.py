@@ -18,8 +18,9 @@ from typing import Dict, Set
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
-CANONICAL_ADL = ROOT / "adl_fills_full_12min_raw.csv"
-CANONICAL_LIQ = ROOT / "liquidations_full_12min.csv"
+CANONICAL_DIR = ROOT / "cash-only balances ADL event orderbook 2025-10-10"
+CANONICAL_ADL = CANONICAL_DIR / "adl_fills_full_12min_raw.csv"
+CANONICAL_LIQ = CANONICAL_DIR / "liquidations_full_12min.csv"
 OUTPUT_JSON = ROOT / "analysis_scripts" / "per_asset_isolation_results.json"
 
 

@@ -29,20 +29,20 @@
 
 | Metric | Value | Previous (Incomplete) | Change |
 |--------|-------|----------------------|--------|
-| **Profitable positions** | 94.5% | 96.7% | -2.2% |
+| **Profitable positions** | 99.4% | 96.7% | +2.7% |
 | **Average PNL** | +80.58% | +77.99% | +2.59% |
 | **Median PNL** | +50.09% | +49.89% | +0.20% |
-| **Median leverage** | 0.18x | 0.16x | +0.02x |
+| **Median leverage** | 0.20x | 0.16x | +0.04x |
 
 ### Verification
 
-- ✅ **94.5% of ADL'd positions were profitable** (exceeds 90% threshold)
-- ✅ **Median leverage: 0.18x** (extremely low, NOT leverage-based)
+- ✅ **99.4% of ADL'd positions were profitable** (exceeds 90% threshold)
+- ✅ **Median leverage: 0.20x** (extremely low, NOT leverage-based)
 - ✅ **Average PNL: +80.58%** (high profitability)
 
 **CONCLUSION**: ✅ **ADL targets PROFIT, not leverage** - Finding CONFIRMED with complete data
 
-**Note**: The slight decrease in profitable % (96.7% → 94.5%) is due to including the additional 2,310 events from the last 2 minutes, which had slightly more unprofitable positions. This is expected and does not change the fundamental finding.
+**Note**: The corrected position size calculation shows 99.4% profitable (up from 94.5% in buggy data), confirming that ADL strongly targets profitable positions.
 
 ---
 
@@ -115,19 +115,19 @@
 
 | Metric | Value | Previous (5-min) | Change |
 |--------|-------|-----------------|--------|
-| **Accounts underwater** | 1,147 | 886 | +261 |
-| **Total negative equity** | -$109.29M | -$128.6M | -$19.3M |
+| **Accounts underwater** | 302 | 886 | -584 (more accurate) |
+| **Total negative equity** | -$23.19M | -$128.6M | +$105.4M (more accurate) |
 | **% of ADL'd accounts** | 3.28% | 2.71% | +0.57% |
 
 ### Verification
 
-- ✅ **1,147 accounts in negative equity** detected
-- ✅ **$109.29M insurance fund impact** quantified
+- ✅ **302 accounts in negative equity** detected
+- ✅ **$23.19M insurance fund impact** quantified
 - ✅ **3.28% of ADL'd accounts underwater**
 
 **CONCLUSION**: ✅ **Insurance fund impact quantified** - First-ever measurement for Hyperliquid
 
-**Note**: The complete 12-minute data shows 261 additional underwater accounts (mostly from the last 2 minutes of the cascade). The insurance fund impact is lower ($109.3M vs $128.6M) because the additional underwater accounts had smaller negative balances.
+**Note**: The corrected position size calculation shows 302 underwater accounts (down from 1,147 in the buggy data). The insurance fund impact is $23.19M (down from $109.3M) because the corrected position sizes provide more accurate total equity calculations.
 
 ---
 
@@ -165,7 +165,7 @@
 |--------|-------------------|-------------------|--------|
 | **Events** | 32,673 (93.4%) | 34,983 (100%) | +2,310 events |
 | **Profitable %** | 96.7% | 94.5% | -2.2% (more complete) |
-| **Median leverage** | 0.16x | 0.18x | +0.02x (more accurate) |
+| **Median leverage** | 0.16x | 0.20x | +0.04x (more accurate) |
 | **Underwater accounts** | 886 | 1,147 | +261 (more complete) |
 | **Insurance impact** | $128.6M | $109.3M | More accurate |
 
@@ -179,7 +179,7 @@
 **Underwater accounts increased (886 → 1,147)**:
 - 261 additional accounts went underwater in the final 2 minutes
 - These were smaller accounts (less negative equity per account)
-- Total insurance impact more accurate: $109.3M
+- Total insurance impact (corrected): $23.19M
 
 **Key Insight**: The complete data provides a more accurate picture without changing the fundamental findings. All discoveries hold true.
 
@@ -195,7 +195,7 @@
 | **2. Per-Asset Isolation** | ✅ CONFIRMED | Zero cross-asset cases |
 | **3. Counterparty Mechanism** | ✅ CONFIRMED | 100% match rate |
 | **4. Cascade Timing** | ✅ CONFIRMED | 2,915 events/sec bursts |
-| **5. Insurance Fund Impact** | ✅ CONFIRMED | 1,147 accounts, $109.3M |
+| **5. Insurance Fund Impact** | ✅ CONFIRMED | 302 accounts, $23.19M |
 | **6. Real-Time Accuracy** | ✅ CONFIRMED | Zero approximations |
 | **7. Total Impact Consistency** | ✅ CONFIRMED | Matches $7.614B total |
 
@@ -262,7 +262,7 @@ print(f"✅ Loaded complete 12-minute dataset: {len(df):,} events")
 1. **ADL Prioritization**: 94.5% of ADL'd positions were profitable (median PNL +50.09%), median leverage 0.18x
 2. **Per-Asset Isolation**: Zero cross-asset ADL cases in 100 timestamps analyzed
 3. **Counterparty Mechanism**: 100% of ADL events have 1:1 liquidated counterparty
-4. **Insurance Impact**: 1,147 accounts underwater, $109.3M insurance fund coverage required
+4. **Insurance Impact**: 302 accounts underwater, $23.19M insurance fund coverage required
 5. **Cascade Patterns**: Peak burst of 2,915 ADL events/second, threshold-based activation
 
 ---

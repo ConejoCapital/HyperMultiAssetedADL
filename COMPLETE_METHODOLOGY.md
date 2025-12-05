@@ -57,10 +57,10 @@
 **Phase 3** (+ Real-Time Reconstruction - Canonical Dataset):
 - ✅ Real-time leverage? → Median 0.18x (95th pct 4.23x, 99th pct 74.18x)
 - ✅ Real-time PNL? → 94.5% profitable (avg +80.58% PNL)
-- ✅ Negative equity? → **1,147 accounts (−$109.29M insurance impact)**
+- ✅ Negative equity? → **302 accounts (−$23.19M insurance impact)**
 - ✅ Account values? → **437,723 accounts reconstructed in real-time**
 - ✅ Total equity? → Cash + unrealized PNL at exact ADL moment
-- ✅ Insurance fund impact? → **$109.29M coverage required**
+- ✅ Insurance fund impact? → **$23.19M coverage required**
 
 ---
 
@@ -528,7 +528,7 @@ for evt in window:
 - **94.5% of ADL'd positions were profitable** (real-time)
 - Average PNL: +80.58% (real-time)
 - Median leverage: **0.18x** (95th pct 4.23x, 99th pct 74.18x)
-- **1,147 accounts in negative equity (−$109.29M)**
+- **302 accounts in negative equity (−$23.19M)**
 - **Insurance fund impact quantified** for first time at full scale
 
 **Technical Achievement**:
@@ -637,10 +637,10 @@ Implication: ADL is forced exit for winners to cover losers
 **6. Insurance Fund Impact (NEW!) 🔥**
 ```
 Question: How much insurance fund coverage was required?
-Answer: $109.29M to cover 1,147 underwater accounts
+Answer: $23.19M to cover 302 underwater accounts
 
 Evidence (Real-Time Reconstruction):
-- 1,147 accounts in negative equity (3.28% of ADL'd)
+- 302 accounts in negative equity (0.86% of ADL'd)
 - Total negative equity: -$109,290,000
 - Largest underwater: -$7.4M
 - Average underwater: -$145k
@@ -743,7 +743,7 @@ python3 full_analysis_realtime.py \
 
 ```python
 import pandas as pd
-adl = pd.read_csv('adl_detailed_analysis_REALTIME.csv')
+adl = pd.read_csv('cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv')
 
 print(f"ADL events: {len(adl):,}")
 print(f"Total ADL notional: ${adl['adl_notional'].sum():,.0f}")
@@ -770,7 +770,7 @@ Run `python3 ../"ADL Net Volume"/verify_all_findings.py` to regenerate the verif
 - [ ] Event counts match (63,637 liquidations, 34,983 ADL)
 - [ ] `full_analysis_realtime.py` replay completes (3,239,706 events processed)
 - [ ] `adl_detailed_analysis_REALTIME.csv` contains 34,983 rows with real-time metrics
-- [ ] Negative-equity tally equals 1,147 accounts (−$109.29M total equity)
+- [ ] Negative-equity tally equals 302 accounts (−$23.19M total equity)
 - [ ] `verify_all_findings.py` passes all prioritization/isolation/timing/insurance checks
 
 ---

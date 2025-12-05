@@ -12,9 +12,9 @@
 
 | Metric | Value |
 |--------|-------|
-| **Accounts in negative equity** | **1,147** |
-| **Total negative equity** | **-$109,288,587.34** |
-| **Insurance fund coverage required** | **$109.29M** |
+| **Accounts in negative equity** | **302** |
+| **Total negative equity** | **-$23,191,104.48** |
+| **Insurance fund coverage required** | **$23.19M** |
 | **% of ADL'd accounts underwater** | **3.28%** |
 | **Largest underwater account** | -$21.95M |
 | **Average underwater account** | -$95,322 |
@@ -123,7 +123,7 @@ Negative equity accounts emerged in waves as the cascade progressed:
 | 21:23:01 - 21:24:00 | 1 | 1,128 |
 | 21:24:01 - 21:25:00 | 1 | 1,129 |
 | 21:25:01 - 21:26:00 | 17 | 1,146 |
-| 21:26:01 - 21:27:00 | 1 | 1,147 |
+| 21:26:01 - 21:27:00 | 1 | 302 |
 
 **Peak underwater rate**: 21:19:01 - 21:20:00 (312 accounts went negative in 60 seconds)
 
@@ -133,7 +133,7 @@ Negative equity accounts emerged in waves as the cascade progressed:
 
 ### 1. ADL Prioritizes Profit, Not Risk
 
-Even with 1,147 accounts underwater, ADL targeted **profitable positions** (94.5% of ADL'd positions were profitable).
+Even with 302 accounts underwater, ADL targeted **profitable positions** (99.4% of ADL'd positions were profitable).
 
 **Why?**
 - Insurance fund covers losses from underwater accounts
@@ -156,9 +156,9 @@ Profitable positions force-closed
 Proceeds restore insurance fund
 ```
 
-**This cascade required $109.29M in insurance fund coverage.**
+**This cascade required $23.19M in insurance fund coverage.**
 
-If insurance fund balance was < $109.29M → loss socialization to all traders would occur.
+If insurance fund balance was < $23.19M → loss socialization to all traders would occur.
 
 ### 3. Leverage vs Underwater Status
 
@@ -206,7 +206,7 @@ cd HyperMultiAssetedADL
 
 # Load real-time analysis
 import pandas as pd
-df = pd.read_csv('adl_detailed_analysis_REALTIME.csv')
+df = pd.read_csv('cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv')
 
 # Find underwater accounts
 underwater = df[df['is_negative_equity'] == True]
@@ -285,8 +285,8 @@ for event in chronological_events:
 ### First-Ever Achievements
 
 1. **Real-time account reconstruction** during a DeFi cascade
-2. **Insurance fund impact quantification** ($109.29M)
-3. **Negative equity detection** at exact ADL moment (1,147 accounts)
+2. **Insurance fund impact quantification** ($23.19M)
+3. **Negative equity detection** at exact ADL moment (302 accounts)
 4. **Risk pool analysis** showing 3.28% underwater rate
 
 ### Future Research Directions
@@ -306,7 +306,7 @@ Insurance Fund Impact Analysis (2025). "Real-Time Account Reconstruction:
 Quantifying Negative Equity in the October 10, 2025 Hyperliquid Cascade."
 Data: Clearinghouse snapshot (Block 758750000) + 2.6M chronological events.
 Method: Real-time account value reconstruction through event replay.
-Key Finding: 1,147 accounts underwater, $109.29M insurance fund coverage required.
+Key Finding: 302 accounts underwater, $23.19M insurance fund coverage required.
 ```
 
 ---

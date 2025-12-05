@@ -12,7 +12,8 @@ from pathlib import Path
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
-ADL_DETAIL_PATH = ROOT / "adl_detailed_analysis_REALTIME.csv"
+CANONICAL_DIR = ROOT / "cash-only balances ADL event orderbook 2025-10-10"
+ADL_DETAIL_PATH = CANONICAL_DIR / "adl_detailed_analysis_REALTIME.csv"
 OUTPUT_JSON = ROOT / "analysis_scripts" / "insurance_fund_results.json"
 
 

@@ -14,9 +14,10 @@ from pathlib import Path
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
-ADL_DETAIL_PATH = ROOT / "adl_detailed_analysis_REALTIME.csv"
-ADL_RAW_PATH = ROOT / "adl_fills_full_12min_raw.csv"
-LIQ_PATH = ROOT / "liquidations_full_12min.csv"
+CANONICAL_DIR = ROOT / "cash-only balances ADL event orderbook 2025-10-10"
+ADL_DETAIL_PATH = CANONICAL_DIR / "adl_detailed_analysis_REALTIME.csv"
+ADL_RAW_PATH = CANONICAL_DIR / "adl_fills_full_12min_raw.csv"
+LIQ_PATH = CANONICAL_DIR / "liquidations_full_12min.csv"
 OUTPUT_JSON = ROOT / "analysis_scripts" / "adl_mechanism_results.json"
 
 TARGET_COIN = "ETH"

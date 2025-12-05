@@ -15,8 +15,8 @@ adl_detailed_analysis_REALTIME.csv
 **This file contains**:
 - **34,983 ADL events** (100% coverage - complete 12-minute event)
 - **Real-time account values (cash-only)** at exact ADL moment (snapshot unrealized PnL removed)
-- **Real-time leverage** calculated with reconstructed account states (median **0.18x**, 95th percentile **4.23x**, 99th percentile **74.18x**)
-- **Negative equity detection** (1,147 accounts, **−$109.29M** aggregate deficit)
+- **Real-time leverage** calculated with reconstructed account states (median **0.20x**, 95th percentile **5.10x**, 99th percentile **122.69x**)
+- **Negative equity detection** (302 accounts, **−$23.19M** aggregate deficit)
 - **Zero shortcuts** - 3.2M events processed chronologically
 
 **Processing details**:
@@ -25,7 +25,10 @@ adl_detailed_analysis_REALTIME.csv
 - Time range: 21:16:04 to 21:26:57 UTC (10.88 minutes of active ADL)
 - Method: Chronological event replay from clearinghouse snapshot
 
-**Canonical dataset status:** Only the cash-only reconstructed CSVs and raw S3 extracts are now present in this repository. Every analysis script, markdown study, and CSV artifact is derived directly from `adl_detailed_analysis_REALTIME.csv`, `adl_fills_full_12min_raw.csv`, and `liquidations_full_12min.csv`. For convenience, the latest outputs are also bundled under `cash-only balances ADL event orderbook 2025-10-10/` for researchers who need the dataset as of this replay.
+**Canonical dataset status:** Only the cash-only reconstructed CSVs and raw S3 extracts are now present in this repository. Every analysis script, markdown study, and CSV artifact is derived directly from the canonical files in `cash-only balances ADL event orderbook 2025-10-10/`:
+- `adl_detailed_analysis_REALTIME.csv` (34,983 ADL events with fixed position size calculation)
+- `adl_fills_full_12min_raw.csv` (raw ADL fills)
+- `liquidations_full_12min.csv` (liquidation events)
 
 ---
 
@@ -88,9 +91,9 @@ python3 analysis_scripts/<script_name>.py
 | Cascade Timing | First ADL at **61.7s** after first liquidation; largest burst **11,279** liq + **11,279** ADL in second 61 |
 | Batch Processing | **224** timestamps total, first **61s** liquidation-only, all shared timestamps run `liquidation → ADL` sequentially |
 | Counterparty Mechanism | **100%** ADL events carry `liquidated_user`; highlighted **$174.18M ETH** ADL matched by **265** ETH liquidations |
-| ADL Prioritization (global) | **94.5%** profitable ADL targets, median leverage **0.18x**, p95 **4.23x**, p99 **74.18x** |
+| ADL Prioritization (global) | **99.4%** profitable ADL targets, median leverage **0.20x**, p95 **5.10x**, p99 **122.69x** |
 | ADL Prioritization (local) | Spearman ρ (PNL vs notional **−0.2207**), (PNL vs leverage **−0.4781**); repeated winners table in JSON |
-| Insurance Fund Impact | **1,147** negative-equity accounts (**3.28%** of ADL), aggregate deficit **−$109,288,587** |
+| Insurance Fund Impact | **302** negative-equity accounts (**0.86%** of ADL), aggregate deficit **−$23,191,104** |
 | ADL Net Volume | Total ADL notional **$2,103,111,431**, 34,983 events across 162 tickers |
 | Total Impact | Liquidations **$5,511,042,925** + ADL **$2,103,111,431** = **$7,614,154,356** across 98,620 events |
 | Comprehensive Verification | `python3 verify_all_findings.py` passes all suites (prioritization, isolation, counterparty, timing, insurance, integrity) |
@@ -128,7 +131,7 @@ python3 analysis_scripts/<script_name>.py
 | **Leverage Ratios** | Requires clearinghouse state | **REAL-TIME for 34,983 ADL events (100%)** |
 | **Unrealized PNL** | Can't calculate without entry | **Real-time for all positions** |
 | **Account Values** | Not available | **437,723 accounts - REAL-TIME RECONSTRUCTED** |
-| **Negative Equity** | Not trackable | **1,147 accounts identified (−$109M insurance impact)** |
+| **Negative Equity** | Not trackable | **302 accounts identified (−$23.19M insurance impact)** |
 
 ### What We Now Have
 
@@ -163,16 +166,16 @@ This clearinghouse data enabled our breakthrough ADL prioritization discovery be
 
 | Metric | Value |
 |--------|-------|
-| **Profitable positions ADL'd** | **94.5%** (33,064 / 34,983) |
+| **Profitable positions ADL'd** | **99.4%** (34,775 / 34,983) |
 | **Average unrealized PNL** | **+80.58%** |
 | **Median unrealized PNL** | **+50.09%** |
-| **Median leverage (REAL-TIME)** | **0.18x** (VERY LOW!) |
+| **Median leverage (REAL-TIME)** | **0.20x** (VERY LOW!) |
 | **95th percentile leverage** | **3.22x** (LOW!) |
 | **99th percentile leverage** | **74.18x** |
-| **Negative equity accounts** | **1,147 (3.28%)** |
-| **Insurance fund impact** | **-$109,288,587** |
+| **Negative equity accounts** | **302 (0.86%)** |
+| **Insurance fund impact** | **-$23,191,104** |
 
-**Note on leverage**: 98.89% of ADL'd positions had leverage ≤50x (within Hyperliquid limits). The **median of 0.18x** shows most positions had extremely low leverage, with the 95th percentile at **4.23x** and the 99th percentile at **74.18x**, debunking the myth that ADL targets high leverage.
+**Note on leverage**: Most ADL'd positions had extremely low leverage. The **median of 0.20x** shows most positions had very low leverage, with the 95th percentile at **5.10x** and the 99th percentile at **122.69x**, debunking the myth that ADL targets high leverage.
 
 ### Top 10 ADL'd Positions (By Size)
 
@@ -206,15 +209,15 @@ This clearinghouse data enabled our breakthrough ADL prioritization discovery be
 
 ## INSURANCE FUND IMPACT: Quantifying the Underwater Accounts
 
-** Real-Time Reconstruction Reveals**: 1,147 accounts in negative equity
+** Real-Time Reconstruction Reveals**: 302 accounts in negative equity
 
 ### The Numbers
 
 | Metric | Value |
 |--------|-------|
-| **Accounts underwater** | **1,147** (3.28% of ADL'd) |
-| **Total negative equity** | **-$109,288,587** |
-| **Insurance fund coverage required** | $109,288,587 |
+| **Accounts underwater** | **302** (0.86% of ADL'd) |
+| **Total negative equity** | **-$23,191,104** |
+| **Insurance fund coverage required** | $23,191,104 |
 | **Average underwater account** | -$95,322 |
 
 ### What This Means
@@ -225,7 +228,7 @@ When an account's **total equity (cash + unrealized PNL) goes negative**, losses
 2. **Underwater losses** get absorbed by the insurance fund
 3. **If insurance fund insufficient** -> socializes losses to remaining traders
 
-**This cascade required $109,288,587 in insurance fund coverage** to prevent loss socialization.
+**This cascade required $23,191,104 in insurance fund coverage** to prevent loss socialization.
 
 ### Real-Time Reconstruction Achievement
 
@@ -620,8 +623,8 @@ print(f"BTC: ${btc['net_notional_usd']:,.0f} across {btc['num_adl_events']} even
 5. **How fast does it happen?** -> 2,915 ADLs per second at peak
 
 **Account-Level (NEW - With Clearinghouse Data)**:
-6. **What leverage do ADL'd positions have?** -> Median 0.18x (95th pct 4.23x, 99th pct 74.18x)
-7. **How profitable are ADL'd positions?** -> 94.5% profitable, avg +80.6% PNL
+6. **What leverage do ADL'd positions have?** -> Median 0.20x (95th pct 5.10x, 99th pct 122.69x)
+7. **How profitable are ADL'd positions?** -> 99.4% profitable, avg +85.9% PNL
 8. **Does ADL target high leverage?** -> NO - targets high PROFIT
 9. **What are entry prices?** -> Calculated for 34,983 positions (100% coverage)
 10. **Which accounts have highest risk?** -> Tracked across 437,723 accounts
@@ -643,7 +646,7 @@ ADL Prioritization Analysis (2025). "Real-Time Account Reconstruction:
 October 10, 2025 Market Event (12-minute cascade)."
 Data: Hyperliquid clearinghouse snapshot (Block 758750000) + full event stream (3,239,706 events).
 Coverage: 34,983 ADL events with real-time leverage, entry prices, and equity.
-Key Finding: ADL targets PROFIT (94.5% profitable), not leverage (median 0.18x).
+Key Finding: ADL targets PROFIT (99.4% profitable), not leverage (median 0.20x).
 ```
 
 ---
@@ -699,9 +702,9 @@ Key Finding: ADL targets PROFIT (94.5% profitable), not leverage (median 0.18x).
 
 **Results**:
 - Real-time account values at every ADL moment
-- Accurate negative equity detection (1,147 accounts identified)
-- Precise leverage ratios (median 0.18x)
-- Insurance fund impact quantified ($109,288,587)
+- Accurate negative equity detection (302 accounts identified)
+- Precise leverage ratios (median 0.20x)
+- Insurance fund impact quantified ($23,191,104)
 - **100% event coverage** (34,983 ADL events)
 
 **Methodology**: [full_analysis_realtime.py](full_analysis_realtime.py)
@@ -717,7 +720,7 @@ cd HyperMultiAssetedADL
 # Open the REAL-TIME analysis file
 # Contains 34,983 rows (one per ADL'd position with real-time data)
 # This is 100% coverage of the FULL 12-minute cascade
-open adl_detailed_analysis_REALTIME.csv
+open cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv
 ```
 
 **Option 2: Load in Python**
@@ -725,7 +728,7 @@ open adl_detailed_analysis_REALTIME.csv
 import pandas as pd
 
 # Load canonical real-time data
-df = pd.read_csv('adl_detailed_analysis_REALTIME.csv')
+df = pd.read_csv('cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv')
 
 # Quick sanity checks (should match README claims)
 print('Events:', len(df))
@@ -740,7 +743,7 @@ print('Total negative equity:', df.loc[df['is_negative_equity'], 'total_equity']
 
 ### Complete Column Reference
 
-**adl_detailed_analysis_REALTIME.csv** columns:
+**cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv** columns:
 1. `user` – User address (string)
 2. `coin` – Asset ticker (string)
 3. `time` – Timestamp in milliseconds (int)
@@ -831,7 +834,7 @@ print('Total negative equity:', df.loc[df['is_negative_equity'], 'total_equity']
 - **437,723 accounts** reconstructed in real-time
 - **3,239,706 events** processed chronologically (fills, funding, deposits)
 - **34,983 ADL events** with real-time leverage, PNL, entry price
-- **1,147 negative-equity accounts** (insurance impact quantified)
+- **302 negative-equity accounts** (insurance impact quantified)
 - **First analysis** with complete protocol state and real-time account values
 
 ### Academic Quality

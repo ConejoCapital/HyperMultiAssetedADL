@@ -6,7 +6,7 @@
 
 Analysis of the $174.18M ETH Auto-Deleveraging (ADL) event using blockchain data from Hyperliquid's October 10, 2025 liquidation cascade.
 
-This report has been refreshed using the canonical real-time reconstruction dataset (`adl_detailed_analysis_REALTIME.csv`, generated November 13, 2025).
+This report has been refreshed using the canonical real-time reconstruction dataset (`cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv`, generated December 2025 with fixed position size calculation).
 
 ## Key Finding: YES, the $174M ADL has corresponding liquidations
 
@@ -86,13 +86,13 @@ All 265 occurred at timestamp: `2025-10-10 21:17:06.037894+00:00`
 
 
 ### Canonical Verification (November 13, 2025)
-- **Data sources**: `adl_detailed_analysis_REALTIME.csv`, `adl_fills_full_12min_raw.csv`, `liquidations_full_12min.csv`
+- **Data sources**: `cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv`, `cash-only balances ADL event orderbook 2025-10-10/adl_fills_full_12min_raw.csv`, `cash-only balances ADL event orderbook 2025-10-10/liquidations_full_12min.csv`
 - **ADL fills at this timestamp**: 2,468 across all tickers (34,983-event canonical dataset).
 - **ETH ADL fills**: 265 addresses forced to close, totaling **$204,671,086.94**, perfectly matching the ETH liquidation stack.
    - Largest ADL: `0x2ea1…3f4` with $174,176,486.12 (the case study position).
    - Remaining 264 ETH ADLs contributed the additional $30,494,600.82 needed to offset the 265 liquidations.
 - **Cross-asset spillover**: 2,203 simultaneous ADLs on other tickers injected another $181,940,613.12 of liquidity at the same millisecond.
-- **Insurance fund absorption**: Real-time reconstruction identified **1,147 negative-equity accounts** and **$109,288,587** of residual loss absorbed by the insurance/HLP buffers (`INSURANCE_FUND_IMPACT.md`).
+- **Insurance fund absorption**: Real-time reconstruction identified **302 negative-equity accounts** and **$23,191,104** of residual loss absorbed by the insurance/HLP buffers (`INSURANCE_FUND_IMPACT.md`).
 
 ## What This Tells Us About ADL
 
@@ -147,14 +147,14 @@ All 265 occurred at timestamp: `2025-10-10 21:17:06.037894+00:00`
 ### Questions Worth Investigating (Updated with canonical realtime data)
 
 1. **ADL Prioritization**: How does Hyperliquid choose which profitable traders to ADL?
-   - ✅ **ANSWERED** with the realtime dataset (`adl_detailed_analysis_REALTIME.csv`)
+   - ✅ **ANSWERED** with the realtime dataset (`cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv`)
    - **ADL targets PROFIT, not leverage**
    - 94.5% of ADL'd positions were profitable (avg +80.6% PNL)
    - Median leverage was only 0.18x (LOW!)
    - See `ADL_PRIORITIZATION_VERIFIED.md` and `FINDINGS_VERIFICATION_REPORT.md`
 
 2. **Partial ADL Coverage**: Why was only 85% of the $204.7M liquidation stack covered by this single ETH ADL?
-   - ✅ **EXPLAINED**: Canonical realtime data shows 34,983 ADLs across the burst. The remaining ~$30.5M was satisfied by follow-on ADLs in the same millisecond cluster **plus** $109,288,587 in insurance-fund absorption (quantified in `INSURANCE_FUND_IMPACT.md`).
+   - ✅ **EXPLAINED**: Canonical realtime data shows 34,983 ADLs across the burst. The remaining ~$30.5M was satisfied by follow-on ADLs in the same millisecond cluster **plus** $23,191,104 in insurance-fund absorption (quantified in `INSURANCE_FUND_IMPACT.md`).
    - Real-time equity for the forced short was $116.8M; the protocol drew only what was needed from that account while routing residual loss to other ADL counterparties and the insurance fund.
 
 3. **Cascade Effect**: How do liquidations trigger more liquidations?
@@ -163,7 +163,7 @@ All 265 occurred at timestamp: `2025-10-10 21:17:06.037894+00:00`
    - See `CASCADE_TIMING_ANALYSIS.md`, `BATCH_PROCESSING_DISCOVERY.md`, and `TOTAL_IMPACT_ANALYSIS.md`.
 
 4. **Insurance Fund Impact**: What's the size of the gap the fund had to absorb?
-   - ✅ **MEASURED** using real-time reconstruction: 1,147 accounts in negative equity, totalling **$109,288,587** that the insurance fund (and HLP buffer) covered to prevent socialized losses.
+   - ✅ **MEASURED** using real-time reconstruction: 302 accounts in negative equity, totalling **$23,191,104** that the insurance fund (and HLP buffer) covered to prevent socialized losses.
    - Details in `INSURANCE_FUND_IMPACT.md`, `REAL_TIME_RECONSTRUCTION_SUMMARY.md`, and `LEVERAGE_CORRECTION.md`.
 
 ## Data Availability
@@ -181,7 +181,7 @@ All raw data and analysis code available at:
 - **Complete event stream**: 3,239,706 fills, funding, and ledger updates processed
 - **ADL analysis**: 34,983 ADL events with real-time leverage, entry prices, and equity
 - **Repository files**:
-  - `adl_detailed_analysis_REALTIME.csv` – Canonical per-position dataset
+  - `cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv` – Canonical per-position dataset (fixed position size calculation)
   - `adl_by_user_REALTIME.csv` – User-level aggregations
   - `adl_by_coin_REALTIME.csv` – Asset-level aggregations
   - `REAL_TIME_RECONSTRUCTION_SUMMARY.md` – Full methodology

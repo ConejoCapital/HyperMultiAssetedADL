@@ -8,7 +8,7 @@
 ## 🧾 Executive Summary
 
 - Replayed **3,239,706 on-chain events** (fills, funding, ledger) from the clearinghouse snapshot at 20:04:54 UTC through 21:27:00 UTC using `full_analysis_realtime.py`.
-- Produced the **canonical 34,983-event dataset** (`adl_detailed_analysis_REALTIME.csv`) with real-time account value, leverage, equity, and negative-equity detection.
+- Produced the **canonical 34,983-event dataset** (`cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv`) with real-time account value, leverage, equity, and negative-equity detection (fixed position size calculation, December 2025).
 - Confirmed **per-asset ADL coverage** (mean 35.4%, median 33.2%) against the matched liquidation feed (`liquidations_full_12min.csv`).
 - Removed every approximation artifact (snapshot-based CSVs, stale leverage columns) and updated documentation to reference only realtime outputs.
 - Cross-validated downstream analyses (`ADL_PRIORITIZATION_VERIFIED.md`, `ADL_PRIORITIZATION_ANALYSIS_LOCAL.md`, `INSURANCE_FUND_IMPACT.md`) on the regenerated dataset.
@@ -26,9 +26,9 @@ Use this report as the audit trail that the public repository contains one—and
 | Accounts reconstructed | **437,723** |
 | ADL fills extracted | **34,983** (100% coverage) |
 | Liquidations matched | **34,983** counterparty events (1:1) |
-| Negative-equity accounts | **1,147** (−$109,288,587 combined) |
-| Median realtime leverage | **0.18x** |
-| Dataset location | `adl_detailed_analysis_REALTIME.csv` |
+| Negative-equity accounts | **302** (−$23,191,104 combined) |
+| Median realtime leverage | **0.20x** |
+| Dataset location | `cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv` |
 
 The replay is reproducible by running `python full_analysis_realtime.py` from the repository root. A step-by-step walkthrough lives in `REAL_TIME_RECONSTRUCTION_SUMMARY.md`.
 
@@ -52,7 +52,7 @@ These issues are documented here so future auditors can see what changed and why
 
 | File | Purpose |
 |------|---------|
-| `adl_detailed_analysis_REALTIME.csv` | Canonical per-position dataset (34,983 rows) with realtime account values, leverage, equity, negative-equity flag, and ADL counterparties. |
+| `cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv` | Canonical per-position dataset (34,983 rows) with realtime account values, leverage, equity, negative-equity flag, and ADL counterparties (fixed position size calculation, December 2025). |
 | `adl_by_user_REALTIME.csv` / `adl_by_coin_REALTIME.csv` | Aggregations derived directly from the canonical dataset. |
 | `liquidations_full_12min.csv` | Matched liquidation fills used to compute per-asset ADL coverage. |
 | `full_analysis_realtime.py` | Replay script (clearinghouse snapshot ➝ realtime metrics). |
@@ -79,7 +79,7 @@ Only these realtime files should be used in research or downstream analysis. Any
 ### Coverage & Cross-Checks
 - ✅ Per-asset ADL-to-liquidation ratios computed (mean 35.4%, median 33.2%).
 - ✅ ADL prioritization timing tests rerun on the canonical dataset (see `ADL_PRIORITIZATION_ANALYSIS_LOCAL.md`).
-- ✅ Insurance-fund impact quantified: −$109,288,587 (see `INSURANCE_FUND_IMPACT.md`).
+- ✅ Insurance-fund impact quantified: −$23,191,104 (see `INSURANCE_FUND_IMPACT.md`).
 
 ---
 
@@ -88,7 +88,7 @@ Only these realtime files should be used in research or downstream analysis. Any
 ```python
 import pandas as pd
 
-df = pd.read_csv('adl_detailed_analysis_REALTIME.csv')
+df = pd.read_csv('cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv')
 assert len(df) == 34_983, "Expect 34,983 ADL events"
 assert {'leverage_realtime', 'account_value_realtime', 'is_negative_equity'} <= set(df.columns)
 print('✅ Canonical realtime dataset loaded.')
@@ -96,7 +96,7 @@ print('✅ Canonical realtime dataset loaded.')
 
 - Use ONLY the `_REALTIME` CSVs.
 - Expect 34,983 rows; any other row count indicates an outdated file.
-- Leverage statistics reported in the repository (median 0.18x, 95th percentile 4.23x, 99th percentile 74.18x) come directly from this dataset.
+- Leverage statistics reported in the repository (median 0.20x, 95th percentile 5.10x, 99th percentile 122.69x) come directly from this dataset (fixed position size calculation, December 2025).
 
 ---
 

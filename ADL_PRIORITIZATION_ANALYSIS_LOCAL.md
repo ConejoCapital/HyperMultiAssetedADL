@@ -10,7 +10,7 @@
 **Analysis Date:** November 13, 2025  
 **Event:** October 10, 2025 Liquidation Cascade  
 **Data Sources:**
-- `adl_detailed_analysis_REALTIME.csv` (34,983 ADL fills with real-time leverage & equity)
+- `cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv` (34,983 ADL fills with real-time leverage & equity, fixed position size calculation)
 - `liquidations_full_12min.csv` (63,637 liquidation fills for comparison)
 - `adl_fills_full_12min_raw.csv` (canonical 12-minute ADL feed)
 
@@ -26,7 +26,7 @@
 | Correlations with trigger time remain near zero | `corr(pnl%, time) = +0.098`, `corr(adl_notional, time) = +0.009`, `corr(leverage, time) = +0.006` (≤99th pct leverage: −0.012) |
 | Per-asset ADL/liq ratio is remarkably stable | Mean **35.4%**, median **33.2%**, 10 largest tickers in the 34–45% band |
 | Profitable traders are repeatedly targeted | Top-10 ADL’d addresses average **$269k** realized PNL per event vs **$12k** for everyone else (22×) |
-| Dataset coverage | 34,983 ADLs, 19,337 users, $2.10B notional, median leverage **0.18x** |
+| Dataset coverage | 34,983 ADLs, 19,337 users, $2.10B notional, median leverage **0.20x** |
 
 ---
 
@@ -38,7 +38,7 @@
 4. **Per-asset ratios** – Joined canonical ADL notional with liquidation notional per ticker.  
 5. **User repetition** – Aggregated ADL events per address, capturing total/average realized PNL and mean leverage.
 
-All calculations can be reproduced with the notebook-free Python snippets included in this repository (`adl_detailed_analysis_REALTIME.csv`, `liquidations_full_12min.csv`).
+All calculations can be reproduced with the notebook-free Python snippets included in this repository (`cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv`, `cash-only balances ADL event orderbook 2025-10-10/liquidations_full_12min.csv`).
 
 ---
 
@@ -149,7 +149,7 @@ Across all 162 tickers: **mean 35.4%**, **median 33.2%**, **IQR 30.0–35.4%**. 
 | Total ADL notional | $2,103,111,431 |
 | Total realized PNL | $834,295,749 |
 | Median unrealized PNL % | +50.09% |
-| Median leverage (real-time) | 0.18x |
+| Median leverage (real-time) | 0.20x |
 | 95th percentile leverage | 4.23x |
 | 99th percentile leverage | 74.18x |
 | Average ADL timestamp | 01:43 after start |
@@ -171,7 +171,7 @@ Future work: repeat the pipeline for other cascades once clearinghouse snapshots
 ## Related Canonical Notes
 
 - `ADL_PRIORITIZATION_VERIFIED.md` – narrative write-up of the profitable-targeting discovery.  
-- `INSURANCE_FUND_IMPACT.md` – quantifies the $109,288,587 insurance absorption that complements ADL.  
+- `INSURANCE_FUND_IMPACT.md` – quantifies the $23,191,104 insurance absorption that complements ADL.  
 - `PER_ASSET_ISOLATION.md` – documents the per-asset batching behaviour summarized above.
 
 ---
