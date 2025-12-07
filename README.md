@@ -99,6 +99,9 @@ HyperMultiAssetedADL/
 | **Total ADL Events** | 34,983 events |
 | **Total Net Notional** | **$2.10 BILLION** |
 | **Total Realized PNL** | **$834.3 Million** |
+| **Total Negative Net Equity** | **−$23,191,104.48** (302 accounts) |
+
+**Net Equity Definition**: Net equity = Cash Balance + Total Unrealized PNL. Negative net equity represents bad debt that must be covered by the insurance fund. See [Insurance Fund Impact](#insurance-fund-impact-quantifying-the-underwater-accounts) section for details.
 
 ### Top 5 ADL'd Assets
 
