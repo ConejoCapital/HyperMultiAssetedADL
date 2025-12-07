@@ -1,19 +1,19 @@
-# ADL Prioritization: DEFINITIVELY VERIFIED with Clearinghouse Data
+# ADL Prioritization: Verified with Clearinghouse Data
 
 > Associated script: `scripts/analysis/adl_prioritization_analysis.py`
 
 **Date**: November 13, 2025  
 **Event**: October 10, 2025 Liquidation Cascade (21:15-21:27 UTC)  
 **Data Source**: Hyperliquid Clearinghouse Snapshot + Complete Event History  
-**Analysis Status**: ✅ **COMPLETE - All speculation eliminated**
+**Analysis Status**: Complete - All speculation eliminated
 
 ---
 
-## 🎯 THE ANSWER: ADL TARGETS PROFIT, NOT LEVERAGE
+## Key Finding: ADL Targets Profit, Not Leverage
 
-After analyzing **34,983 ADL events** with complete **real-time account reconstruction** (account values, positions, entry prices, unrealized PNL at exact ADL moment), we can now **definitively** state:
+After analyzing **34,983 ADL events** with complete **real-time account reconstruction** (account values, positions, entry prices, unrealized PNL at exact ADL moment), the analysis indicates:
 
-### **ADL PRIORITIZES THE MOST PROFITABLE POSITIONS**
+### ADL Prioritizes the Most Profitable Positions
 
 **Not** the highest leverage.  
 **Not** the largest positions.  
@@ -41,11 +41,11 @@ After analyzing **34,983 ADL events** with complete **real-time account reconstr
 
 **Note**: 98.89% of ADL'd positions had leverage ≤50x (within Hyperliquid limits).
 
-### The Smoking Gun
+### Key Evidence
 
 **99.4% of ADL'd positions were profitable.**
 
-This is not a coincidence. This is not random. This is **algorithmic selection based on profitability**.
+This indicates algorithmic selection based on profitability rather than random selection.
 
 Even more striking: only 3.28% of ADL'd accounts were underwater (negative equity), proving ADL targets winners to cover losses.
 
@@ -219,11 +219,11 @@ For each ADL event:
 
 ### Data Quality
 
-✅ **100% blockchain-verified**  
-✅ **Complete clearinghouse state** (not sampled)  
-✅ **All entry prices calculated from actual fills**  
-✅ **All leverage ratios calculated from snapshot account values**  
-✅ **Zero speculation** - every number is empirical
+- **100% blockchain-verified**  
+- **Complete clearinghouse state** (not sampled)  
+- **All entry prices calculated from actual fills**  
+- **All leverage ratios calculated from snapshot account values**  
+- **Zero speculation** - every number is empirical
 
 ---
 
@@ -256,27 +256,27 @@ For each ADL event:
 
 ---
 
-## 🚨 Common Misconceptions DEBUNKED
+## Common Misconceptions
 
-### ❌ MYTH: "ADL targets the highest leverage positions"
+### Common assumption: "ADL targets the highest leverage positions"
 
-**REALITY**: Most ADL'd positions had extremely low leverage. Median leverage: 0.20x. The 95th percentile is 5.10x and the 99th percentile is 122.69x.
+**Analysis result**: Most ADL'd positions had low leverage. Median leverage: 0.20x. The 95th percentile is 5.10x and the 99th percentile is 122.69x.
 
-### ❌ MYTH: "ADL is random"
+### Common assumption: "ADL is random"
 
-**REALITY**: 99.4% of ADL'd positions were profitable. Average PNL: +85.93%. This is not random.
+**Analysis result**: 99.4% of ADL'd positions were profitable. Average PNL: +85.93%. This indicates non-random selection.
 
-### ❌ MYTH: "ADL punishes reckless traders"
+### Common assumption: "ADL punishes reckless traders"
 
-**REALITY**: ADL forces **profitable** traders to exit. It's the **winners** who get hit, not the losers.
+**Analysis result**: ADL forces **profitable** traders to exit. Profitable positions are targeted, not losing positions.
 
-### ❌ MYTH: "You can avoid ADL by using lower leverage"
+### Common assumption: "You can avoid ADL by using lower leverage"
 
-**REALITY**: If you're in a **highly profitable** position on an asset that's being liquidated, you're the prime target—regardless of leverage.
+**Analysis result**: If you're in a **highly profitable** position on an asset that's being liquidated, you're a prime target—regardless of leverage.
 
 ---
 
-## ✅ How ADL Actually Works
+## How ADL Works
 
 ### The Algorithm (Verified)
 
@@ -353,7 +353,7 @@ All analysis code is available in:
 **For Researchers:**
 - **ADL is a profitability-based mechanism**
 - **This is empirically verified, not speculation**
-- **The myth of "leverage-based ADL" is debunked**
+- **The assumption of "leverage-based ADL" is not supported by the data**
 
 **For Protocols:**
 - **This design prioritizes solvency over user experience**

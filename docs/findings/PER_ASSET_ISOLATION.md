@@ -9,20 +9,20 @@
 
 ---
 
-## 🎯 Critical Finding
+## Key Finding
 
-**ADL is 100% per-asset with ZERO cross-asset contagion.**
+**ADL is 100% per-asset with zero cross-asset contagion.**
 
 **What this means:**
-- ✅ BTC liquidations cause ONLY BTC ADL
-- ✅ ETH liquidations cause ONLY ETH ADL
-- ✅ SOL liquidations cause ONLY SOL ADL
-- ❌ BTC liquidations do NOT cause ETH, SOL, or any other asset's ADL
-- ❌ ZERO cases of cross-asset ADL contamination found
+- BTC liquidations cause only BTC ADL
+- ETH liquidations cause only ETH ADL
+- SOL liquidations cause only SOL ADL
+- BTC liquidations do not cause ETH, SOL, or any other asset's ADL
+- Zero cases of cross-asset ADL contamination found
 
 **Important distinction:**
-- ❌ **ADL contagion**: Does NOT exist (proven)
-- ✅ **Market dynamic contagion**: DOES exist (price movements affect all assets)
+- **ADL contagion** (technical): Does not exist
+- **Market dynamic contagion** (price movements): Does exist
 
 ---
 
@@ -35,10 +35,10 @@
 | Metric | Result |
 |--------|--------|
 | **Timestamps analyzed** | 100 (liquidations + ADL in same timestamp) |
-| **Cross-asset ADL cases** | **0** (zero) |
+| **Cross-asset ADL cases** | **0** |
 | **ADL tickers outside liquidation set** | **0** |
 | **Ticker overlap (Jaccard)** | 96.74% |
-| **Perfect 1:1 ratio matches** | 44/44 tickers at biggest burst |
+| **1:1 ratio matches** | 44/44 tickers at biggest burst |
 
 ### Biggest Burst Example (21:16:04.831874)
 
@@ -46,8 +46,8 @@
 
 | Ticker | Liquidations | ADL | Ratio | Cross-Asset? |
 |--------|--------------|-----|-------|--------------|
-| HYPE | $100,123,277 | $100,123,277 | 1.00 | ❌ NO |
-| PUMP | $16,431,241 | $16,431,241 | 1.00 | ❌ NO |
+| HYPE | $100,123,277 | $100,123,277 | 1.00 | No |
+| PUMP | $16,431,241 | $16,431,241 | 1.00 | No |
 | FARTCOIN | $11,878,382 | $11,878,382 | 1.00 | ❌ NO |
 | XPL | $9,454,867 | $9,454,867 | 1.00 | ❌ NO |
 | PENGU | $5,519,913 | $5,519,913 | 1.00 | ❌ NO |

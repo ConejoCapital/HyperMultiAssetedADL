@@ -2,7 +2,7 @@
 
 **Analysis Date**: December 7, 2025  
 **Issue**: Accounts with leverage > 40x (Hyperliquid's maximum)  
-**Status**: ✅ Explained - These are data artifacts from liquidation delays, not actual trading positions
+**Status**: Explained - These are data artifacts from liquidation delays, not actual trading positions
 
 ---
 
@@ -191,26 +191,26 @@ Evidence:
 
 ### For Research
 
-✅ **Safe to exclude outliers** from leverage analysis:
+**Safe to exclude outliers** from leverage analysis:
 - These are measurement artifacts, not real trading positions
 - They don't represent actual leverage usage
 - They skew statistics (median leverage would be 0.20x without outliers)
 
-✅ **Use percentiles** instead of max:
+**Use percentiles** instead of max:
 - 95th percentile: 5.10x (reasonable)
 - 99th percentile: 122.69x (still includes some outliers)
 - Median: 0.20x (most representative)
 
 ### For Protocol Analysis
 
-✅ **System behavior is correct**:
+**System behavior is correct**:
 - These accounts were eventually closed via ADL
 - The "high leverage" is a calculation artifact, not a protocol failure
 - No accounts exceeded 40x leverage when they opened positions
 
 ### For Documentation
 
-✅ **Clarify in reports**:
+**Clarify in reports**:
 - These outliers are data artifacts
 - They represent liquidation delays, not actual leverage
 - Use median/percentiles for leverage statistics, not max
@@ -251,19 +251,19 @@ Evidence:
 
 **480 ADL events (1.37%)** show leverage > 40x due to:
 
-1. ✅ **Liquidation delays** during system overload
-2. ✅ **Near-zero account values** when ADL closed positions
-3. ✅ **Mathematical artifact** from dividing position notional by tiny account value
+1. **Liquidation delays** during system overload
+2. **Near-zero account values** when ADL closed positions
+3. **Mathematical artifact** from dividing position notional by tiny account value
 
 **These are NOT:**
-- ❌ Actual trading positions opened at >40x leverage
-- ❌ Protocol failures or bugs
-- ❌ Violations of Hyperliquid's leverage limits
+- Actual trading positions opened at >40x leverage
+- Protocol failures or bugs
+- Violations of Hyperliquid's leverage limits
 
 **These ARE:**
-- ✅ Measurement artifacts from liquidation cascade
-- ✅ Evidence of system stress during peak activity
-- ✅ Accounts that were effectively wiped out before ADL closed them
+- Measurement artifacts from liquidation cascade
+- Evidence of system stress during peak activity
+- Accounts that were effectively wiped out before ADL closed them
 
 **Recommendation**: Use **median leverage (0.20x)** and **percentiles (p95: 5.10x)** for reporting, and note outliers separately as liquidation delay artifacts.
 
