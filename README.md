@@ -264,6 +264,21 @@ This clearinghouse data enabled our breakthrough ADL prioritization discovery be
 
 ** Real-Time Reconstruction Reveals**: 302 accounts in negative equity
 
+### Total Negative Net Equity: **−$23,191,104.48**
+
+**Definition of Net Equity**: Net equity (also called "total equity") is calculated as:
+```
+Net Equity = Cash Balance + Total Unrealized PNL
+```
+
+Where:
+- **Cash Balance** = Account value after removing initial unrealized PNL from snapshot (cash-only baseline)
+- **Total Unrealized PNL** = Sum of unrealized profit/loss for all open positions at the ADL moment
+  - For long positions: `size × (current_price - entry_price)`
+  - For short positions: `abs(size) × (entry_price - current_price)`
+
+**Negative Net Equity** occurs when `Net Equity < 0`, meaning the account's total value (cash + unrealized PNL) is negative. This represents bad debt that must be covered by the insurance fund.
+
 ### The Numbers
 
 | Metric | Value |
@@ -814,7 +829,7 @@ print('Total negative equity:', df.loc[df['is_negative_equity'], 'total_equity']
 9. `entry_price` – Weighted-average entry price (float)
 10. `account_value_realtime` – Account value reconstructed at ADL moment (float)
 11. `total_unrealized_pnl` – Unrealized PNL across all positions at ADL time (float)
-12. `total_equity` – Cash + total unrealized PNL (float)
+12. `total_equity` – Net equity: Cash + total unrealized PNL (float)
 13. `is_negative_equity` – TRUE if `total_equity` < 0 (bool)
 14. `leverage_realtime` – Position notional / real-time account value (float)
 15. `position_unrealized_pnl` – Unrealized PNL for this position (float)
