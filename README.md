@@ -143,7 +143,7 @@ python3 scripts/analysis/<script_name>.py
 | Cascade Timing | First ADL at **61.7s** after first liquidation; largest burst **11,279** liq + **11,279** ADL in second 61 |
 | Batch Processing | **224** timestamps total, first **61s** liquidation-only, all shared timestamps run `liquidation → ADL` sequentially |
 | Counterparty Mechanism | **100%** ADL events carry `liquidated_user`; highlighted **$174.18M ETH** ADL matched by **265** ETH liquidations |
-| ADL Prioritization (global) | **99.4%** profitable ADL targets, **median leverage 0.20x** (very low!), p95 **5.10x**, p99 **122.69x** (outliers - see `HIGH_LEVERAGE_OUTLIERS_EXPLANATION.md`) |
+| ADL Prioritization (global) | **99.4%** profitable ADL targets, **median leverage 0.20x** (very low!), p95 **5.10x**, p99 **122.69x** (outliers - see `docs/findings/HIGH_LEVERAGE_OUTLIERS_EXPLANATION.md`) |
 | ADL Prioritization (local) | Spearman ρ (PNL vs notional **−0.2207**), (PNL vs leverage **−0.4781**); repeated winners table in JSON |
 | Insurance Fund Impact | **302** negative-equity accounts (**0.86%** of ADL), aggregate deficit **−$23,191,104** |
 | ADL Net Volume | Total ADL notional **$2,103,111,431**, 34,983 events across 162 tickers |
