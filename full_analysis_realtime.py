@@ -9,6 +9,7 @@ import pandas as pd
 from collections import defaultdict
 from datetime import datetime
 from copy import deepcopy
+from pathlib import Path
 import sys
 
 print("="*80)
@@ -420,8 +421,12 @@ print(f"    % of ADL'd positions underwater: {df['is_negative_equity'].sum()/len
 
 print("\n[7/8] Saving results...")
 
-df.to_csv('adl_detailed_analysis_REALTIME.csv', index=False)
-print(f"  ✓ Saved adl_detailed_analysis_REALTIME.csv ({len(df):,} records)")
+# Save to canonical directory
+CANONICAL_DIR = Path("cash-only balances ADL event orderbook 2025-10-10")
+CANONICAL_DIR.mkdir(parents=True, exist_ok=True)
+
+df.to_csv(CANONICAL_DIR / 'adl_detailed_analysis_REALTIME.csv', index=False)
+print(f"  ✓ Saved {CANONICAL_DIR}/adl_detailed_analysis_REALTIME.csv ({len(df):,} records)")
 
 # User aggregations
 user_summary = df.groupby('user').agg({
@@ -434,8 +439,8 @@ user_summary = df.groupby('user').agg({
     'coin': 'count'
 }).rename(columns={'coin': 'num_adl_events'}).reset_index()
 
-user_summary.to_csv('adl_by_user_REALTIME.csv', index=False)
-print(f"  ✓ Saved adl_by_user_REALTIME.csv ({len(user_summary):,} users)")
+user_summary.to_csv(CANONICAL_DIR / 'adl_by_user_REALTIME.csv', index=False)
+print(f"  ✓ Saved {CANONICAL_DIR}/adl_by_user_REALTIME.csv ({len(user_summary):,} users)")
 
 # Coin aggregations
 coin_summary = df.groupby('coin').agg({
@@ -448,8 +453,8 @@ coin_summary = df.groupby('coin').agg({
     'coin': 'count'
 }).rename(columns={'coin': 'num_events', 'user': 'num_users'}).reset_index()
 
-coin_summary.to_csv('adl_by_coin_REALTIME.csv', index=False)
-print(f"  ✓ Saved adl_by_coin_REALTIME.csv ({len(coin_summary):,} coins)")
+coin_summary.to_csv(CANONICAL_DIR / 'adl_by_coin_REALTIME.csv', index=False)
+print(f"  ✓ Saved {CANONICAL_DIR}/adl_by_coin_REALTIME.csv ({len(coin_summary):,} coins)")
 
 # Summary JSON
 summary = {
@@ -470,41 +475,16 @@ summary = {
     }
 }
 
-with open('realtime_analysis_summary.json', 'w') as f:
+with open(CANONICAL_DIR / 'realtime_analysis_summary.json', 'w') as f:
     json.dump(summary, f, indent=2)
 
-print(f"  ✓ Saved realtime_analysis_summary.json")
+print(f"  ✓ Saved {CANONICAL_DIR}/realtime_analysis_summary.json")
 
 # ============================================================================
-# STEP 8: Comparison with Snapshot-Based Analysis
+# STEP 8: Summary
 # ============================================================================
 
-print("\n[8/8] Comparing with snapshot-based analysis...")
-
-# Load old analysis
-try:
-    df_old = pd.read_csv('adl_detailed_analysis.csv')
-    
-    print(f"\n  Comparison: Snapshot vs Real-Time")
-    print(f"  {'Metric':<30} {'Snapshot':<15} {'Real-Time':<15} {'Difference':<15}")
-    print(f"  {'-'*75}")
-    
-    old_avg_lev = df_old['leverage'].mean()
-    new_avg_lev = df['leverage_realtime'].mean()
-    print(f"  {'Average Leverage':<30} {old_avg_lev:<15.2f} {new_avg_lev:<15.2f} {new_avg_lev - old_avg_lev:+.2f}")
-    
-    old_med_lev = df_old['leverage'].median()
-    new_med_lev = df['leverage_realtime'].median()
-    print(f"  {'Median Leverage':<30} {old_med_lev:<15.2f} {new_med_lev:<15.2f} {new_med_lev - old_med_lev:+.2f}")
-    
-    old_prof = (df_old['pnl_percent'] > 0).sum() / len(df_old) * 100
-    new_prof = (df['pnl_percent'] > 0).sum() / len(df) * 100
-    print(f"  {'Profitable %':<30} {old_prof:<15.1f} {new_prof:<15.1f} {new_prof - old_prof:+.1f}")
-    
-    print(f"  {'Negative Equity':<30} {'Unknown':<15} {df['is_negative_equity'].sum():<15,} {'NEW!':<15}")
-
-except FileNotFoundError:
-    print("  (No previous snapshot-based analysis found for comparison)")
+print("\n[8/8] Analysis complete!")
 
 print("\n" + "="*80)
 print("REAL-TIME ANALYSIS COMPLETE!")
@@ -515,10 +495,10 @@ print(f"  ✅ Reconstructed account values for {len(working_states):,} accounts"
 print(f"  ✅ Calculated precise leverage at ADL moment")
 print(f"  ✅ Identified negative equity accounts")
 print(f"  ✅ Quantified insurance fund impact")
-print(f"\n  New Files:")
-print(f"  - adl_detailed_analysis_REALTIME.csv")
-print(f"  - adl_by_user_REALTIME.csv")
-print(f"  - adl_by_coin_REALTIME.csv")
-print(f"  - realtime_analysis_summary.json")
+print(f"\n  New Files (saved to canonical directory):")
+print(f"  - {CANONICAL_DIR}/adl_detailed_analysis_REALTIME.csv")
+print(f"  - {CANONICAL_DIR}/adl_by_user_REALTIME.csv")
+print(f"  - {CANONICAL_DIR}/adl_by_coin_REALTIME.csv")
+print(f"  - {CANONICAL_DIR}/realtime_analysis_summary.json")
 print("\n" + "="*80)
 
