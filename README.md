@@ -180,7 +180,7 @@ This clearinghouse data enabled our breakthrough ADL prioritization discovery be
 | **Negative equity accounts** | **302 (0.86%)** |
 | **Insurance fund impact** | **-$23,191,104** |
 
-**Note on leverage**: Most ADL'd positions had extremely low leverage. The **median of 0.20x** shows most positions had very low leverage, with the 95th percentile at **5.10x** and the 99th percentile at **122.69x**, debunking the myth that ADL targets high leverage.
+**Note on leverage**: Most ADL'd positions had extremely low leverage. The **median of 0.20x** is the key metric—showing that most ADL'd accounts used very conservative leverage. The 95th percentile at **5.10x** is still well below Hyperliquid's 40x maximum. The 99th percentile at **122.69x** represents data artifacts from liquidation delays (accounts with near-zero value when ADL closed them), not actual high-leverage trading. See `HIGH_LEVERAGE_OUTLIERS_EXPLANATION.md` for details. This debunks the myth that ADL targets high leverage.
 
 ### Top 10 ADL'd Positions (By Size)
 
@@ -628,7 +628,7 @@ print(f"BTC: ${btc['net_notional_usd']:,.0f} across {btc['num_adl_events']} even
 5. **How fast does it happen?** -> 2,915 ADLs per second at peak
 
 **Account-Level (NEW - With Clearinghouse Data)**:
-6. **What leverage do ADL'd positions have?** -> Median 0.20x (95th pct 5.10x, 99th pct 122.69x)
+6. **What leverage do ADL'd positions have?** -> **Median 0.20x** (very low!); 95th pct 5.10x (still below 40x max); 99th pct 122.69x (outliers from liquidation delays - see `HIGH_LEVERAGE_OUTLIERS_EXPLANATION.md`)
 7. **How profitable are ADL'd positions?** -> 99.4% profitable, avg +85.9% PNL
 8. **Does ADL target high leverage?** -> NO - targets high PROFIT
 9. **What are entry prices?** -> Calculated for 34,983 positions (100% coverage)
