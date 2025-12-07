@@ -35,7 +35,7 @@
 | **Nov 7, 2025** | Initial event analysis | S3 node_fills | 100% event data |
 | **Nov 8, 2025** | Full 12-min analysis | S3 node_fills | All 98,620 events |
 | **Nov 11, 2025** | Timing & batch discovery | Event sequencing | Cascade mechanics |
-| **Nov 12, 2025** | **Clearinghouse breakthrough** | Snapshot + fills | Account-level data |
+| **Nov 12, 2025** | **Clearinghouse data access** | Snapshot + fills | Account-level data |
 | **Nov 13, 2025** | Real-time reconstruction (canonical) | Snapshot + full replay | 100% account + event coverage |
 
 ### What We Can Now Answer
@@ -501,7 +501,7 @@ for evt in window:
 **Documents**:
 - `docs/findings/ADL_MECHANISM_RESEARCH.md`
 
-### Analysis 5: ADL Prioritization (Nov 12, 2025) ⭐ **BREAKTHROUGH**
+### Analysis 5: ADL Prioritization (Nov 12, 2025)
 
 **Data**: Clearinghouse snapshot + fills + event data  
 **Coverage**: 31,444 ADL events with complete data (90%)
@@ -518,7 +518,7 @@ for evt in window:
 
 **Limitation**: Used snapshot account values (70 minutes stale)
 
-### Analysis 6: Real-Time Account Reconstruction (Nov 13, 2025) 🔥 **BREAKTHROUGH**
+### Analysis 6: Real-Time Account Reconstruction (Nov 13, 2025)
 
 **Data**: Clearinghouse snapshot + full event stream (3,239,706 chronological events)  
 **Coverage**: 34,983 ADL events with **real-time** account states (100%)  

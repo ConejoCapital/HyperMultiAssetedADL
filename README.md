@@ -18,7 +18,7 @@ adl_detailed_analysis_REALTIME.csv
 - **34,983 ADL events** (100% coverage - ADLs occurred during 21:16:04-21:26:57 UTC within the full 12-minute event window)
 - **Real-time account values (cash-only)** at exact ADL moment (snapshot unrealized PnL removed)
 - **Real-time leverage** calculated with reconstructed account states:
-  - **Median: 0.20x** ← Most ADL'd accounts use very low leverage
+  - **Median: 0.20x** ← Most ADL'd accounts use low leverage
   - **95th percentile: 5.10x** ← Even high-leverage accounts are well below Hyperliquid's 40x max
   - **99th percentile: 122.69x** ← Outliers are data artifacts from liquidation delays (see `docs/findings/HIGH_LEVERAGE_OUTLIERS_EXPLANATION.md`)
 - **Negative equity detection** (302 accounts, **−$23,191,104.48** aggregate deficit)
@@ -113,7 +113,7 @@ HyperMultiAssetedADL/
 | 4 | **HYPE** | $189.9M | 9.0% | 6,229 |
 | 5 | **XPL** | $65.8M | 3.1% | 2,984 |
 
-**Top 3 (BTC, ETH, SOL)**: 64.4% of total ADL volume! 
+**Top 3 (BTC, ETH, SOL)**: 64.4% of total ADL volume 
 
 ---
 
@@ -147,7 +147,7 @@ python3 scripts/analysis/<script_name>.py
 | Cascade Timing | First ADL at **61.7s** after first liquidation; largest burst **11,279** liq + **11,279** ADL in second 61 |
 | Batch Processing | **224** timestamps total, first **61s** liquidation-only, all shared timestamps run `liquidation → ADL` sequentially |
 | Counterparty Mechanism | **100%** ADL events carry `liquidated_user`; highlighted **$174.18M ETH** ADL matched by **265** ETH liquidations |
-| ADL Prioritization (global) | **99.4%** profitable ADL targets, **median leverage 0.20x** (very low!), p95 **5.10x**, p99 **122.69x** (outliers - see `docs/findings/HIGH_LEVERAGE_OUTLIERS_EXPLANATION.md`) |
+| ADL Prioritization (global) | **99.4%** profitable ADL targets, **median leverage 0.20x**, p95 **5.10x**, p99 **122.69x** (outliers - see `docs/findings/HIGH_LEVERAGE_OUTLIERS_EXPLANATION.md`) |
 | ADL Prioritization (local) | Spearman ρ (PNL vs notional **−0.2207**), (PNL vs leverage **−0.4781**); repeated winners table in JSON |
 | Insurance Fund Impact | **302** negative-equity accounts (**0.86%** of ADL), aggregate deficit **−$23,191,104.48** |
 | ADL Net Volume | Total ADL notional **$2,103,111,431**, 34,983 events across 162 tickers |
@@ -175,9 +175,9 @@ python3 scripts/analysis/<script_name>.py
 
 ---
 
-## DATA BREAKTHROUGH: Clearinghouse Access Unlocked!
+## Clearinghouse Data Access
 
-** November 12, 2025 - We now have complete clearinghouse data!**
+**November 12, 2025 - Complete clearinghouse data now available**
 
 ### Previously Unavailable -> Now Available 
 
@@ -207,16 +207,16 @@ python3 scripts/analysis/<script_name>.py
 
 **Analysis Coverage**: **34,983 ADL events** (100% of all ADL events) with **complete real-time data**
 
-This clearinghouse data enabled our breakthrough ADL prioritization discovery below! 
+This clearinghouse data enabled the ADL prioritization analysis detailed below. 
 
 ---
 
-## BREAKTHROUGH DISCOVERY: ADL Targets PROFIT, Not Leverage!
+## Key Finding: ADL Targets Profit, Not Leverage
 
-** See: [ADL_PRIORITIZATION_VERIFIED.md](docs/findings/ADL_PRIORITIZATION_VERIFIED.md)**
+**See: [ADL_PRIORITIZATION_VERIFIED.md](docs/findings/ADL_PRIORITIZATION_VERIFIED.md)**
 
-**MYTH:** "ADL targets the highest leverage positions" 
-**REALITY:** **DEBUNKED - ADL targets the MOST PROFITABLE positions**
+**Common assumption:** "ADL targets the highest leverage positions"  
+**Analysis result:** Evidence indicates ADL targets the most profitable positions
 
 ### The Evidence (34,983 Real-Time ADL Events Analyzed - 100% Coverage)
 
@@ -225,13 +225,13 @@ This clearinghouse data enabled our breakthrough ADL prioritization discovery be
 | **Profitable positions ADL'd** | **99.4%** (34,775 / 34,983) |
 | **Average unrealized PNL** | **+80.58%** |
 | **Median unrealized PNL** | **+50.09%** |
-| **Median leverage (REAL-TIME)** | **0.20x** (VERY LOW!) |
-| **95th percentile leverage** | **3.22x** (LOW!) |
+| **Median leverage (REAL-TIME)** | **0.20x** |
+| **95th percentile leverage** | **3.22x** |
 | **99th percentile leverage** | **74.18x** |
 | **Negative equity accounts** | **302 (0.86%)** |
 | **Total negative net equity** | **−$23,191,104.48** |
 
-**Note on leverage**: Most ADL'd positions had extremely low leverage. The **median of 0.20x** is the key metric—showing that most ADL'd accounts used very conservative leverage. The 95th percentile at **5.10x** is still well below Hyperliquid's 40x maximum. The 99th percentile at **122.69x** represents data artifacts from liquidation delays (accounts with near-zero value when ADL closed them), not actual high-leverage trading. See `docs/findings/HIGH_LEVERAGE_OUTLIERS_EXPLANATION.md` for details. This debunks the myth that ADL targets high leverage.
+**Note on leverage**: Most ADL'd positions had low leverage. The **median of 0.20x** indicates that most ADL'd accounts used conservative leverage. The 95th percentile at **5.10x** is well below Hyperliquid's 40x maximum. The 99th percentile at **122.69x** represents data artifacts from liquidation delays (accounts with near-zero value when ADL closed them), not actual high-leverage trading. See `docs/findings/HIGH_LEVERAGE_OUTLIERS_EXPLANATION.md` for details. This indicates that ADL does not primarily target high leverage positions.
 
 ### Top 10 ADL'd Positions (By Size)
 
@@ -314,12 +314,12 @@ This is the **first time negative equity has been quantified** for a Hyperliquid
 
 ---
 
-## CRITICAL FINDING: Per-Asset Isolation - Zero ADL Contagion
+## Key Finding: Per-Asset Isolation - No Cross-Asset ADL Contagion
 
-** See: [PER_ASSET_ISOLATION.md](docs/findings/PER_ASSET_ISOLATION.md)**
+**See: [PER_ASSET_ISOLATION.md](docs/findings/PER_ASSET_ISOLATION.md)**
 
-**MYTH:** "BTC liquidations can trigger ETH ADL" or "ADL contagion across assets" 
-**REALITY:** **DISPROVEN - Zero cases of cross-asset ADL found**
+**Common assumption:** "BTC liquidations can trigger ETH ADL" or "ADL contagion across assets"  
+**Analysis result:** Zero cases of cross-asset ADL found
 
 ### Key Evidence
 
@@ -330,18 +330,18 @@ This is the **first time negative equity has been quantified** for a Hyperliquid
 | **Ticker overlap** | 96.74% |
 | **Perfect 1:1 ratio matches** | 44/44 tickers at biggest burst |
 
-### What This Proves
+### Analysis Results
 
- **BTC liquidations cause ONLY BTC ADL** (never ETH, SOL, or other assets) 
- **ETH liquidations cause ONLY ETH ADL** (never BTC, SOL, or other assets) 
- **SOL liquidations cause ONLY SOL ADL** (never BTC, ETH, or other assets) 
- **Each asset has independent ADL engine** (no shared risk pool) 
- **Perfect 1:1 matching per asset** when ADL triggers 
+- **BTC liquidations cause only BTC ADL** (not ETH, SOL, or other assets)
+- **ETH liquidations cause only ETH ADL** (not BTC, SOL, or other assets)
+- **SOL liquidations cause only SOL ADL** (not BTC, ETH, or other assets)
+- **Each asset has an independent ADL engine** (no shared risk pool)
+- **1:1 matching per asset** when ADL triggers 
 
 ### Important Distinction
 
- **ADL contagion** (technical): Does NOT exist 
- **Market contagion** (price dynamics): DOES exist
+- **ADL contagion** (technical): Does not exist
+- **Market contagion** (price dynamics): Does exist
 
 **Example:**
 ```
@@ -368,7 +368,7 @@ ADL contagion: NO (ADL systems isolated)
 
 ## TOTAL MARKET IMPACT (Liquidations + ADL)
 
-**NEW: Complete cascade analysis now available!**
+**Complete cascade analysis now available**
 
 | Metric | Liquidations | ADL | **TOTAL IMPACT** |
 |--------|--------------|-----|------------------|
@@ -397,13 +397,13 @@ We analyzed the **largest single ADL event** ($174.18M ETH) to understand **how 
 
 ** See: [CASCADE_TIMING_ANALYSIS.md](docs/analysis/CASCADE_TIMING_ANALYSIS.md)**
 
-**MAJOR FINDING:** Liquidations happen in waves BEFORE ADL kicks in!
+**Key finding:** Liquidations occur in waves before ADL activates.
 
 ### 3. BATCH PROCESSING DISCOVERY 
 
 ** See: [BATCH_PROCESSING_DISCOVERY.md](docs/analysis/BATCH_PROCESSING_DISCOVERY.md)**
 
-**CRITICAL FINDING:** Liquidations and ADL execute in SEPARATE, SEQUENTIAL BATCHES!
+**Key finding:** Liquidations and ADL execute in separate, sequential batches.
 
 Even when they share the same millisecond timestamp, liquidations and ADL are **processed sequentially, not concurrently**:
 
@@ -422,7 +422,7 @@ Block at timestamp T:
  Phase 3: Select profitable positions for ADL
  Phase 4: Process ALL ADLs (ADL engine)
 
-All events stamped with timestamp T, but SEQUENCED internally!
+All events stamped with timestamp T, but sequenced internally
 ```
 
 **Why This Matters:**
@@ -700,7 +700,7 @@ print(f"BTC: ${btc['net_notional_usd']:,.0f} across {btc['num_adl_events']} even
 5. **How fast does it happen?** -> 2,915 ADLs per second at peak
 
 **Account-Level (NEW - With Clearinghouse Data)**:
-6. **What leverage do ADL'd positions have?** -> **Median 0.20x** (very low!); 95th pct 5.10x (still below 40x max); 99th pct 122.69x (outliers from liquidation delays - see `docs/findings/HIGH_LEVERAGE_OUTLIERS_EXPLANATION.md`)
+6. **What leverage do ADL'd positions have?** -> **Median 0.20x**; 95th percentile 5.10x (below 40x max); 99th percentile 122.69x (outliers from liquidation delays - see `docs/findings/HIGH_LEVERAGE_OUTLIERS_EXPLANATION.md`)
 7. **How profitable are ADL'd positions?** -> 99.4% profitable, avg +85.9% PNL
 8. **Does ADL target high leverage?** -> NO - targets high PROFIT
 9. **What are entry prices?** -> Calculated for 34,983 positions (100% coverage)
@@ -734,7 +734,7 @@ Key Finding: ADL targets PROFIT (99.4% profitable), not leverage (median 0.20x).
 
 ### Available in `adl_detailed_analysis_REALTIME.csv` (34,983 ADL'd positions - 100% Coverage)
 
-** REAL-TIME RECONSTRUCTION COMPLETE** - All metrics calculated at exact ADL moment for the FULL 12-minute cascade!
+**Real-time reconstruction complete** - All metrics calculated at exact ADL moment for the full 12-minute cascade
 
 | What You Need | Column Name | Description |
 |---------------|-------------|-------------|
@@ -851,7 +851,7 @@ print('Total negative equity:', df.loc[df['is_negative_equity'], 'total_equity']
 - **How to reconcile multiple data sources?**: See `docs/methodology/COMPLETE_METHODOLOGY.md` (Section: Data Reconciliation)
 
 ### For Findings
-- **ADL prioritization?**: See `docs/findings/ADL_PRIORITIZATION_VERIFIED.md` **MAJOR DISCOVERY**
+- **ADL prioritization?**: See `docs/findings/ADL_PRIORITIZATION_VERIFIED.md`
 - **Per-asset isolation?**: See `docs/findings/PER_ASSET_ISOLATION.md` 
 - **Why separate chunks?**: See `docs/analysis/BATCH_PROCESSING_DISCOVERY.md` 
 - **When does ADL activate?**: See `docs/analysis/CASCADE_TIMING_ANALYSIS.md` 
