@@ -15,7 +15,7 @@ adl_detailed_analysis_REALTIME.csv
 ```
 
 **This file contains**:
-- **34,983 ADL events** (100% coverage - complete 12-minute event)
+- **34,983 ADL events** (100% coverage - ADLs occurred during 21:16:04-21:26:57 UTC within the full 12-minute event window)
 - **Real-time account values (cash-only)** at exact ADL moment (snapshot unrealized PnL removed)
 - **Real-time leverage** calculated with reconstructed account states:
   - **Median: 0.20x** ← Most ADL'd accounts use very low leverage
@@ -27,7 +27,9 @@ adl_detailed_analysis_REALTIME.csv
 **Processing details**:
 - 3,239,706 events processed (fills, funding, deposits, withdrawals)
 - 437,723 accounts reconstructed in real-time
-- Time range: 21:16:04 to 21:26:57 UTC (10.88 minutes of active ADL)
+- **Full event window**: 21:15:00 - 21:27:00 UTC (12 minutes) - complete analysis timeframe
+- **ADL events occurred**: 21:16:04 - 21:26:57 UTC (10.88 minutes) - actual ADL activity period
+- **Liquidations occurred**: 21:15:03 - 21:26:57 UTC (11.90 minutes) - liquidation activity period
 - Method: Chronological event replay from clearinghouse snapshot
 
 **Canonical dataset status:** Only the cash-only reconstructed CSVs and raw S3 extracts are now present in this repository. Every analysis script, markdown study, and CSV artifact is derived directly from the canonical files in `data/canonical/cash-only balances ADL event orderbook 2025-10-10/`:
