@@ -788,10 +788,10 @@ print('Total negative equity:', df.loc[df['is_negative_equity'], 'total_equity']
 ### Clearinghouse Data Files (this repository)
 
 **Canonical Outputs (Real-Time):**
-- `adl_detailed_analysis_REALTIME.csv` – 34,983 ADL events with real-time metrics (canonical dataset)
-- `adl_by_user_REALTIME.csv` – 19,337 user-level aggregations
-- `adl_by_coin_REALTIME.csv` – 162 asset-level aggregations
-- `realtime_analysis_summary.json` – Summary statistics
+- `cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv` – 34,983 ADL events with real-time metrics (canonical dataset)
+- `cash-only balances ADL event orderbook 2025-10-10/adl_by_user_REALTIME.csv` – 19,337 user-level aggregations
+- `cash-only balances ADL event orderbook 2025-10-10/adl_by_coin_REALTIME.csv` – 162 asset-level aggregations
+- `cash-only balances ADL event orderbook 2025-10-10/realtime_analysis_summary.json` – Summary statistics
 - `FINDINGS_VERIFICATION_REPORT.md` – Comprehensive verification results
 - `LEVERAGE_CORRECTION.md` – Explanation of leverage statistics
 
