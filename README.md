@@ -37,6 +37,48 @@ adl_detailed_analysis_REALTIME.csv
 
 ---
 
+## 📁 Repository Structure
+
+The repository is organized into clear directories for easy navigation:
+
+```
+HyperMultiAssetedADL/
+├── README.md                    # This file - repository overview
+├── .gitignore                   # Git ignore rules
+│
+├── docs/                        # All documentation
+│   ├── methodology/            # Methodology and how-to guides
+│   ├── findings/               # Research findings and discoveries
+│   ├── analysis/               # Analysis reports
+│   └── reports/                # Verification and audit reports
+│
+├── scripts/                     # All Python scripts
+│   ├── analysis/               # Analysis scripts (9 scripts)
+│   ├── data/                   # Data extraction scripts
+│   ├── reconstruction/         # Account reconstruction scripts
+│   └── verification/           # Verification and testing scripts
+│
+└── data/                        # All data files
+    ├── canonical/               # Canonical processed data
+    │   └── cash-only balances ADL event orderbook 2025-10-10/
+    │       ├── adl_detailed_analysis_REALTIME.csv
+    │       ├── adl_by_user_REALTIME.csv
+    │       ├── adl_by_coin_REALTIME.csv
+    │       ├── adl_fills_full_12min_raw.csv
+    │       └── liquidations_full_12min.csv
+    └── raw/                     # Raw analysis outputs
+        ├── ADL_ORDERS_COMPLETE_LIST.csv
+        └── high_leverage_outliers_analysis.csv
+```
+
+**Key Benefits:**
+- ✅ Clear separation of documentation, code, and data
+- ✅ Easy to find what you need
+- ✅ Organized by purpose (methodology, findings, analysis, reports)
+- ✅ Scripts grouped by function (analysis, data, reconstruction, verification)
+
+---
+
 ## Executive Summary
 
 **Event**: October 10, 2025 Market Crash 
