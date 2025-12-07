@@ -30,7 +30,7 @@ adl_detailed_analysis_REALTIME.csv
 - Time range: 21:16:04 to 21:26:57 UTC (10.88 minutes of active ADL)
 - Method: Chronological event replay from clearinghouse snapshot
 
-**Canonical dataset status:** Only the cash-only reconstructed CSVs and raw S3 extracts are now present in this repository. Every analysis script, markdown study, and CSV artifact is derived directly from the canonical files in `cash-only balances ADL event orderbook 2025-10-10/`:
+**Canonical dataset status:** Only the cash-only reconstructed CSVs and raw S3 extracts are now present in this repository. Every analysis script, markdown study, and CSV artifact is derived directly from the canonical files in `data/canonical/cash-only balances ADL event orderbook 2025-10-10/`:
 - `adl_detailed_analysis_REALTIME.csv` (34,983 ADL events with fixed position size calculation)
 - `adl_fills_full_12min_raw.csv` (raw ADL fills)
 - `liquidations_full_12min.csv` (liquidation events)
@@ -70,20 +70,20 @@ adl_detailed_analysis_REALTIME.csv
 
 | Study | Python Script |
 |-------|---------------|
-| `PER_ASSET_ISOLATION.md` | `analysis_scripts/per_asset_isolation.py` |
-| `CASCADE_TIMING_ANALYSIS.md` | `analysis_scripts/cascade_timing_analysis.py` |
-| `BATCH_PROCESSING_DISCOVERY.md` | `analysis_scripts/batch_processing_analysis.py` |
-| `ADL_MECHANISM_RESEARCH.md` | `analysis_scripts/adl_mechanism_analysis.py` |
-| `ADL_PRIORITIZATION_VERIFIED.md` | `analysis_scripts/adl_prioritization_analysis.py` |
-| `ADL_PRIORITIZATION_ANALYSIS_LOCAL.md` | `analysis_scripts/adl_prioritization_local.py` |
-| `INSURANCE_FUND_IMPACT.md` | `analysis_scripts/insurance_fund_impact.py` |
-| `ADL_NET_VOLUME_FULL_12MIN.md` | `analysis_scripts/adl_net_volume.py` (generated in canonical directory) |
-| `TOTAL_IMPACT_ANALYSIS.md` | `analysis_scripts/total_impact_analysis.py` (can be regenerated) |
+| `docs/findings/PER_ASSET_ISOLATION.md` | `scripts/analysis/per_asset_isolation.py` |
+| `docs/analysis/CASCADE_TIMING_ANALYSIS.md` | `scripts/analysis/cascade_timing_analysis.py` |
+| `docs/analysis/BATCH_PROCESSING_DISCOVERY.md` | `scripts/analysis/batch_processing_analysis.py` |
+| `docs/findings/ADL_MECHANISM_RESEARCH.md` | `scripts/analysis/adl_mechanism_analysis.py` |
+| `docs/findings/ADL_PRIORITIZATION_VERIFIED.md` | `scripts/analysis/adl_prioritization_analysis.py` |
+| `docs/findings/ADL_PRIORITIZATION_ANALYSIS_LOCAL.md` | `scripts/analysis/adl_prioritization_local.py` |
+| `docs/findings/INSURANCE_FUND_IMPACT.md` | `scripts/analysis/insurance_fund_impact.py` |
+| `data/canonical/cash-only balances ADL event orderbook 2025-10-10/ADL_NET_VOLUME_FULL_12MIN.md` | `scripts/analysis/adl_net_volume.py` (generated in canonical directory) |
+| `TOTAL_IMPACT_ANALYSIS.md` | `scripts/analysis/total_impact_analysis.py` (can be regenerated) |
 
-Each script loads the canonical CSVs in this repository and emits the metrics cited in the corresponding study (plus a JSON snapshot in `analysis_scripts/`). Run them from the repo root:
+Each script loads the canonical CSVs in this repository and emits the metrics cited in the corresponding study (plus a JSON snapshot in `scripts/analysis/`). Run them from the repo root:
 
 ```bash
-python3 analysis_scripts/<script_name>.py
+python3 scripts/analysis/<script_name>.py
 ```
 
 ---
@@ -101,13 +101,13 @@ python3 analysis_scripts/<script_name>.py
 | Insurance Fund Impact | **302** negative-equity accounts (**0.86%** of ADL), aggregate deficit **−$23,191,104** |
 | ADL Net Volume | Total ADL notional **$2,103,111,431**, 34,983 events across 162 tickers |
 | Total Impact | Liquidations **$5,511,042,925** + ADL **$2,103,111,431** = **$7,614,154,356** across 98,620 events |
-| Comprehensive Verification | `python3 verify_all_findings.py` passes all suites (prioritization, isolation, counterparty, timing, insurance, integrity) |
+| Comprehensive Verification | `python3 scripts/verification/verify_all_findings.py` passes all suites (prioritization, isolation, counterparty, timing, insurance, integrity) |
 
 ---
 
 ## COMPLETE METHODOLOGY: For Researchers
 
-** [COMPLETE_METHODOLOGY.md](COMPLETE_METHODOLOGY.md)** - Comprehensive guide to reproduce our entire analysis
+** [docs/methodology/COMPLETE_METHODOLOGY.md](docs/methodology/COMPLETE_METHODOLOGY.md)** - Comprehensive guide to reproduce our entire analysis
 
 ### What's Inside:
 - **All data sources** (S3 event data + clearinghouse snapshots)
@@ -244,7 +244,7 @@ This is the **first time negative equity has been quantified** for a Hyperliquid
 - Identified exact underwater amount
 - **100% event coverage** (34,983 / 34,983 ADL events)
 
-**Methodology**: [full_analysis_realtime.py](full_analysis_realtime.py)
+**Methodology**: [scripts/reconstruction/full_analysis_realtime.py](scripts/reconstruction/full_analysis_realtime.py)
 
 ---
 
@@ -315,7 +315,7 @@ ADL contagion: NO (ADL systems isolated)
 - **98,620 forced events** (liquidations + ADL)
 - **$5.5B liquidated** -> **$2.1B ADL'd** to cover losses
 
- **See full analysis**: Run `analysis_scripts/total_impact_analysis.py` to generate the report (or see `cash-only balances ADL event orderbook 2025-10-10/ADL_NET_VOLUME_FULL_12MIN.md` for ADL-specific analysis)
+ **See full analysis**: Run `scripts/analysis/total_impact_analysis.py` to generate the report (or see `data/canonical/cash-only balances ADL event orderbook 2025-10-10/ADL_NET_VOLUME_FULL_12MIN.md` for ADL-specific analysis)
 
 ---
 
@@ -460,12 +460,12 @@ This is the **first empirical documentation** of ADL-liquidation coupling:
 | **BATCH_PROCESSING_DISCOVERY.md** | **NEW!** Sequential batch processing architecture | 18 KB |
 | **CASCADE_TIMING_ANALYSIS.md** | Liquidation->ADL timing patterns & delay analysis | 15 KB |
 | **ADL_MECHANISM_RESEARCH.md** | Empirical analysis of ADL trigger mechanism | 12 KB |
-| **cash-only balances ADL event orderbook 2025-10-10/ADL_NET_VOLUME_FULL_12MIN.md** | Detailed analysis report (all 162 tickers) |
-| **TOTAL_IMPACT_ANALYSIS.md** | Regenerate with `analysis_scripts/total_impact_analysis.py` |
-| **cash-only balances ADL event orderbook 2025-10-10/adl_net_volume_full_12min.csv** | Raw data (CSV) - complete dataset |
-| **cash-only balances ADL event orderbook 2025-10-10/adl_fills_full_12min_raw.csv** | Individual ADL fills (34,983 events) |
-| **cash-only balances ADL event orderbook 2025-10-10/liquidations_full_12min.csv** | Individual liquidation events (63,637 events) |
-| **extract_full_12min_adl.py** | Python script used for analysis |
+| **data/canonical/cash-only balances ADL event orderbook 2025-10-10/ADL_NET_VOLUME_FULL_12MIN.md** | Detailed analysis report (all 162 tickers) |
+| **TOTAL_IMPACT_ANALYSIS.md** | Regenerate with `scripts/analysis/total_impact_analysis.py` |
+| **data/canonical/cash-only balances ADL event orderbook 2025-10-10/adl_net_volume_full_12min.csv** | Raw data (CSV) - complete dataset |
+| **data/canonical/cash-only balances ADL event orderbook 2025-10-10/adl_fills_full_12min_raw.csv** | Individual ADL fills (34,983 events) |
+| **data/canonical/cash-only balances ADL event orderbook 2025-10-10/liquidations_full_12min.csv** | Individual liquidation events (63,637 events) |
+| **scripts/data/extract_full_12min_adl.py** | Python script used for analysis |
 | *Previous files from 2-minute sample* | For comparison |
 
 ---
@@ -579,17 +579,17 @@ open adl_net_volume_full_12min.csv
 
 **Detailed report** (Markdown):
 ```bash
-open "cash-only balances ADL event orderbook 2025-10-10/ADL_NET_VOLUME_FULL_12MIN.md"
+open "data/canonical/cash-only balances ADL event orderbook 2025-10-10/ADL_NET_VOLUME_FULL_12MIN.md"
 ```
 
 **Individual fills**:
 ```bash
-open "cash-only balances ADL event orderbook 2025-10-10/adl_fills_full_12min_raw.csv"
+open "data/canonical/cash-only balances ADL event orderbook 2025-10-10/adl_fills_full_12min_raw.csv"
 ```
 
 ### Rerun Analysis
 ```bash
-python3 extract_full_12min_adl.py
+python3 scripts/data/extract_full_12min_adl.py
 ```
 
 ### Load in Python
@@ -712,7 +712,7 @@ Key Finding: ADL targets PROFIT (99.4% profitable), not leverage (median 0.20x).
 - Insurance fund impact quantified ($23,191,104)
 - **100% event coverage** (34,983 ADL events)
 
-**Methodology**: [full_analysis_realtime.py](full_analysis_realtime.py)
+**Methodology**: [scripts/reconstruction/full_analysis_realtime.py](scripts/reconstruction/full_analysis_realtime.py)
 
 ### How to Access the Data
 
@@ -725,7 +725,7 @@ cd HyperMultiAssetedADL
 # Open the REAL-TIME analysis file
 # Contains 34,983 rows (one per ADL'd position with real-time data)
 # This is 100% coverage of the FULL 12-minute cascade
-open cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv
+open data/canonical/cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv
 ```
 
 **Option 2: Load in Python**
@@ -733,7 +733,7 @@ open cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REA
 import pandas as pd
 
 # Load canonical real-time data
-df = pd.read_csv('cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv')
+df = pd.read_csv('data/canonical/cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv')
 
 # Quick sanity checks (should match README claims)
 print('Events:', len(df))
@@ -744,11 +744,11 @@ print('Negative equity accounts:', df['is_negative_equity'].sum())
 print('Total negative equity:', df.loc[df['is_negative_equity'], 'total_equity'].sum())
 ```
 
-> Run `python3 verify_all_findings.py` for the full automated test suite.
+> Run `python3 scripts/verification/verify_all_findings.py` for the full automated test suite.
 
 ### Complete Column Reference
 
-**cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv** columns:
+**data/canonical/cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv** columns:
 1. `user` – User address (string)
 2. `coin` – Asset ticker (string)
 3. `time` – Timestamp in milliseconds (int)
@@ -773,41 +773,45 @@ print('Total negative equity:', df.loc[df['is_negative_equity'], 'total_equity']
 ## Questions?
 
 ### For Researchers
-- **How to reproduce this analysis?**: See **`COMPLETE_METHODOLOGY.md`** ← **START HERE**
-- **What data sources were used?**: See `COMPLETE_METHODOLOGY.md` (Section: Data Sources)
-- **How to obtain clearinghouse data?**: See `COMPLETE_METHODOLOGY.md` (Section: Data Acquisition)
-- **How to reconcile multiple data sources?**: See `COMPLETE_METHODOLOGY.md` (Section: Data Reconciliation)
+- **How to reproduce this analysis?**: See **`docs/methodology/COMPLETE_METHODOLOGY.md`** ← **START HERE**
+- **What data sources were used?**: See `docs/methodology/COMPLETE_METHODOLOGY.md` (Section: Data Sources)
+- **How to obtain clearinghouse data?**: See `docs/methodology/COMPLETE_METHODOLOGY.md` (Section: Data Acquisition)
+- **How to reconcile multiple data sources?**: See `docs/methodology/COMPLETE_METHODOLOGY.md` (Section: Data Reconciliation)
 
 ### For Findings
-- **ADL prioritization?**: See `ADL_PRIORITIZATION_VERIFIED.md` **MAJOR DISCOVERY**
-- **Per-asset isolation?**: See `PER_ASSET_ISOLATION.md` 
-- **Why separate chunks?**: See `BATCH_PROCESSING_DISCOVERY.md` 
-- **When does ADL activate?**: See `CASCADE_TIMING_ANALYSIS.md` 
-- **How ADL works**: See `ADL_MECHANISM_RESEARCH.md` 
+- **ADL prioritization?**: See `docs/findings/ADL_PRIORITIZATION_VERIFIED.md` **MAJOR DISCOVERY**
+- **Per-asset isolation?**: See `docs/findings/PER_ASSET_ISOLATION.md` 
+- **Why separate chunks?**: See `docs/analysis/BATCH_PROCESSING_DISCOVERY.md` 
+- **When does ADL activate?**: See `docs/analysis/CASCADE_TIMING_ANALYSIS.md` 
+- **How ADL works**: See `docs/findings/ADL_MECHANISM_RESEARCH.md` 
 
 ### For Data
-- **Net volume analysis**: See `cash-only balances ADL event orderbook 2025-10-10/ADL_NET_VOLUME_FULL_12MIN.md`
-- **Processing scripts**: `extract_full_12min_adl.py`, `full_analysis_realtime.py`, `verify_all_findings.py`
-- **Individual fills**: `cash-only balances ADL event orderbook 2025-10-10/adl_fills_full_12min_raw.csv` (blockchain ADL events)
+- **Net volume analysis**: See `data/canonical/cash-only balances ADL event orderbook 2025-10-10/ADL_NET_VOLUME_FULL_12MIN.md`
+- **Processing scripts**: `scripts/data/extract_full_12min_adl.py`, `scripts/reconstruction/full_analysis_realtime.py`, `scripts/verification/verify_all_findings.py`
+- **Individual fills**: `data/canonical/cash-only balances ADL event orderbook 2025-10-10/adl_fills_full_12min_raw.csv` (blockchain ADL events)
 
 ### Clearinghouse Data Files (this repository)
 
 **Canonical Outputs (Real-Time):**
-- `cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv` – 34,983 ADL events with real-time metrics (canonical dataset)
-- `cash-only balances ADL event orderbook 2025-10-10/adl_by_user_REALTIME.csv` – 19,337 user-level aggregations
-- `cash-only balances ADL event orderbook 2025-10-10/adl_by_coin_REALTIME.csv` – 162 asset-level aggregations
-- `cash-only balances ADL event orderbook 2025-10-10/realtime_analysis_summary.json` – Summary statistics
-- `FINDINGS_VERIFICATION_REPORT.md` – Comprehensive verification results
-- `LEVERAGE_CORRECTION.md` – Explanation of leverage statistics
+- `data/canonical/cash-only balances ADL event orderbook 2025-10-10/adl_detailed_analysis_REALTIME.csv` – 34,983 ADL events with real-time metrics (canonical dataset)
+- `data/canonical/cash-only balances ADL event orderbook 2025-10-10/adl_by_user_REALTIME.csv` – 19,337 user-level aggregations
+- `data/canonical/cash-only balances ADL event orderbook 2025-10-10/adl_by_coin_REALTIME.csv` – 162 asset-level aggregations
+- `data/canonical/cash-only balances ADL event orderbook 2025-10-10/realtime_analysis_summary.json` – Summary statistics
+- `docs/reports/FINDINGS_VERIFICATION_REPORT.md` – Comprehensive verification results
+- `docs/reports/LEVERAGE_CORRECTION.md` – Explanation of leverage statistics
 
 **Supporting Raw Data:**
-- `cash-only balances ADL event orderbook 2025-10-10/adl_fills_full_12min_raw.csv` – Raw ADL fills (blockchain)
-- `cash-only balances ADL event orderbook 2025-10-10/liquidations_full_12min.csv` – Raw liquidation fills (for isolation tests)
+- `data/canonical/cash-only balances ADL event orderbook 2025-10-10/adl_fills_full_12min_raw.csv` – Raw ADL fills (blockchain)
+- `data/canonical/cash-only balances ADL event orderbook 2025-10-10/liquidations_full_12min.csv` – Raw liquidation fills (for isolation tests)
+- `data/raw/ADL_ORDERS_COMPLETE_LIST.csv` – Complete list of all ADL orders
+- `data/raw/high_leverage_outliers_analysis.csv` – High leverage outlier analysis data
 
-**Analysis Scripts:**
-- `full_analysis_realtime.py` – Real-time reconstruction pipeline
-- `analyze_clearinghouse.py` – Clearinghouse data loader
-- `verify_all_findings.py` – Automated verification suite
+**Scripts:**
+- `scripts/reconstruction/full_analysis_realtime.py` – Real-time reconstruction pipeline
+- `scripts/data/analyze_clearinghouse.py` – Clearinghouse data loader
+- `scripts/data/extract_full_12min_adl.py` – ADL data extraction
+- `scripts/verification/verify_all_findings.py` – Automated verification suite
+- `scripts/analysis/` – All analysis scripts (9 scripts)
 
 ---
 
