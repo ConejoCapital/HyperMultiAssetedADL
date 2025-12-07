@@ -29,10 +29,11 @@ print("\n[1/8] Loading snapshot data...")
 # Find snapshot files - check multiple possible locations
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
+DESKTOP = ROOT.parent  # /Users/thebunnymac/Desktop
 possible_paths = [
-    ROOT.parents[1] / "ADL Clearinghouse Data" / "account_value_snapshot_758750000_1760126694218.json",
-    ROOT.parents[1] / "ADL Net Volume" / "account_value_snapshot_758750000_1760126694218.json",
-    ROOT.parents[1] / "HyperReplay" / "data" / "raw" / "account_value_snapshot_758750000_1760126694218.json",
+    DESKTOP / "ADL Clearinghouse Data" / "account_value_snapshot_758750000_1760126694218.json",
+    DESKTOP / "ADL Net Volume" / "account_value_snapshot_758750000_1760126694218.json",
+    DESKTOP / "HyperReplay" / "data" / "raw" / "account_value_snapshot_758750000_1760126694218.json",
 ]
 
 snapshot_path = None
@@ -122,11 +123,12 @@ all_events = []
 # Load fills
 print("  Loading fills...")
 # Find fills files - check multiple possible locations
+DESKTOP = ROOT.parent  # /Users/thebunnymac/Desktop
 possible_fills_paths = [
-    ROOT.parents[1] / "ADL Clearinghouse Data" / "20_fills.json",
-    ROOT.parents[1] / "ADL Clearinghouse Data" / "21_fills.json",
-    ROOT.parents[1] / "HyperReplay" / "data" / "raw" / "20_fills.json",
-    ROOT.parents[1] / "HyperReplay" / "data" / "raw" / "21_fills.json",
+    DESKTOP / "ADL Clearinghouse Data" / "20_fills.json",
+    DESKTOP / "ADL Clearinghouse Data" / "21_fills.json",
+    DESKTOP / "HyperReplay" / "data" / "raw" / "20_fills.json",
+    DESKTOP / "HyperReplay" / "data" / "raw" / "21_fills.json",
 ]
 
 fills_files = []
@@ -175,11 +177,12 @@ print(f"\n  ✓ Loaded fills")
 # Load misc events
 print("  Loading misc events (funding, deposits, withdrawals)...")
 # Find misc files - check multiple possible locations
+DESKTOP = ROOT.parent  # /Users/thebunnymac/Desktop
 possible_misc_paths = [
-    ROOT.parents[1] / "ADL Clearinghouse Data" / "20_misc.json",
-    ROOT.parents[1] / "ADL Clearinghouse Data" / "21_misc.json",
-    ROOT.parents[1] / "HyperReplay" / "data" / "raw" / "20_misc.json",
-    ROOT.parents[1] / "HyperReplay" / "data" / "raw" / "21_misc.json",
+    DESKTOP / "ADL Clearinghouse Data" / "20_misc.json",
+    DESKTOP / "ADL Clearinghouse Data" / "21_misc.json",
+    DESKTOP / "HyperReplay" / "data" / "raw" / "20_misc.json",
+    DESKTOP / "HyperReplay" / "data" / "raw" / "21_misc.json",
 ]
 
 misc_files = []
@@ -393,16 +396,27 @@ for adl_idx, adl in enumerate(adl_events):
     coin = adl['coin']
     adl_time = adl['time']
     
-    # Get account state at this moment
+    # Get account state at this moment (BEFORE processing this ADL fill)
+    # We need to get the state before the ADL, so we use startPosition for the ADL'd coin
     if user not in working_states:
         continue
     
     account_state = working_states[user]
     
+    # For the ADL'd coin, use startPosition (position size BEFORE this ADL fill)
+    # For other coins, use current position size from working_states
+    position_size_at_adl = adl['startPosition']  # Position size BEFORE this ADL
+    
     # Calculate unrealized PNL for ALL positions at this moment
     total_unrealized_pnl = 0.0
     for pos_coin, position in account_state['positions'].items():
-        if position['size'] == 0:
+        # For the ADL'd coin, use startPosition; for others, use current position size
+        if pos_coin == coin:
+            pos_size = position_size_at_adl
+        else:
+            pos_size = position['size']
+        
+        if pos_size == 0:
             continue
         
         # Get current price (last traded price)
@@ -415,30 +429,29 @@ for adl_idx, adl in enumerate(adl_events):
             continue
         
         # Calculate unrealized PNL
-        if position['size'] > 0:  # Long
-            unrealized = position['size'] * (current_price - entry_price)
+        if pos_size > 0:  # Long
+            unrealized = pos_size * (current_price - entry_price)
         else:  # Short
-            unrealized = abs(position['size']) * (entry_price - current_price)
+            unrealized = abs(pos_size) * (entry_price - current_price)
         
         total_unrealized_pnl += unrealized
     
     # Total equity = cash + unrealized PNL
     total_equity = account_state['account_value'] + total_unrealized_pnl
     
-    # Get position details
-    if coin not in account_state['positions']:
-        continue
-    
-    position = account_state['positions'][coin]
+    # Get position details for the ADL'd coin
+    position = account_state['positions'].get(coin, {'size': 0.0, 'entry_price': adl['price']})
     entry_price = position.get('entry_price', adl['price'])
+    if entry_price is None or entry_price == 0:
+        entry_price = adl['price']
     
-    # Calculate position-specific PNL
-    if position['size'] > 0:  # Long
-        position_unrealized_pnl = position['size'] * (adl['price'] - entry_price)
+    # Calculate position-specific PNL using position size BEFORE ADL
+    if position_size_at_adl > 0:  # Long
+        position_unrealized_pnl = position_size_at_adl * (adl['price'] - entry_price)
     else:  # Short
-        position_unrealized_pnl = abs(position['size']) * (entry_price - adl['price'])
+        position_unrealized_pnl = abs(position_size_at_adl) * (entry_price - adl['price'])
     
-    position_notional = abs(position['size']) * adl['price']
+    position_notional = abs(position_size_at_adl) * adl['price']
     pnl_percent = (position_unrealized_pnl / position_notional * 100) if position_notional > 0 else 0
     
     # Calculate leverage with REAL-TIME account value
@@ -455,7 +468,7 @@ for adl_idx, adl in enumerate(adl_events):
         'adl_size': adl['size'],
         'adl_notional': abs(adl['size']) * adl['price'],
         'closed_pnl': adl['closedPnl'],
-        'position_size': position['size'],
+        'position_size': position_size_at_adl,  # Position size BEFORE this ADL
         'entry_price': entry_price,
         'account_value_realtime': account_state['account_value'],  # REAL-TIME!
         'total_unrealized_pnl': total_unrealized_pnl,
