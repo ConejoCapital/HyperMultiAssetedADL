@@ -44,7 +44,7 @@ Events 11,989-23,267: ALL 11,279 ADLs          🟢🟢🟢
 
 ## ✅ Real-Time Verification (Canonical Dataset)
 
-Using the regenerated realtime files (`liquidations_full_12min.csv`, `adl_fills_full_12min_raw.csv`) we reran `python prepare_data.py` (the same pipeline that powers `public/events.json` in HyperFireworks). A follow-up check over all 98,620 events confirmed:
+Using the regenerated realtime files (`cash-only balances ADL event orderbook 2025-10-10/liquidations_full_12min.csv`, `cash-only balances ADL event orderbook 2025-10-10/adl_fills_full_12min_raw.csv`) we reran `python prepare_data.py` (the same pipeline that powers `public/events.json` in HyperFireworks). A follow-up check over all 98,620 events confirmed:
 
 - **100/100 timestamps** that contained both liquidations and ADL kept the `liquidation → ADL` batch ordering.
 - **0 instances** of interleaving were observed after replaying the full 3.24M-event clearinghouse stream.

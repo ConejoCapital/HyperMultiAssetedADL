@@ -455,8 +455,8 @@ for evt in window:
 - BTC, ETH, SOL = 64.4% of volume
 
 **Documents**:
-- `ADL_NET_VOLUME_FULL_12MIN.md`
-- `TOTAL_IMPACT_ANALYSIS.md`
+- `cash-only balances ADL event orderbook 2025-10-10/ADL_NET_VOLUME_FULL_12MIN.md` (or regenerate with `analysis_scripts/adl_net_volume.py`)
+- `TOTAL_IMPACT_ANALYSIS.md` (regenerate with `analysis_scripts/total_impact_analysis.py`)
 
 ### Analysis 2: Timing & Batching (Nov 11, 2025)
 
@@ -875,11 +875,11 @@ for adl in adl_events:
 **Event-Level Analysis**:
 ```
 /Users/thebunnymac/Desktop/ADL Net Volume/
-├── adl_fills_full_12min_raw.csv          # All 34,983 ADL events
-├── liquidations_full_12min.csv            # All 63,637 liquidation events
+├── cash-only balances ADL event orderbook 2025-10-10/adl_fills_full_12min_raw.csv          # All 34,983 ADL events
+├── cash-only balances ADL event orderbook 2025-10-10/liquidations_full_12min.csv            # All 63,637 liquidation events
 ├── adl_net_volume_full_12min.csv         # Aggregated by ticker (162 tickers)
 ├── combined_impact_by_ticker.csv         # Liquidations + ADL by ticker
-└── ADL_NET_VOLUME_FULL_12MIN.md          # Full report
+└── cash-only balances ADL event orderbook 2025-10-10/ADL_NET_VOLUME_FULL_12MIN.md          # Full report
 ```
 
 **Clearinghouse Analysis (Canonical)**:
@@ -902,7 +902,7 @@ for adl in adl_events:
 ├── CASCADE_TIMING_ANALYSIS.md             # ~64-second delay
 ├── BATCH_PROCESSING_DISCOVERY.md          # Sequential execution
 ├── PER_ASSET_ISOLATION.md                 # Zero cross-asset ADL
-└── TOTAL_IMPACT_ANALYSIS.md               # Combined stats
+└── TOTAL_IMPACT_ANALYSIS.md               # Combined stats (regenerate with `analysis_scripts/total_impact_analysis.py`)
 ```
 
 **Processing Scripts**:
@@ -910,7 +910,7 @@ for adl in adl_events:
 /Users/thebunnymac/Desktop/ADL Net Volume/
 ├── extract_full_12min_adl.py              # S3 event extraction
 ├── prepare_data.py                        # Visualization dataset builder (canonical files)
-└── calculate_total_impact.py              # Aggregate statistics
+└── analysis_scripts/total_impact_analysis.py              # Aggregate statistics
 
 /Users/thebunnymac/Desktop/ADL Clearinghouse Data/
 ├── analyze_clearinghouse.py               # Snapshot bootstrap utilities

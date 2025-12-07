@@ -15,7 +15,8 @@ from pathlib import Path
 
 # Configuration (points to canonical replay source produced from Hyperliquid S3 dump)
 S3_DATA_FILE = "../ADL Clean/s3_raw_data/node_fills_20251010_21.lz4"
-OUTPUT_DIR = Path(".")
+CANONICAL_DIR = Path("cash-only balances ADL event orderbook 2025-10-10")
+OUTPUT_DIR = CANONICAL_DIR
 
 # Time window for full ADL event
 ADL_START = datetime(2025, 10, 10, 21, 15, 0, tzinfo=timezone.utc)
@@ -328,11 +329,12 @@ Previous analysis used SonarX data (21:15-21:17 UTC, 2 minutes):
 **Data source**: S3 node_fills_20251010_21.lz4
 """
     
-    # Save markdown
+    # Save markdown to canonical directory
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     with open(OUTPUT_DIR / "ADL_NET_VOLUME_FULL_12MIN.md", "w") as f:
         f.write(content)
     
-    print("  ✅ ADL_NET_VOLUME_FULL_12MIN.md")
+    print(f"  ✅ {OUTPUT_DIR}/ADL_NET_VOLUME_FULL_12MIN.md")
 
 def main():
     """Main execution"""
@@ -341,9 +343,10 @@ def main():
     # Extract ADL fills from S3
     df_adl = extract_adl_fills()
     
-    # Save raw ADL fills
+    # Save raw ADL fills to canonical directory
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     df_adl.to_csv(OUTPUT_DIR / "adl_fills_full_12min_raw.csv", index=False)
-    print(f"\n  ✅ Saved raw ADL fills: adl_fills_full_12min_raw.csv")
+    print(f"\n  ✅ Saved raw ADL fills: {OUTPUT_DIR}/adl_fills_full_12min_raw.csv")
     
     # Calculate volumes
     df_results = calculate_adl_volume(df_adl)
@@ -356,8 +359,9 @@ def main():
     
     # Export to CSV
     print("\n📤 Exporting results...")
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     df_results.to_csv(OUTPUT_DIR / "adl_net_volume_full_12min.csv", index=False)
-    print("  ✅ adl_net_volume_full_12min.csv")
+    print(f"  ✅ {OUTPUT_DIR}/adl_net_volume_full_12min.csv")
     
     # Generate markdown report
     generate_markdown_report(df_results, total_notional, total_pnl, total_events)
@@ -369,10 +373,10 @@ def main():
     print(f"\nTotal ADL'd: ${total_notional:,.0f} across {len(df_results)} tickers")
     print(f"Total Events: {total_events:,} ADL events in 12 minutes")
     print(f"Total PNL: ${total_pnl:,.0f} in forced closures")
-    print("\n📁 Files created:")
-    print("  • adl_net_volume_full_12min.csv")
-    print("  • ADL_NET_VOLUME_FULL_12MIN.md")
-    print("  • adl_fills_full_12min_raw.csv")
+    print("\n📁 Files created in canonical directory:")
+    print(f"  • {OUTPUT_DIR}/adl_net_volume_full_12min.csv")
+    print(f"  • {OUTPUT_DIR}/ADL_NET_VOLUME_FULL_12MIN.md")
+    print(f"  • {OUTPUT_DIR}/adl_fills_full_12min_raw.csv")
     print("=" * 80)
 
 if __name__ == "__main__":

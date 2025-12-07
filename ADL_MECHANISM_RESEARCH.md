@@ -160,7 +160,7 @@ All 265 occurred at timestamp: `2025-10-10 21:17:06.037894+00:00`
 3. **Cascade Effect**: How do liquidations trigger more liquidations?
    - ✅ **VERIFIED** with the canonical 12-minute feed (`liquidations_full_12min.csv` + `adl_fills_full_12min_raw.csv`)
    - $7.61B combined impact, 61-second delay before the first ADL, alternating liquidation → ADL waves, 0.946 correlation.
-   - See `CASCADE_TIMING_ANALYSIS.md`, `BATCH_PROCESSING_DISCOVERY.md`, and `TOTAL_IMPACT_ANALYSIS.md`.
+   - See `CASCADE_TIMING_ANALYSIS.md`, `BATCH_PROCESSING_DISCOVERY.md`, and run `analysis_scripts/total_impact_analysis.py` for total impact analysis.
 
 4. **Insurance Fund Impact**: What's the size of the gap the fund had to absorb?
    - ✅ **MEASURED** using real-time reconstruction: 302 accounts in negative equity, totalling **$23,191,104** that the insurance fund (and HLP buffer) covered to prevent socialized losses.

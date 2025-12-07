@@ -192,13 +192,12 @@ HyperMultiAssetedADL/
 ├── ADL_MECHANISM_RESEARCH.md
 ├── CASCADE_TIMING_ANALYSIS.md
 ├── BATCH_PROCESSING_DISCOVERY.md
-├── TOTAL_IMPACT_ANALYSIS.md
-├── ADL_NET_VOLUME_FULL_12MIN.md
-├── adl_fills_full_12min_raw.csv
-├── liquidations_full_12min.csv
+├── cash-only balances ADL event orderbook 2025-10-10/ADL_NET_VOLUME_FULL_12MIN.md
+├── cash-only balances ADL event orderbook 2025-10-10/adl_fills_full_12min_raw.csv
+├── cash-only balances ADL event orderbook 2025-10-10/liquidations_full_12min.csv
 ├── combined_impact_by_ticker.csv
 ├── extract_full_12min_adl.py
-└── calculate_total_impact.py
+└── analysis_scripts/total_impact_analysis.py
 ```
 
 ---

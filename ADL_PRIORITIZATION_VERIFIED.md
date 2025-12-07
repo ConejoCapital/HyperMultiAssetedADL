@@ -336,7 +336,7 @@ All data is available in:
 ### Reproducibility
 
 All analysis code is available in:
-- `full_analysis.py` - Complete event processing pipeline
+- `full_analysis_realtime.py` - Complete event processing pipeline
 - `analyze_clearinghouse.py` - Data loading and indexing
 
 ---

@@ -43,8 +43,8 @@ A reproducible snippet:
 ```python
 import pandas as pd
 start = pd.Timestamp('2025-10-10 21:15:00+00:00')
-liqs = pd.read_csv('liquidations_full_12min.csv', parse_dates=['block_time'])
-adls = pd.read_csv('adl_fills_full_12min_raw.csv', parse_dates=['block_time'])
+liqs = pd.read_csv('cash-only balances ADL event orderbook 2025-10-10/liquidations_full_12min.csv', parse_dates=['block_time'])
+adls = pd.read_csv('cash-only balances ADL event orderbook 2025-10-10/adl_fills_full_12min_raw.csv', parse_dates=['block_time'])
 series = pd.concat([
     pd.DataFrame({'sec': ((liqs['block_time']-start).dt.total_seconds()).astype(int), 'liq':1}),
     pd.DataFrame({'sec': ((adls['block_time']-start).dt.total_seconds()).astype(int), 'adl':1})
