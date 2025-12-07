@@ -1,6 +1,8 @@
-# ADL Net Volume Analysis - FULL 12-MINUTE EVENT
+# HyperMultiAssetedADL
 
-**Analysis of Auto-Deleveraging (ADL) net volume by ticker on October 10, 2025**
+**Complete Analysis of the October 10, 2025 Hyperliquid Auto-Deleveraging (ADL) Event**
+
+> **Largest known ADL event analysis**: $2.1 billion in forced position closures across 162 assets in 12 minutes. 100% blockchain-verified with complete clearinghouse state reconstruction.
 
 ---
 
