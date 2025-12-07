@@ -26,10 +26,32 @@ last_prices = {}
 
 print("\n[1/8] Loading snapshot data...")
 
-with open('account_value_snapshot_758750000_1760126694218.json', 'r') as f:
+# Find snapshot files - check multiple possible locations
+from pathlib import Path
+ROOT = Path(__file__).resolve().parents[2]
+possible_paths = [
+    ROOT.parents[1] / "ADL Clearinghouse Data" / "account_value_snapshot_758750000_1760126694218.json",
+    ROOT.parents[1] / "ADL Net Volume" / "account_value_snapshot_758750000_1760126694218.json",
+    ROOT.parents[1] / "HyperReplay" / "data" / "raw" / "account_value_snapshot_758750000_1760126694218.json",
+]
+
+snapshot_path = None
+for path in possible_paths:
+    if path.exists():
+        snapshot_path = path
+        break
+
+if snapshot_path is None:
+    raise FileNotFoundError(f"Could not find account_value_snapshot file. Checked: {possible_paths}")
+
+positions_path = snapshot_path.parent / "perp_positions_by_market_758750000_1760126694218.json"
+if not positions_path.exists():
+    raise FileNotFoundError(f"Could not find perp_positions file at {positions_path}")
+
+with open(snapshot_path, 'r') as f:
     account_values = json.load(f)
 
-with open('perp_positions_by_market_758750000_1760126694218.json', 'r') as f:
+with open(positions_path, 'r') as f:
     positions_by_market = json.load(f)
 
 # Build initial account states
@@ -247,7 +269,27 @@ for event in events_in_window:
             }
         
         # Update position size based on fill
-        new_size = event['startPosition']  # startPosition is BEFORE fill, size is fill amount
+        # startPosition is position BEFORE fill, size is fill amount
+        # After fill: new_size = startPosition + size (if buy) or startPosition - size (if sell)
+        start_position = event['startPosition']
+        fill_size = event['size']
+        side = event.get('side', '')
+        
+        if side == 'B':  # Buy - increases position
+            new_size = start_position + fill_size
+        elif side == 'A':  # Sell - decreases position
+            new_size = start_position - fill_size
+        else:
+            # Fallback: use direction if side not available
+            direction = event.get('direction', '')
+            if 'Open Long' in direction or 'Close Short' in direction:
+                new_size = start_position + fill_size
+            elif 'Close Long' in direction or 'Open Short' in direction:
+                new_size = start_position - fill_size
+            else:
+                # Default: assume startPosition is already the new size (for backwards compatibility)
+                new_size = start_position
+        
         working_states[user]['positions'][coin]['size'] = new_size
         
         # Update last traded price
