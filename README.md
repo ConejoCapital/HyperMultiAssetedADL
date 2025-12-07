@@ -209,7 +209,7 @@ This clearinghouse data enabled our breakthrough ADL prioritization discovery be
 
 ## BREAKTHROUGH DISCOVERY: ADL Targets PROFIT, Not Leverage!
 
-** See: [ADL_PRIORITIZATION_VERIFIED.md](ADL_PRIORITIZATION_VERIFIED.md)**
+** See: [ADL_PRIORITIZATION_VERIFIED.md](docs/findings/ADL_PRIORITIZATION_VERIFIED.md)**
 
 **MYTH:** "ADL targets the highest leverage positions" 
 **REALITY:** **DEBUNKED - ADL targets the MOST PROFITABLE positions**
@@ -255,7 +255,7 @@ This clearinghouse data enabled our breakthrough ADL prioritization discovery be
 
 **Key Insight**: ADL is a **forced exit mechanism for winners**, not punishment for reckless traders. The protocol uses your profits to cover liquidated losses.
 
-**Full Analysis**: [ADL_PRIORITIZATION_VERIFIED.md](ADL_PRIORITIZATION_VERIFIED.md)
+**Full Analysis**: [ADL_PRIORITIZATION_VERIFIED.md](docs/findings/ADL_PRIORITIZATION_VERIFIED.md)
 
 ---
 
