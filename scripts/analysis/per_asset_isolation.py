@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parents[2]
 CANONICAL_DIR = ROOT / "data/canonical/cash-only balances ADL event orderbook 2025-10-10"
 CANONICAL_ADL = CANONICAL_DIR / "adl_fills_full_12min_raw.csv"
 CANONICAL_LIQ = CANONICAL_DIR / "liquidations_full_12min.csv"
-OUTPUT_JSON = ROOT / "analysis_scripts" / "per_asset_isolation_results.json"
+OUTPUT_JSON = ROOT / "scripts" / "analysis" / "outputs" / "per_asset_isolation_results.json"
 
 
 def load_dataset(path: Path, time_col: str) -> pd.DataFrame:

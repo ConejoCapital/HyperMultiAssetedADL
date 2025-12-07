@@ -14,7 +14,7 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[2]
 CANONICAL_DIR = ROOT / "data/canonical/cash-only balances ADL event orderbook 2025-10-10"
 ADL_DETAIL_PATH = CANONICAL_DIR / "adl_detailed_analysis_REALTIME.csv"
-OUTPUT_JSON = ROOT / "analysis_scripts" / "adl_prioritization_results.json"
+OUTPUT_JSON = ROOT / "scripts" / "analysis" / "outputs" / "adl_prioritization_results.json"
 
 
 def main() -> None:

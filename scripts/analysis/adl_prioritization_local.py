@@ -15,7 +15,7 @@ from scipy.stats import spearmanr
 ROOT = Path(__file__).resolve().parents[2]
 CANONICAL_DIR = ROOT / "data/canonical/cash-only balances ADL event orderbook 2025-10-10"
 ADL_DETAIL_PATH = CANONICAL_DIR / "adl_detailed_analysis_REALTIME.csv"
-OUTPUT_JSON = ROOT / "analysis_scripts" / "adl_prioritization_local_results.json"
+OUTPUT_JSON = ROOT / "scripts" / "analysis" / "outputs" / "adl_prioritization_local_results.json"
 
 
 def per_coin_rank_gap(df: pd.DataFrame, top_n: int = 20) -> pd.DataFrame:

@@ -18,7 +18,7 @@ CANONICAL_DIR = ROOT / "data/canonical/cash-only balances ADL event orderbook 20
 ADL_DETAIL_PATH = CANONICAL_DIR / "adl_detailed_analysis_REALTIME.csv"
 ADL_RAW_PATH = CANONICAL_DIR / "adl_fills_full_12min_raw.csv"
 LIQ_PATH = CANONICAL_DIR / "liquidations_full_12min.csv"
-OUTPUT_JSON = ROOT / "analysis_scripts" / "adl_mechanism_results.json"
+OUTPUT_JSON = ROOT / "scripts" / "analysis" / "outputs" / "adl_mechanism_results.json"
 
 TARGET_COIN = "ETH"
 
