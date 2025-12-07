@@ -1,0 +1,68 @@
+{
+  "total_adl_events": 34983,
+  "underwater_accounts": 302,
+  "underwater_share_percent": 0.8632764485607295,
+  "total_negative_equity": -23191104.484828815,
+  "top_underwater_accounts": [
+    {
+      "user": "0x2e3d94f0562703b25c83308a05046ddaf9a8dd14",
+      "coin": "WLD",
+      "total_equity": -11558884.488696944,
+      "adl_notional": 1520.148275
+    },
+    {
+      "user": "0x93f60f919f6d0a9f732c4ab56c20cd57c2cb5e75",
+      "coin": "POPCAT",
+      "total_equity": -502115.7468420013,
+      "adl_notional": 598.50936
+    },
+    {
+      "user": "0x93f60f919f6d0a9f732c4ab56c20cd57c2cb5e75",
+      "coin": "INJ",
+      "total_equity": -501364.6156920013,
+      "adl_notional": 1751.0790000000002
+    },
+    {
+      "user": "0x93f60f919f6d0a9f732c4ab56c20cd57c2cb5e75",
+      "coin": "AR",
+      "total_equity": -500771.50229200127,
+      "adl_notional": 458.9032
+    },
+    {
+      "user": "0x93f60f919f6d0a9f732c4ab56c20cd57c2cb5e75",
+      "coin": "BCH",
+      "total_equity": -500768.0484420013,
+      "adl_notional": 9272.91832
+    },
+    {
+      "user": "0x93f60f919f6d0a9f732c4ab56c20cd57c2cb5e75",
+      "coin": "TAO",
+      "total_equity": -497385.9743020013,
+      "adl_notional": 10968.18377
+    },
+    {
+      "user": "0x93f60f919f6d0a9f732c4ab56c20cd57c2cb5e75",
+      "coin": "IP",
+      "total_equity": -484889.81959200127,
+      "adl_notional": 16614.86829
+    },
+    {
+      "user": "0x93f60f919f6d0a9f732c4ab56c20cd57c2cb5e75",
+      "coin": "UNI",
+      "total_equity": -475719.6151620013,
+      "adl_notional": 9356.25724
+    },
+    {
+      "user": "0x257ed15fd1c8bb6e15f83adba992d7a052215690",
+      "coin": "ZEC",
+      "total_equity": -473354.4131629984,
+      "adl_notional": 901548.4716
+    },
+    {
+      "user": "0x93f60f919f6d0a9f732c4ab56c20cd57c2cb5e75",
+      "coin": "DOGE",
+      "total_equity": -358819.4965320012,
+      "adl_notional": 129494.55014
+    }
+  ]
+}

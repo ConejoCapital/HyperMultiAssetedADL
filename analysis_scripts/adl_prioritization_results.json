@@ -1,0 +1,51 @@
+{
+  "total_adl_events": 34983,
+  "profitable_pct": 99.42543521138839,
+  "avg_pnl_percent": 85.93210329119847,
+  "median_pnl_percent": 52.25478631703111,
+  "median_leverage": 0.1960587016344852,
+  "p95_leverage": 5.103920425926001,
+  "p99_leverage": 122.68888629956425,
+  "top_repeated_winners": [
+    {
+      "user": "0xa312114b5795dff9b8db50474dd57701aa78ad1e",
+      "adl_events": 78
+    },
+    {
+      "user": "0xb317d2bc2d3d2df5fa441b5bae0ab9d8b07283ae",
+      "adl_events": 75
+    },
+    {
+      "user": "0x79a2fc24164adf7a2f0ee2091c5ffd607780699b",
+      "adl_events": 70
+    },
+    {
+      "user": "0x7717a7a245d9f950e586822b8c9b46863ed7bd7e",
+      "adl_events": 58
+    },
+    {
+      "user": "0x4f7634c03ec4e87e14725c84913ade523c6fad5a",
+      "adl_events": 54
+    },
+    {
+      "user": "0xffbd3e51ae0e2c4407434e157965c064f2a11628",
+      "adl_events": 54
+    },
+    {
+      "user": "0x8af700ba841f30e0a3fcb0ee4c4a9d223e1efa05",
+      "adl_events": 52
+    },
+    {
+      "user": "0x123dbca6a27005a3c4ce10cb66ee8ece8fc13bff",
+      "adl_events": 49
+    },
+    {
+      "user": "0xcdf07160b169a98008609356c0ade3136c45d30b",
+      "adl_events": 46
+    },
+    {
+      "user": "0x4061eada41227256d5c7d501b562824a1b717a36",
+      "adl_events": 43
+    }
+  ]
+}
