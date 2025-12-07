@@ -197,5 +197,5 @@ This is not a bug or data error - it's how Hyperliquid's ADL mechanism prevents 
 **Data extracted:** November 13, 2025  
 **Event date:** October 10, 2025, 21:17:06 UTC  
 **Blockchain:** Hyperliquid L1  
-**Verification:** 100% blockchain-verified data
+**Verification:** Data from blockchain events
 

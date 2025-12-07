@@ -219,7 +219,7 @@ For each ADL event:
 
 ### Data Quality
 
-- **100% blockchain-verified**  
+- **Data from blockchain events**  
 - **Complete clearinghouse state** (not sampled)  
 - **All entry prices calculated from actual fills**  
 - **All leverage ratios calculated from snapshot account values**  
@@ -373,7 +373,7 @@ For questions about:
 ---
 
 **Analysis Date**: November 13, 2025  
-**Data Quality**: ⭐⭐⭐⭐⭐ (Complete clearinghouse data, 100% blockchain-verified)  
+**Data Quality**: Complete clearinghouse data from blockchain events  
 **Confidence Level**: **DEFINITIVE** - Zero speculation remaining  
 **Status**: ✅ **COMPLETE - ADL Prioritization SOLVED**
 

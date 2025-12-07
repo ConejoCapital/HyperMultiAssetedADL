@@ -331,7 +331,7 @@ Fireworks Timeline:
 
 **Primary Data:**
 - `events.json` from HyperFireworks visualization
-- 98,620 blockchain-verified events
+- 98,620 events from blockchain data
 - Nanosecond-precision timestamps
 - October 10, 2025, 21:15-21:27 UTC
 
@@ -429,5 +429,5 @@ You noticed the "chunks" pattern on the visualization, which led to this discove
 **User observation:** @ConejoCapital  
 **Visualization:** https://hyperfireworks.vercel.app/  
 **Data:** Hyperliquid blockchain, October 10, 2025  
-**Verification:** 100% blockchain-verified events, nanosecond precision
+**Verification:** Events from blockchain data, nanosecond precision
 

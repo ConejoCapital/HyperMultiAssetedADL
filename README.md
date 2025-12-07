@@ -2,7 +2,7 @@
 
 **Complete Analysis of the October 10, 2025 Hyperliquid Auto-Deleveraging (ADL) Event**
 
-> **Largest known ADL event analysis**: $2.1 billion in forced position closures across 162 assets in 12 minutes. 100% blockchain-verified with complete clearinghouse state reconstruction.
+> **Largest known ADL event analysis**: $2.1 billion in forced position closures across 162 assets in 12 minutes. Analysis based on blockchain data with complete clearinghouse state reconstruction.
 
 ---
 
@@ -87,7 +87,7 @@ HyperMultiAssetedADL/
 **Event**: October 10, 2025 Market Crash 
 **Full Analysis Window**: 21:15:00 - 21:27:00 UTC (**12 minutes** - complete event timeframe)
 **ADL Activity Period**: 21:16:04 - 21:26:57 UTC (**10.88 minutes** - when ADLs actually occurred)
-**Data Source**: Hyperliquid S3 (blockchain-verified ADL events)
+**Data Source**: Hyperliquid S3 (ADL events from blockchain data)
 
 **Note**: The full 12-minute window (21:15-21:27) includes the complete cascade including liquidations that started at 21:15:03. ADL events specifically occurred from 21:16:04 onwards, after the first liquidations triggered the ADL mechanism.
 
@@ -712,7 +712,7 @@ print(f"BTC: ${btc['net_notional_usd']:,.0f} across {btc['num_adl_events']} even
 ```
 ADL Net Volume Analysis (2025). "Auto-Deleveraging Volume Analysis: 
 October 10, 2025 Market Event - Full 12-Minute Window." 
-Data: Hyperliquid S3 node_fills (blockchain-verified ADL events).
+Data: Hyperliquid S3 node_fills (ADL events from blockchain data).
 Time: 21:15:00 - 21:27:00 UTC.
 Total: $2.10B across 162 tickers, 34,983 events.
 ```
@@ -901,7 +901,7 @@ print('Total negative equity:', df.loc[df['is_negative_equity'], 'total_equity']
 - **$2.1 BILLION** in 12 minutes
 - **162 tickers** affected
 - **34,983 events** processed
-- **100% blockchain-verified**
+- **Data from blockchain events**
 
 ### Complete Dataset (Multiple Levels)
 
@@ -919,7 +919,7 @@ print('Total negative equity:', df.loc[df['is_negative_equity'], 'total_equity']
 - **First analysis** with complete protocol state and real-time account values
 
 ### Academic Quality
-- Blockchain-verified (no heuristics)
+- Data from blockchain events (no heuristics)
 - Comprehensive documentation
 - Raw data available (event + clearinghouse)
 - Methodology fully explained
@@ -928,7 +928,7 @@ print('Total negative equity:', df.loc[df['is_negative_equity'], 'total_equity']
 ---
 
 **Analysis Date**: November 13, 2025 (Canonical Replay)  
-**Data Quality**: Blockchain-verified event data + real-time clearinghouse reconstruction  
+**Data Quality**: Blockchain event data + real-time clearinghouse reconstruction  
 **Time Coverage**: FULL 12-minute event (21:15:00 - 21:27:00 UTC)  
 **Scope**: All 162 affected tickers + 437,723 accounts  
 **Status**: **COMPLETE – Event + Account-Level Data – Ready for research and publication**

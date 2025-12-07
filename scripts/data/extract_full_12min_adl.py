@@ -309,7 +309,7 @@ def generate_markdown_report(df_results, total_notional, total_pnl, total_events
 ## Data Quality
 
 ✅ **Complete dataset**: Full 12-minute event (not a sample)  
-✅ **Blockchain-verified**: All ADL events from S3 node_fills  
+**Data source**: All ADL events from S3 node_fills  
 ✅ **No heuristics**: Only explicitly labeled ADL events  
 ✅ **Spot positions excluded**: @ tokens filtered out  
 

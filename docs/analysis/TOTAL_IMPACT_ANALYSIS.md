@@ -139,12 +139,12 @@ This analysis uses **canonical real-time reconstructed data** from the complete 
 
 1. **Liquidations**: `data/canonical/cash-only balances ADL event orderbook 2025-10-10/liquidations_full_12min.csv`
    - 63,637 liquidation events
-   - Blockchain-verified (direction = "Liquidated Isolated Long" or "Liquidated Isolated Short")
+   - From blockchain data (direction = "Liquidated Isolated Long" or "Liquidated Isolated Short")
    - Complete event coverage
 
 2. **ADL Events**: `data/canonical/cash-only balances ADL event orderbook 2025-10-10/adl_fills_full_12min_raw.csv`
    - 34,983 ADL events
-   - Blockchain-verified (direction = "Auto-Deleveraging")
+   - From blockchain data (direction = "Auto-Deleveraging")
    - Complete event coverage
 
 ### Calculations
@@ -180,7 +180,7 @@ The script outputs JSON results to `scripts/analysis/total_impact_results.json`,
 
 ## Data Quality
 
-**100% Blockchain-Verified**:
+**Data Source**:
 - ✅ Complete 12-minute dataset (not sampled)
 - ✅ All events verified via blockchain transaction logs
 - ✅ No heuristics or estimates
@@ -196,6 +196,6 @@ The script outputs JSON results to `scripts/analysis/total_impact_results.json`,
 ---
 
 **Analysis Date**: November 13, 2025  
-**Data Quality**: Blockchain-verified + real-time clearinghouse reconstruction  
+**Data Quality**: Blockchain event data + real-time clearinghouse reconstruction  
 **Status**: **COMPLETE** - Ready for research and publication
 

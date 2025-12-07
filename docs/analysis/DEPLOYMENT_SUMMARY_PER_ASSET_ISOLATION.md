@@ -106,7 +106,7 @@ PERFECT ISOLATION
 
 ### Evidence Quality
 
-- ✅ 100% blockchain-verified (no heuristics)
+- Data from blockchain events (no heuristics)
 - ✅ 100 timestamps analyzed (comprehensive)
 - ✅ 98,620 events examined (large sample)
 - ✅ 0 counterexamples found (definitive)

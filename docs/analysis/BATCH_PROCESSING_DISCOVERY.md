@@ -479,5 +479,5 @@ Benefits:
 **User discovery:** @ConejoCapital  
 **Visualization:** https://hyperfireworks.vercel.app/  
 **Data:** Hyperliquid blockchain, October 10, 2025  
-**Verification:** 100% blockchain-verified, 100 timestamps analyzed
+**Verification:** 100 timestamps analyzed from blockchain data
 

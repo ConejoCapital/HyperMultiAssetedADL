@@ -3,7 +3,7 @@
 **Analysis Date:** November 13, 2025  
 **Event:** October 10, 2025 Liquidation Cascade  
 **Data Source:** 34,983 ADL events, 63,637 liquidations (canonical replay)  
-**Status:** 100% blockchain-verified, publication-ready
+**Status:** Publication-ready analysis based on blockchain data
 
 > Associated script: `scripts/analysis/per_asset_isolation.py`
 
@@ -452,7 +452,7 @@ BTC price drop causes ETH price drop?   ✅ YES (market dynamics)
 ---
 
 **Analysis Status:** Publication-ready  
-**Data Quality:** ⭐⭐⭐⭐⭐ (100% blockchain-verified, 100 timestamps)  
+**Data Quality:** Analysis of 100 timestamps from blockchain data  
 **Confidence Level:** Maximum (0/100 counterexamples)  
 **Academic Value:** High (first documentation of per-asset ADL isolation at scale)
 

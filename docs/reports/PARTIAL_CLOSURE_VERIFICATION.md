@@ -21,7 +21,7 @@
 
 ### Key Insight
 
-The `size` field in the fill data is the **actual amount that was ADL'd** in that specific fill. This is the blockchain-verified amount that was closed, regardless of whether it was a full or partial closure.
+The `size` field in the fill data is the **actual amount that was ADL'd** in that specific fill. This is the amount that was closed according to the blockchain data, regardless of whether it was a full or partial closure.
 
 ---
 
@@ -162,7 +162,7 @@ raw_total = sum(size * price for each ADL fill)
 **Actual (CORRECT) Calculation**:
 - Using `adl_size` (actual amount ADL'd from fill)
 - Total: **$2,103,111,430.86**
-- ✅ This is the blockchain-verified amount actually closed
+- This is the amount actually closed according to blockchain data
 
 ---
 
@@ -170,7 +170,7 @@ raw_total = sum(size * price for each ADL fill)
 
 ### ✅ We ARE Correctly Accounting for ADL Amounts
 
-1. **Source of Truth**: We use `size` from the raw fill data (blockchain-verified)
+1. **Source of Truth**: We use `size` from the raw fill data (from blockchain events)
 2. **Partial Closures**: Correctly handled - we only count what was actually closed
 3. **Position Changes**: Tracked chronologically from snapshot to ADL moment
 4. **Total Notional**: Correctly calculated as sum of actual ADL'd amounts
@@ -189,7 +189,7 @@ raw_total = sum(size * price for each ADL fill)
 | **Total ADL Notional** | $2,103,111,430.86 | ✅ Correct |
 | **Partial Closures** | 2,570 (7.35%) | ✅ Handled correctly |
 | **Position Tracking** | Chronological from snapshot | ✅ Complete |
-| **Data Source** | Raw fill `size` field | ✅ Blockchain-verified |
+| **Data Source** | Raw fill `size` field | From blockchain events |
 
 **Answer**: We have it covered. The total ADL'd amount is correctly calculated from the raw fill data's `size` field, which represents the actual amount closed in each ADL event, regardless of whether it was a full or partial closure.
 
