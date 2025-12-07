@@ -125,7 +125,7 @@ HyperMultiAssetedADL/
 | `docs/findings/ADL_PRIORITIZATION_ANALYSIS_LOCAL.md` | `scripts/analysis/adl_prioritization_local.py` |
 | `docs/findings/INSURANCE_FUND_IMPACT.md` | `scripts/analysis/insurance_fund_impact.py` |
 | `data/canonical/cash-only balances ADL event orderbook 2025-10-10/ADL_NET_VOLUME_FULL_12MIN.md` | `scripts/analysis/adl_net_volume.py` (generated in canonical directory) |
-| `TOTAL_IMPACT_ANALYSIS.md` | `scripts/analysis/total_impact_analysis.py` (can be regenerated) |
+| `TOTAL_IMPACT_ANALYSIS.md` | `scripts/analysis/total_impact_analysis.py` |
 
 Each script loads the canonical CSVs in this repository and emits the metrics cited in the corresponding study (plus a JSON snapshot in `scripts/analysis/`). Run them from the repo root:
 
@@ -362,7 +362,7 @@ ADL contagion: NO (ADL systems isolated)
 - **98,620 forced events** (liquidations + ADL)
 - **$5.5B liquidated** -> **$2.1B ADL'd** to cover losses
 
- **See full analysis**: Run `scripts/analysis/total_impact_analysis.py` to generate the report (or see `data/canonical/cash-only balances ADL event orderbook 2025-10-10/ADL_NET_VOLUME_FULL_12MIN.md` for ADL-specific analysis)
+ **See full analysis**: [TOTAL_IMPACT_ANALYSIS.md](TOTAL_IMPACT_ANALYSIS.md) (or see `data/canonical/cash-only balances ADL event orderbook 2025-10-10/ADL_NET_VOLUME_FULL_12MIN.md` for ADL-specific analysis)
 
 ---
 
@@ -508,7 +508,7 @@ This is the **first empirical documentation** of ADL-liquidation coupling:
 | **CASCADE_TIMING_ANALYSIS.md** | Liquidation->ADL timing patterns & delay analysis | 15 KB |
 | **ADL_MECHANISM_RESEARCH.md** | Empirical analysis of ADL trigger mechanism | 12 KB |
 | **data/canonical/cash-only balances ADL event orderbook 2025-10-10/ADL_NET_VOLUME_FULL_12MIN.md** | Detailed analysis report (all 162 tickers) |
-| **TOTAL_IMPACT_ANALYSIS.md** | Regenerate with `scripts/analysis/total_impact_analysis.py` |
+| **TOTAL_IMPACT_ANALYSIS.md** | Complete cascade impact analysis (liquidations + ADL) |
 | **data/canonical/cash-only balances ADL event orderbook 2025-10-10/adl_net_volume_full_12min.csv** | Raw data (CSV) - complete dataset |
 | **data/canonical/cash-only balances ADL event orderbook 2025-10-10/adl_fills_full_12min_raw.csv** | Individual ADL fills (34,983 events) |
 | **data/canonical/cash-only balances ADL event orderbook 2025-10-10/liquidations_full_12min.csv** | Individual liquidation events (63,637 events) |
