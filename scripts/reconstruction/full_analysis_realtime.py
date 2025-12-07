@@ -121,7 +121,26 @@ all_events = []
 
 # Load fills
 print("  Loading fills...")
-for hour_file in ['20_fills.json', '21_fills.json']:
+# Find fills files - check multiple possible locations
+possible_fills_paths = [
+    ROOT.parents[1] / "ADL Clearinghouse Data" / "20_fills.json",
+    ROOT.parents[1] / "ADL Clearinghouse Data" / "21_fills.json",
+    ROOT.parents[1] / "HyperReplay" / "data" / "raw" / "20_fills.json",
+    ROOT.parents[1] / "HyperReplay" / "data" / "raw" / "21_fills.json",
+]
+
+fills_files = []
+for hour in ['20', '21']:
+    for path in possible_fills_paths:
+        if hour in str(path) and path.exists():
+            fills_files.append(path)
+            break
+
+if len(fills_files) < 2:
+    raise FileNotFoundError(f"Could not find fills files. Checked: {possible_fills_paths}")
+
+for hour_file in fills_files:
+    print(f"    Loading {hour_file.name}...")
     with open(hour_file, 'r') as f:
         for line_num, line in enumerate(f):
             if line_num % 50000 == 0 and line_num > 0:
@@ -155,7 +174,27 @@ print(f"\n  ✓ Loaded fills")
 
 # Load misc events
 print("  Loading misc events (funding, deposits, withdrawals)...")
-for hour_file in ['20_misc.json', '21_misc.json']:
+# Find misc files - check multiple possible locations
+possible_misc_paths = [
+    ROOT.parents[1] / "ADL Clearinghouse Data" / "20_misc.json",
+    ROOT.parents[1] / "ADL Clearinghouse Data" / "21_misc.json",
+    ROOT.parents[1] / "HyperReplay" / "data" / "raw" / "20_misc.json",
+    ROOT.parents[1] / "HyperReplay" / "data" / "raw" / "21_misc.json",
+]
+
+misc_files = []
+for hour in ['20', '21']:
+    for path in possible_misc_paths:
+        if hour in str(path) and path.exists():
+            misc_files.append(path)
+            break
+
+if len(misc_files) == 0:
+    print("    ⚠️  No misc files found - continuing without funding/deposit/withdrawal events")
+    misc_files = []
+
+for hour_file in misc_files:
+    print(f"    Loading {hour_file.name}...")
     with open(hour_file, 'r') as f:
         for line in f:
             block = json.loads(line)
