@@ -627,9 +627,9 @@ total_pnl = sum(closed_pnl) for all ADL events per ticker
 
 ## Data Quality
 
-**100% Blockchain-Verified**:
+**Data Source**:
 - Complete 12-minute dataset (not a sample)
-- Blockchain-verified: Only fills with explicit "Auto-Deleveraging" label
+- Only fills with explicit "Auto-Deleveraging" label from blockchain data
 - No heuristics: Direct from S3 node_fills
 - Spot positions excluded: @ tokens filtered out
 - Cross-validated: Matches expected event timeline
