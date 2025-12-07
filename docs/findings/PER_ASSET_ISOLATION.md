@@ -396,13 +396,13 @@ ADL contagion:    NO ❌
 
 ### What You Can State:
 
-✅ **"Analysis of 100 timestamps with 98,620 events reveals zero cases of cross-asset ADL contamination"**
+**"Analysis of 100 timestamps with 98,620 events reveals zero cases of cross-asset ADL contamination"**
 
-✅ **"Each asset operates with independent ADL engines, achieving 96.74% ticker isolation"**
+**"Each asset operates with independent ADL engines, achieving 96.74% ticker isolation"**
 
-✅ **"At the largest burst (22,558 events), all 44 tickers showed perfect 1:1 liquidation-to-ADL matching with zero cross-asset interference"**
+**"At the largest burst (22,558 events), all 44 tickers showed 1:1 liquidation-to-ADL matching with zero cross-asset interference"**
 
-✅ **"While market dynamics cause price contagion across assets, Hyperliquid's ADL mechanism maintains complete per-asset isolation"**
+**"While market dynamics cause price contagion across assets, Hyperliquid's ADL mechanism maintains complete per-asset isolation"**
 
 ### What You Should NOT State:
 
