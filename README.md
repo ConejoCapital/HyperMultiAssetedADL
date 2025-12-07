@@ -2,7 +2,7 @@
 
 **Complete Analysis of the October 10, 2025 Hyperliquid Auto-Deleveraging (ADL) Event**
 
-> **Largest known ADL event analysis**: $2.1 billion in forced position closures across 162 assets in 12 minutes. 100% blockchain-verified with complete clearinghouse state reconstruction.
+> **Largest known ADL event analysis**: $2.1 billion in forced position closures across 162 assets in 12 minutes.
 
 ---
 
@@ -822,7 +822,6 @@ print('Total negative equity:', df.loc[df['is_negative_equity'], 'total_equity']
 - **$2.1 BILLION** in 12 minutes
 - **162 tickers** affected
 - **34,983 events** processed
-- **100% blockchain-verified**
 
 ### Complete Dataset (Multiple Levels)
 
@@ -840,7 +839,6 @@ print('Total negative equity:', df.loc[df['is_negative_equity'], 'total_equity']
 - **First analysis** with complete protocol state and real-time account values
 
 ### Academic Quality
-- Blockchain-verified (no heuristics)
 - Comprehensive documentation
 - Raw data available (event + clearinghouse)
 - Methodology fully explained
