@@ -21,7 +21,7 @@ adl_detailed_analysis_REALTIME.csv
   - **Median: 0.20x** ← Most ADL'd accounts use very low leverage
   - **95th percentile: 5.10x** ← Even high-leverage accounts are well below Hyperliquid's 40x max
   - **99th percentile: 122.69x** ← Outliers are data artifacts from liquidation delays (see `docs/findings/HIGH_LEVERAGE_OUTLIERS_EXPLANATION.md`)
-- **Negative equity detection** (302 accounts, **−$23.19M** aggregate deficit)
+- **Negative equity detection** (302 accounts, **−$23,191,104.48** aggregate deficit)
 - **Zero shortcuts** - 3.2M events processed chronologically
 
 **Processing details**:
@@ -146,7 +146,7 @@ python3 scripts/analysis/<script_name>.py
 | Counterparty Mechanism | **100%** ADL events carry `liquidated_user`; highlighted **$174.18M ETH** ADL matched by **265** ETH liquidations |
 | ADL Prioritization (global) | **99.4%** profitable ADL targets, **median leverage 0.20x** (very low!), p95 **5.10x**, p99 **122.69x** (outliers - see `docs/findings/HIGH_LEVERAGE_OUTLIERS_EXPLANATION.md`) |
 | ADL Prioritization (local) | Spearman ρ (PNL vs notional **−0.2207**), (PNL vs leverage **−0.4781**); repeated winners table in JSON |
-| Insurance Fund Impact | **302** negative-equity accounts (**0.86%** of ADL), aggregate deficit **−$23,191,104** |
+| Insurance Fund Impact | **302** negative-equity accounts (**0.86%** of ADL), aggregate deficit **−$23,191,104.48** |
 | ADL Net Volume | Total ADL notional **$2,103,111,431**, 34,983 events across 162 tickers |
 | Total Impact | Liquidations **$5,511,042,925** + ADL **$2,103,111,431** = **$7,614,154,356** across 98,620 events |
 | Comprehensive Verification | `python3 scripts/verification/verify_all_findings.py` passes all suites (prioritization, isolation, counterparty, timing, insurance, integrity) |
@@ -226,7 +226,7 @@ This clearinghouse data enabled our breakthrough ADL prioritization discovery be
 | **95th percentile leverage** | **3.22x** (LOW!) |
 | **99th percentile leverage** | **74.18x** |
 | **Negative equity accounts** | **302 (0.86%)** |
-| **Insurance fund impact** | **-$23,191,104** |
+| **Total negative net equity** | **−$23,191,104.48** |
 
 **Note on leverage**: Most ADL'd positions had extremely low leverage. The **median of 0.20x** is the key metric—showing that most ADL'd accounts used very conservative leverage. The 95th percentile at **5.10x** is still well below Hyperliquid's 40x maximum. The 99th percentile at **122.69x** represents data artifacts from liquidation delays (accounts with near-zero value when ADL closed them), not actual high-leverage trading. See `docs/findings/HIGH_LEVERAGE_OUTLIERS_EXPLANATION.md` for details. This debunks the myth that ADL targets high leverage.
 
@@ -269,13 +269,13 @@ This clearinghouse data enabled our breakthrough ADL prioritization discovery be
 | Metric | Value |
 |--------|-------|
 | **Accounts underwater** | **302** (0.86% of ADL'd) |
-| **Total negative equity** | **-$23,191,104** |
-| **Insurance fund coverage required** | $23,191,104 |
-| **Average underwater account** | -$95,322 |
+| **Total negative net equity** | **−$23,191,104.48** |
+| **Insurance fund coverage required** | $23,191,104.48 |
+| **Average underwater account** | -$76,791.74 |
 
 ### What This Means
 
-When an account's **total equity (cash + unrealized PNL) goes negative**, losses must be socialized:
+When an account's **net equity (cash + unrealized PNL) goes negative**, losses must be socialized:
 
 1. **ADL activates** to close out profitable positions
 2. **Underwater losses** get absorbed by the insurance fund
@@ -730,7 +730,7 @@ Key Finding: ADL targets PROFIT (99.4% profitable), not leverage (median 0.20x).
 | **ADL price** | `adl_price` | Price at which ADL occurred |
 | **Account value (REAL-TIME)** | `account_value_realtime` | **Reconstructed at ADL moment** |
 | **Total unrealized PNL** | `total_unrealized_pnl` | All positions, real-time prices |
-| **Total equity** | `total_equity` | Cash + total unrealized PNL |
+| **Net equity (total equity)** | `total_equity` | Cash + total unrealized PNL |
 | **Negative equity** | `is_negative_equity` | TRUE if equity < 0 |
 | **Position size** | `position_size` | Size of position before ADL |
 | **Notional value** | `adl_notional` | Position value (size × price) |
