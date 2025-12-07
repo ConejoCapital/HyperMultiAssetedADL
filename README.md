@@ -84,8 +84,11 @@ HyperMultiAssetedADL/
 ## Executive Summary
 
 **Event**: October 10, 2025 Market Crash 
-**Time Window**: 21:15:00 - 21:27:00 UTC (**COMPLETE 12-minute event**) 
+**Full Analysis Window**: 21:15:00 - 21:27:00 UTC (**12 minutes** - complete event timeframe)
+**ADL Activity Period**: 21:16:04 - 21:26:57 UTC (**10.88 minutes** - when ADLs actually occurred)
 **Data Source**: Hyperliquid S3 (blockchain-verified ADL events)
+
+**Note**: The full 12-minute window (21:15-21:27) includes the complete cascade including liquidations that started at 21:15:03. ADL events specifically occurred from 21:16:04 onwards, after the first liquidations triggered the ADL mechanism.
 
 ### Key Findings
 
